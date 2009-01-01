@@ -14,6 +14,8 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -44,6 +46,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -60,9 +63,7 @@ public class MainWindow extends Application
 	private Stage stage;
 	private Scene scene;
 	
-	private Node listBtn;
-	private int listBtnX;
-	private int listBtnY;
+	
 	
 	public Settings settings;
 	public StockDetails stockDetails;
@@ -170,69 +171,7 @@ public class MainWindow extends Application
 	 * <Date> <Name> <Comments>
 	 * 
 	 */   
-    public void unanimate(Node obj,int x, int y) 
-    {
-    	//System.out.println(obj);
-    	if (listBtn==null){
-    		
-    	}
-    	else{
-    	
-    	final Timeline timeline = new Timeline();
-    	timeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.ZERO, // set start position at 0
-                new KeyValue(listBtn.translateXProperty(), listBtnX),
-                new KeyValue(listBtn.translateYProperty(), listBtnY)),
-                new KeyFrame(new Duration(150), // set end position at 10s
-                new KeyValue(listBtn.translateXProperty(),listBtnX),
-                new KeyValue(listBtn.translateYProperty(), listBtnY)));
-    	
-			timeline.play();
-    	}
-    	listBtn=obj;
-    	listBtnX=x;
-    	listBtnY=y;
-    }
-    
-    public void animateSettings(Node obj,int x, int y) 
-    {
-    	
-    	if (listBtn!=obj){
-    	
-    	final Timeline timeline = new Timeline();
-    	timeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.ZERO, // set start position at 0
-                new KeyValue(obj.translateXProperty(), x),
-                new KeyValue(obj.translateYProperty(), y)),
-                new KeyFrame(new Duration(100), // set end position at 10s
-                new KeyValue(obj.translateXProperty(),x+25),
-                new KeyValue(obj.translateYProperty(), y)));
-    	
-			timeline.play();
-    	}
-    }
-    public void animate(Node obj,int x, int y) 
-    {
-    	if (listBtn!=obj){
-    		unanimate(obj,x,y);
-    	
-    	
-    	
-    	final Timeline timeline = new Timeline();
-    	timeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.ZERO, // set start position at 0
-                new KeyValue(obj.translateXProperty(), x),
-                new KeyValue(obj.translateYProperty(), y)),
-                new KeyFrame(new Duration(100), // set end position at 10s
-                new KeyValue(obj.translateXProperty(),x+25),
-                new KeyValue(obj.translateYProperty(), y)));
-    	
-			timeline.play();
-    	}
-    	/*else{
-    		unanimate(obj,x,y);
-    	}*/
-    }
+   
     private BorderPane upperPart() 
     {
 
@@ -247,154 +186,28 @@ public class MainWindow extends Application
     	tabPane.setId(("MyTabPane"));
     	
     	
-        //Create Tabs
-        Tab tabA = new Tab();
+      
+        
+        
+        final Tab tabA = new Tab();
         tabA.setClosable(false);
         tabA.setText("View Stock");
         
-        final BorderPane borderPane1 = new BorderPane();
-        borderPane1.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth());
-        borderPane1.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight());
-        borderPane1.setPadding(new Insets(15,0,0,20));
-        try {
+        try
+        {
         	listCategory.clear();
         	listCategory.addAll(utiliesService.fetchCategory());
         	mapCategoryIdName.clear();
         	mapCategoryIdName.putAll(utiliesService.fetchCategoryDetails());
-        	borderPane1.setId("borderxx");
-        	 
-        	
-        	GridPane typesOfDrink = new GridPane();
-        	typesOfDrink.setVgap(8);
-        	typesOfDrink.setPadding(new Insets(30,0,0,0));
-        	ToggleGroup groupDrink=new ToggleGroup();
-        	
-        	final ToggleButton tbWine= new ToggleButton("Wine");
-        	tbWine.setToggleGroup(groupDrink);
-        	tbWine.setId("drinkName");
-        	tbWine.setMaxSize(250,250);
-        	typesOfDrink.add(tbWine,0,0);
-        	
-        	tbWine.setOnAction(new EventHandler<ActionEvent>() {
-     			
-     			@Override
-     			public void handle(ActionEvent e) 
-     			{
-     				borderPane1.setStyle("-fx-background-image: url('wine.jpeg');");
-     				/*borderPane1.setCenter(drinks.viewWineStock());
-     				chkRect()*/
-     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Wine"),"Wine"));
-     				animate(tbWine,0,0);
-     			}
-     		});
-        	
-        	final ToggleButton tbVodka= new ToggleButton("Vodka");
-        	tbVodka.setToggleGroup(groupDrink);
-        	tbVodka.setId("drinkName");
-        	tbVodka.setMaxSize(250,250);
-        	typesOfDrink.add(tbVodka,0,1);
-        	tbVodka.setOnAction(new EventHandler<ActionEvent>() {
-     			
-     			@Override
-     			public void handle(ActionEvent e) 
-     			{
-     				borderPane1.setStyle("-fx-background-image: url('vodka.jpg');");
-     				//borderPane1.setCenter(drinks.viewVodkaStock());
-     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Vodka"),"Vodka"));
-     				animate(tbVodka,0,1);
-     			}
-     		});
-        	
-        	final ToggleButton tbBeer= new ToggleButton("Beer");
-        	tbBeer.setToggleGroup(groupDrink);
-        	tbBeer.setId("drinkName");
-        	tbBeer.setMaxSize(250,250);
-        	typesOfDrink.add(tbBeer,0,2);
-        	tbBeer.setOnAction(new EventHandler<ActionEvent>() {
-     			
-     			@Override
-     			public void handle(ActionEvent e) 
-     			{
-     				borderPane1.setStyle("-fx-background-image: url('beer2.jpg');");
-     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Beer"),"Beer"));
-     				animate(tbBeer,0,2);
-     			}
-     		});
-
-        	final ToggleButton tbWisky= new ToggleButton("Whisky");
-        	tbWisky.setToggleGroup(groupDrink);
-        	tbWisky.setId("drinkName");
-        	tbWisky.setMaxSize(250,250);
-        	typesOfDrink.add(tbWisky,0,3);
-        	tbWisky.setOnAction(new EventHandler<ActionEvent>() {
-     			
-     			@Override
-     			public void handle(ActionEvent e) 
-     			{
-     				borderPane1.setStyle("-fx-background-image: url('whisky.jpg');");
-     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Whisky"),"Whisky"));
-     				animate(tbWisky,0,3);
-     			}
-     		});
-        	
-        	final ToggleButton tbRum= new ToggleButton("Rum");
-        	tbRum.setToggleGroup(groupDrink);
-        	tbRum.setId("drinkName");
-        	tbRum.setMaxSize(250,250);
-        	typesOfDrink.add(tbRum,0,4);
-        	tbRum.setOnAction(new EventHandler<ActionEvent>() {
-     			
-     			@Override
-     			public void handle(ActionEvent e) 
-     			{
-     				borderPane1.setStyle("-fx-background-image: url('rum2.jpg');");
-     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Rum"),"Rum"));
-     				animate(tbRum,0,4);
-     			}
-     		});
-        	
-        	final ToggleButton tbScotch= new ToggleButton("Scotch");
-        	tbScotch.setToggleGroup(groupDrink);
-        	tbScotch.setId("drinkName");
-        	tbScotch.setMaxSize(250,250);
-        	typesOfDrink.add(tbScotch,0,5);
-        	tbScotch.setOnAction(new EventHandler<ActionEvent>() {
-     			
-     			@Override
-     			public void handle(ActionEvent e) 
-     			{
-     				borderPane1.setStyle("-fx-background-image: url('Scotch.jpg');");
-     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Scotch"),"Scotch"));
-     				animate(tbScotch,0,5);
-     			}
-     		});
-        	final ToggleButton tbOther= new ToggleButton("Other");
-        	tbOther.setToggleGroup(groupDrink);
-        	tbOther.setId("drinkName");
-        	tbOther.setMaxSize(250,250);
-        	typesOfDrink.add(tbOther,0,6);
-        	tbOther.setOnAction(new EventHandler<ActionEvent>() {
-     			
-     			@Override
-     			public void handle(ActionEvent e) 
-     			{
-     				borderPane1.setStyle("-fx-background-image: url('othertype.jpg');");
-     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Others"),"Others"));
-     				animate(tbOther,0,6);
-     			}
-     		});
-           // typesOfDrink.getChildren().addAll(tbWine,tbVodka,tbBeer,tbWisky,tbRum,tbScotch,tbOther);
-           
-			borderPane1.setLeft(typesOfDrink);
-			
+        
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        tabA.setContent(borderPane1);
+        tabA.setContent(stockDetails.viewStockDrinkList(listCategory,mapCategoryIdName));
         tabPane.getTabs().add(tabA);
        
-        Tab tabB = new Tab();
+       /* Tab tabB = new Tab();
         tabB.setClosable(false);
         tabB.setText("Incoming Stock");
         BorderPane borderPane2 = new BorderPane();
@@ -421,26 +234,22 @@ public class MainWindow extends Application
 		}
         tabB.setContent(borderPane3);
         tabPane.getTabs().add(tabC);
-    
+    */
        
       //Create Tabs
-        Tab tabSetting = new Tab();
+        final Tab tabSetting = new Tab();
         tabSetting.setClosable(false);
         tabSetting.setText("Settings");
-
-        final BorderPane borderPaneSettings = new BorderPane();
-        borderPaneSettings.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth());
-        borderPaneSettings.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight());
-        borderPaneSettings.setPadding(new Insets(15,0,0,20));
-
-        	
-    	borderPaneSettings.setId("borderxx");
-    	 
+        tabPane.getTabs().add(tabSetting);
     	
-    	GridPane gsettings = new GridPane();
-    	gsettings.setVgap(8);
-    	gsettings.setPadding(new Insets(30,0,0,0));
-    	ToggleGroup settingsGroup=new ToggleGroup();
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
     	
     	/*ToggleButton bAddCategory= new ToggleButton("Add Category");
     	bAddCategory.setToggleGroup(settingsGroup);
@@ -453,32 +262,12 @@ public class MainWindow extends Application
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPaneSettings.setStyle("-fx-background-image: url('settings.jpg');");
- 				//borderPaneSettings.setCenter(settings.addCategory());
+ 				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
+ 				//borderPane.setCenter(settings.addCategory());
  			}
  		});*/
     	
-    	final ToggleButton bAddItem= new ToggleButton("Settings");
-    	bAddItem.setToggleGroup(settingsGroup);
-    	bAddItem.setId("drinkName");
-    	bAddItem.setMaxSize(250,250);
-    	gsettings.add(bAddItem,0,1);
     	
-    	bAddItem.setOnAction(new EventHandler<ActionEvent>() {
- 			
- 			@Override
- 			public void handle(ActionEvent e) 
- 			{
- 				borderPaneSettings.setStyle("-fx-background-image: url('settings.jpg');");
- 				try {
- 					animateSettings(bAddItem, 0, 0);
-					borderPaneSettings.setCenter(settings.viewSettings("add"));
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
- 			}
- 		});
         
     	
     	/*ToggleButton bDeleteCategory = new ToggleButton("Delete Category");
@@ -492,16 +281,16 @@ public class MainWindow extends Application
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPaneSettings.setStyle("-fx-background-image: url('settings.jpg');");
+ 				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
  				try {
-					borderPaneSettings.setCenter(settings.deleteCategory());
+					borderPane.setCenter(settings.deleteCategory());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
  			}
- 		});*/
-    	
+ 		});
+    	*/
     	
     	/*ToggleButton bDeleteItem= new ToggleButton("Delete Item");
     	bDeleteItem.setToggleGroup(settingsGroup);
@@ -514,9 +303,9 @@ public class MainWindow extends Application
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPaneSettings.setStyle("-fx-background-image: url('settings.jpg');");
+ 				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
  				try {
-					borderPaneSettings.setCenter(settings.viewSettings("delete"));
+					borderPane.setCenter(settings.viewSettings("delete"));
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -525,14 +314,38 @@ public class MainWindow extends Application
  		});*/
     	
     	
-    	borderPaneSettings.setLeft(gsettings);
-        tabSetting.setContent(borderPaneSettings);
     	
-    	tabPane.getTabs().add(tabSetting);
+    	
+        
+        
+        
+        tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+    		
+  		  public void changed(ObservableValue<? extends Tab> tab, Tab oldTab, Tab newTab) {
+  		    
+  			  System.out.println(newTab.getText());
+  			  System.out.println(tabA.getText());
+  			  
+  			if(newTab.getText().equals(tabA.getText()))
+  		    {
+  				//borderPane.setCenter(new BorderPane());
+  		    	
+  		    	tabA.setContent(stockDetails.viewStockDrinkList(listCategory,mapCategoryIdName));
+  		    }
+  		    if(newTab.getText().equals(tabSetting.getText()))
+  		    {
+  		    	//borderPane.setCenter(new BorderPane());
+  		    	tabSetting.setContent(settings.viewSetting());
+  		    }
+  		  }
+
+			
+  		});
         
         
         mainPane.setLeft(tabPane);
         return mainPane;
     
     }
+    
 }

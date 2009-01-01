@@ -16,9 +16,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -32,9 +35,11 @@ import javafx.stage.Screen;
 public class Settings 
 {
 	UtiliesService utiliesService;
+	Animation animation;
 	public Settings()
 	{
 		utiliesService = new UtiliesService();
+		animation = new Animation();
 	}
 	/*public GridPane addCategory()
 	{
@@ -347,4 +352,53 @@ public class Settings
 		settings.add(lmsg, 2, 4);
 		return settings;
 	}
+	
+	public BorderPane viewSetting()
+	{
+		
+		final BorderPane borderPane = new BorderPane();
+		borderPane.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth());
+        borderPane.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight());
+        borderPane.setPadding(new Insets(15,0,0,20));
+        borderPane.setId("borderxx");
+        
+		final GridPane gsettings = new GridPane();
+    	gsettings.setVgap(8);
+    	gsettings.setPadding(new Insets(30,0,0,0));
+    	
+    	ToggleGroup settingsGroup=new ToggleGroup();
+    	
+    	final ToggleButton bAddItem= new ToggleButton("Settings");
+    	bAddItem.setToggleGroup(settingsGroup);
+    	bAddItem.setId("drinkName");
+    	bAddItem.setMaxSize(250,250);
+    	gsettings.add(bAddItem,0,1);
+    	
+    	
+    	bAddItem.setOnAction(new EventHandler<ActionEvent>() {
+ 			
+ 			@Override
+ 			public void handle(ActionEvent e) 
+ 			{
+ 				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
+ 				try
+ 				{
+ 					animation.animateSettings(bAddItem, 0, 0);
+					borderPane.setCenter(viewSettings("add"));
+				}
+ 				catch (Exception e1)
+ 				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+ 			}
+ 		});
+    	
+    	borderPane.setLeft(gsettings);
+		
+		
+    	return borderPane;
+	}
+	
+	
 }
