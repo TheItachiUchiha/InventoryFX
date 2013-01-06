@@ -432,6 +432,50 @@ public class MainWindow extends Application
  		});
         
     	
+    	ToggleButton bDeleteCategory = new ToggleButton("Delete Category");
+    	bDeleteCategory.setToggleGroup(settingsGroup);
+    	bDeleteCategory.setId("drinkName");
+    	bDeleteCategory.setMaxSize(250,250);
+    	gsettings.add(bDeleteCategory,0,2);
+    	
+    	bDeleteCategory.setOnAction(new EventHandler<ActionEvent>() {
+ 			
+ 			@Override
+ 			public void handle(ActionEvent e) 
+ 			{
+ 				borderPaneSettings.setStyle("-fx-background-image: url('settings.jpg');");
+ 				try {
+					borderPaneSettings.setCenter(settings.deleteCategory());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+ 			}
+ 		});
+    	
+    	
+    	ToggleButton bDeleteItem= new ToggleButton("Delete Item");
+    	bDeleteItem.setToggleGroup(settingsGroup);
+    	bDeleteItem.setId("drinkName");
+    	bDeleteItem.setMaxSize(250,250);
+    	gsettings.add(bDeleteItem,0,3);
+    	
+    	bDeleteItem.setOnAction(new EventHandler<ActionEvent>() {
+ 			
+ 			@Override
+ 			public void handle(ActionEvent e) 
+ 			{
+ 				borderPaneSettings.setStyle("-fx-background-image: url('settings.jpg');");
+ 				try {
+					borderPaneSettings.setCenter(settings.deleteItem());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+ 			}
+ 		});
+    	
+    	
     	borderPaneSettings.setLeft(gsettings);
         tabSetting.setContent(borderPaneSettings);
     	

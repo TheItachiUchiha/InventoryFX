@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
+import org.sqlite.SQLiteConfig;
+
 import com.fnz.common.CommonConstants;
 import com.fnz.common.SQLConstants;
 
@@ -18,7 +20,7 @@ public class OutgoingStockDAO
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
-		
+		SQLiteConfig config = null;
 		Class.forName(CommonConstants.DRIVERNAME);
 		
 		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
@@ -26,7 +28,9 @@ public class OutgoingStockDAO
 		
 		try 
 		{
-			conn = DriverManager.getConnection(sDbUrl);
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			pstmt = conn.prepareStatement(SQLConstants.UPDATE_ITEM_QUANTITY);
 			for(int i=0;i<itemIdList.size();i++)
 			{

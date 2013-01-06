@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.sqlite.SQLiteConfig;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -17,6 +19,7 @@ public class UtiliesDAO
 {
 	public void addCategory(String categoryName) throws Exception 
 	{
+		SQLiteConfig config = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt1 = null;
@@ -31,7 +34,9 @@ public class UtiliesDAO
 		
 		try 
 		{
-			conn = DriverManager.getConnection(sDbUrl);
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			pstmt = conn.prepareStatement(SQLConstants.INSERT_CATEGORY);
 			
 			pstmt1 = conn.prepareStatement(SQLConstants.FETCH_LATEST_CATEGORY);
@@ -92,13 +97,14 @@ public class UtiliesDAO
 	
 	public void addItem(String itemName, String categoryId) throws Exception 
 	{
+		SQLiteConfig config = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt1 = null;
 		ResultSet resultSet = null;
 		Integer latestRow = 0;
 		
-		String newItemId = CommonConstants.CATEGORY_ID;
+		String newItemId = CommonConstants.ITEM_ID;
 		
 		Class.forName(CommonConstants.DRIVERNAME);
 		
@@ -106,7 +112,9 @@ public class UtiliesDAO
 		
 		try 
 		{
-			conn = DriverManager.getConnection(sDbUrl);
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			pstmt = conn.prepareStatement(SQLConstants.INSERT_ITEM);
 			
 			pstmt1 = conn.prepareStatement(SQLConstants.FETCH_LATEST_ITEM);
@@ -167,6 +175,7 @@ public class UtiliesDAO
 	}
 	public ObservableMap<String,String> fetchCategoryDetails() throws Exception
 	{
+		SQLiteConfig config = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -179,7 +188,9 @@ public class UtiliesDAO
 		
 		try 
 		{
-			conn = DriverManager.getConnection(sDbUrl);
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			pstmt = conn.prepareStatement(SQLConstants.FETCH_CATEGORY);
 			
 			resultSet = pstmt.executeQuery();
@@ -213,6 +224,7 @@ public class UtiliesDAO
 	
 	public ObservableList<String> fetchCategory() throws Exception
 	{
+		SQLiteConfig config = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -225,7 +237,9 @@ public class UtiliesDAO
 		
 		try 
 		{
-			conn = DriverManager.getConnection(sDbUrl);
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			pstmt = conn.prepareStatement(SQLConstants.FETCH_CATEGORY);
 			
 			resultSet = pstmt.executeQuery();
@@ -255,5 +269,196 @@ public class UtiliesDAO
 			}
 		}	
 		return categoryList;	
+	}
+	
+	
+	public ObservableMap<String,String> fetchItemDetails() throws Exception
+	{
+		SQLiteConfig config = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		ObservableMap<String,String> itemMap = FXCollections.observableHashMap();
+		
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_ITEMS);
+			
+			resultSet = pstmt.executeQuery();
+			
+			while(resultSet.next())
+			{
+				itemMap.put(resultSet.getString(2), resultSet.getString(1));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}	
+		return itemMap;	
+	}
+	
+	
+	public ObservableList<String> fetchItem() throws Exception
+	{
+		SQLiteConfig config = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		ObservableList<String> itemList = FXCollections.observableArrayList();
+		
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_ITEMS);
+			
+			resultSet = pstmt.executeQuery();
+			
+			while(resultSet.next())
+			{
+				itemList.add(resultSet.getString(2));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}	
+		return itemList;	
+	}
+	
+	
+	public void deleteCategory(String categoryId) throws Exception
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		SQLiteConfig config = null;
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.DELETE_CATEGORY);
+			
+			pstmt.setString(1, categoryId);
+			pstmt.execute();
+		}
+		catch(Exception e)
+		{
+			throw e;
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}		
+	}
+	
+	
+	public void deleteItem(String itemId) throws Exception
+	{
+		SQLiteConfig config = null;
+		
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.DELETE_ITEMS);
+			
+			pstmt.setString(1, itemId);
+			pstmt.execute();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}		
 	}
 }

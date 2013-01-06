@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.sqlite.SQLiteConfig;
+
 import com.fnz.common.CommonConstants;
 import com.fnz.common.SQLConstants;
 
@@ -15,14 +17,16 @@ public class IncomingStockDAO
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
-		
+		SQLiteConfig config = null;
 		Class.forName(CommonConstants.DRIVERNAME);
 		
 		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
 		
 		try 
 		{
-			conn = DriverManager.getConnection(sDbUrl);
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			pstmt = conn.prepareStatement(SQLConstants.INSERT_INCOMING_STOCK);
 			
 			
@@ -59,14 +63,16 @@ public class IncomingStockDAO
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
-		
+		SQLiteConfig config = null;
 		Class.forName(CommonConstants.DRIVERNAME);
 		
 		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
 		
 		try 
 		{
-			conn = DriverManager.getConnection(sDbUrl);
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			pstmt = conn.prepareStatement(SQLConstants.INSERT_INCOMING_STOCK_DETAILS);
 			
 			
