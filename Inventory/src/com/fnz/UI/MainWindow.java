@@ -6,6 +6,9 @@ package com.fnz.UI;
 import com.fnz.dao.DBInteraction;
 import com.fnz.panes.Items;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
@@ -44,12 +47,17 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainWindow extends Application 
 {
 	private BorderPane border;
 	private Stage stage;
 	private Scene scene;
+	
+	private Node listBtn;
+	private int listBtnX;
+	private int listBtnY;
 	
 	public boolean flag;
     /**
@@ -138,7 +146,53 @@ public class MainWindow extends Application
 	 * <Date> <Name> <Comments>
 	 * 
 	 */   
-   
+    public void unanimate(Node obj,int x, int y) 
+    {
+    	//System.out.println(obj);
+    	if (listBtn==null){
+    		
+    	}
+    	else{
+    	
+    	final Timeline timeline = new Timeline();
+    	timeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.ZERO, // set start position at 0
+                new KeyValue(listBtn.translateXProperty(), listBtnX),
+                new KeyValue(listBtn.translateYProperty(), listBtnY)),
+                new KeyFrame(new Duration(150), // set end position at 10s
+                new KeyValue(listBtn.translateXProperty(),listBtnX),
+                new KeyValue(listBtn.translateYProperty(), listBtnY)));
+    	
+			timeline.play();
+    	}
+    	listBtn=obj;
+    	listBtnX=x;
+    	listBtnY=y;
+    }
+    
+    
+    public void animate(Node obj,int x, int y) 
+    {
+    	if (listBtn!=obj){
+    		unanimate(obj,x,y);
+    	
+    	
+    	
+    	final Timeline timeline = new Timeline();
+    	timeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.ZERO, // set start position at 0
+                new KeyValue(obj.translateXProperty(), x),
+                new KeyValue(obj.translateYProperty(), y)),
+                new KeyFrame(new Duration(100), // set end position at 10s
+                new KeyValue(obj.translateXProperty(),x+20),
+                new KeyValue(obj.translateYProperty(), y)));
+    	
+			timeline.play();
+    	}
+    	/*else{
+    		unanimate(obj,x,y);
+    	}*/
+    }
     private BorderPane upperPart() 
     {
 
@@ -167,7 +221,7 @@ public class MainWindow extends Application
         	typesOfDrink.setPadding(new Insets(30,0,0,0));
         	ToggleGroup groupDrink=new ToggleGroup();
         	
-        	ToggleButton tbWine= new ToggleButton("Wine");
+        	final ToggleButton tbWine= new ToggleButton("Wine");
         	tbWine.setToggleGroup(groupDrink);
         	tbWine.setId("drinkName");
         	tbWine.setMaxSize(250,250);
@@ -180,10 +234,11 @@ public class MainWindow extends Application
      			{
      				borderPane1.setStyle("-fx-background-image: url('wine.jpeg');");
      				borderPane1.setCenter(drinks.viewWineStock());
+     				animate(tbWine,0,0);
      			}
      		});
         	
-        	ToggleButton tbVodka= new ToggleButton("Vodka");
+        	final ToggleButton tbVodka= new ToggleButton("Vodka");
         	tbVodka.setToggleGroup(groupDrink);
         	tbVodka.setId("drinkName");
         	tbVodka.setMaxSize(250,250);
@@ -195,11 +250,11 @@ public class MainWindow extends Application
      			{
      				borderPane1.setStyle("-fx-background-image: url('vodka.jpg');");
      				borderPane1.setCenter(drinks.viewVodkaStock());
-     				
+     				animate(tbVodka,0,1);
      			}
      		});
         	
-        	ToggleButton tbBeer= new ToggleButton("Beer");
+        	final ToggleButton tbBeer= new ToggleButton("Beer");
         	tbBeer.setToggleGroup(groupDrink);
         	tbBeer.setId("drinkName");
         	tbBeer.setMaxSize(250,250);
@@ -211,11 +266,11 @@ public class MainWindow extends Application
      			{
      				borderPane1.setStyle("-fx-background-image: url('beer2.jpg');");
      				borderPane1.setCenter(drinks.viewBeerStock());
-     				
+     				animate(tbBeer,0,2);
      			}
      		});
 
-        	ToggleButton tbWisky= new ToggleButton("Whisky");
+        	final ToggleButton tbWisky= new ToggleButton("Whisky");
         	tbWisky.setToggleGroup(groupDrink);
         	tbWisky.setId("drinkName");
         	tbWisky.setMaxSize(250,250);
@@ -227,11 +282,11 @@ public class MainWindow extends Application
      			{
      				borderPane1.setStyle("-fx-background-image: url('whisky.jpg');");
      				borderPane1.setCenter(drinks.viewWhiskyStock());
-     				
+     				animate(tbWisky,0,3);
      			}
      		});
         	
-        	ToggleButton tbRum= new ToggleButton("Rum");
+        	final ToggleButton tbRum= new ToggleButton("Rum");
         	tbRum.setToggleGroup(groupDrink);
         	tbRum.setId("drinkName");
         	tbRum.setMaxSize(250,250);
@@ -243,11 +298,11 @@ public class MainWindow extends Application
      			{
      				borderPane1.setStyle("-fx-background-image: url('rum2.jpg');");
      				borderPane1.setCenter(drinks.viewRumStock());
-     				
+     				animate(tbRum,0,4);
      			}
      		});
         	
-        	ToggleButton tbScotch= new ToggleButton("Scotch");
+        	final ToggleButton tbScotch= new ToggleButton("Scotch");
         	tbScotch.setToggleGroup(groupDrink);
         	tbScotch.setId("drinkName");
         	tbScotch.setMaxSize(250,250);
@@ -259,10 +314,10 @@ public class MainWindow extends Application
      			{
      				borderPane1.setStyle("-fx-background-image: url('Scotch.jpg');");
      				borderPane1.setCenter(drinks.viewScotchStock());
-     				
+     				animate(tbScotch,0,5);
      			}
      		});
-        	ToggleButton tbOther= new ToggleButton("Other");
+        	final ToggleButton tbOther= new ToggleButton("Other");
         	tbOther.setToggleGroup(groupDrink);
         	tbOther.setId("drinkName");
         	tbOther.setMaxSize(250,250);
@@ -274,7 +329,7 @@ public class MainWindow extends Application
      			{
      				borderPane1.setStyle("-fx-background-image: url('othertype.jpg');");
      				borderPane1.setCenter(drinks.viewOtherStock());
-     				
+     				animate(tbOther,0,6);
      			}
      		});
            // typesOfDrink.getChildren().addAll(tbWine,tbVodka,tbBeer,tbWisky,tbRum,tbScotch,tbOther);
