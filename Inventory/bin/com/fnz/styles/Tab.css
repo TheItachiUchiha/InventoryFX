@@ -1,14 +1,107 @@
 #MyTabPane .tab {
-    -fx-background-color: blue;
+     -fx-background-color: 
+        linear-gradient(#ffd65b, #e68400),
+        linear-gradient(#ffef84, #f2ba44),
+        linear-gradient(#ffea6a, #efaa22),
+        linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
 }
 #MyTabPane .tab:selected {
-    -fx-background-color: red;
+     -fx-background-color: 
+        linear-gradient(#bdbfc1 0%, #9a9c9f 14%, #888b90 15%, #838686 100%),
+        linear-gradient(#fef7d5 0%, #fae5a8 14%, #ffd048 15%, #ffe59f 78%, 
+        #ffe498 79%, #fff9cc 100%), 
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
 }
+#MyTabPane .tab:hover {
+     -fx-background-color: 
+        linear-gradient(#bdbfc1 0%, #9a9c9f 14%, #888b90 15%, #838686 100%),
+        linear-gradient(#fef7d5 0%, #fae5a8 14%, #ffd048 15%, #ffe59f 78%, 
+        #ffe498 79%, #fff9cc 100%), 
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+}
+
+
 
 #MyTabPane .tab-content-area {
-    -fx-background-color: cyan;
+	
+       
+
+}
+ #drinkName {
+    -fx-background-color: 
+        linear-gradient(#ffd65b, #e68400),
+        linear-gradient(#ffef84, #f2ba44),
+        linear-gradient(#ffea6a, #efaa22),
+        linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 0 0 0 5, 0 0 0 4, 0 0 0 3;  
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #654b00;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
 }
 
-#MyTabPane .tab *.tab-label {
-    -fx-text-fill: white;
+ #drinkName:hover {
+    -fx-background-color: 
+      
+        linear-gradient(#bdbfc1 0%, #9a9c9f 14%, #888b90 15%, #838686 100%),
+        linear-gradient(#fef7d5 0%, #fae5a8 14%, #ffd048 15%, #ffe59f 78%, 
+        #ffe498 79%, #fff9cc 100%), 
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 0 0 0 5, 0 0 0 4, 0 0 0 3; 
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #654b00;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
 }
+#borderxx {
+   -fx-background-image: url("bgwine.jpg");
+    -fx-background-color: white;
+    -fx-background-repeat: stretch; 
+ 	-fx-background-position: right;
+    }
+#mainpane1 {
+    -fx-background-color: red;
+   
+}
+
+ #drinkName:selected {
+     -fx-background-color: 
+       
+        linear-gradient(#bdbfc1 0%, #9a9c9f 14%, #888b90 15%, #838686 100%),
+        linear-gradient(#fbdbb5 0%, #fec778 14%, #ffa636 15%, #fdeb9f 78%, 
+        #dfcd82 79%, #f0e7bf 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+     -fx-background-radius: 0 0 0 5, 0 0 0 4, 0 0 0 3; 
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #654b00;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+}
+
+
+
+
+#MyTabPane .tab *.tab-label {
+    -fx-text-fill: black;
+}
+.tab-header-background {
+   -fx-background-image: url("bgh3.png");
+   
+} 
+.lowerHBox {
+-fx-background-image: url("bgh3.png");
+       
+   
+} 
+
+
+
+
+    
+
+
