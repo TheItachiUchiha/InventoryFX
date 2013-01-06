@@ -4,6 +4,7 @@ package com.fnz.UI;
 
 
 import com.fnz.dao.DBInteraction;
+import com.fnz.panes.Items;
 
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
@@ -70,6 +71,7 @@ public class MainWindow extends Application
     		
         border = new BorderPane();
         border.setTop(upperPart());
+        
         border.setBottom(addBBox());
         
         scene = new Scene(border);
@@ -114,6 +116,16 @@ public class MainWindow extends Application
         return border;
     }
     
+    
+    /*private GridPane addGridPane() 
+    {
+        GridPane grid = new GridPane();
+       // grid.setStyle(" -fx-background-color: cyan");
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(300));
+        return grid;
+    }*/
     /*Create Method <function name><return type><comments>
 	 * <Creator Name><Date Of Creation MM-dd-yyyy>
 	 * 
@@ -131,6 +143,7 @@ public class MainWindow extends Application
     {
 
     	BorderPane mainPane = new BorderPane();
+    	final Items drinks=new Items();
     	
     	TabPane tabPane = new TabPane();
     	tabPane.setId(("MyTabPane"));
@@ -147,14 +160,18 @@ public class MainWindow extends Application
         try {
         	
         	borderPane1.setId("borderxx");
+        	 
         	
-        	VBox typesOfDrink = new VBox();
+        	GridPane typesOfDrink = new GridPane();
+        	typesOfDrink.setVgap(8);
+        	typesOfDrink.setPadding(new Insets(30,0,0,0));
         	ToggleGroup groupDrink=new ToggleGroup();
         	
         	ToggleButton tbWine= new ToggleButton("Wine");
         	tbWine.setToggleGroup(groupDrink);
         	tbWine.setId("drinkName");
         	tbWine.setMaxSize(250,250);
+        	typesOfDrink.add(tbWine,0,0);
         	
         	tbWine.setOnAction(new EventHandler<ActionEvent>() {
      			
@@ -162,6 +179,7 @@ public class MainWindow extends Application
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('wine.jpeg');");
+     				borderPane1.setCenter(drinks.viewWineStock());
      			}
      		});
         	
@@ -169,13 +187,14 @@ public class MainWindow extends Application
         	tbVodka.setToggleGroup(groupDrink);
         	tbVodka.setId("drinkName");
         	tbVodka.setMaxSize(250,250);
+        	typesOfDrink.add(tbVodka,0,1);
         	tbVodka.setOnAction(new EventHandler<ActionEvent>() {
      			
      			@Override
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('vodka.jpg');");
-     				
+     				borderPane1.setCenter(drinks.viewVodkaStock());
      				
      			}
      		});
@@ -184,13 +203,14 @@ public class MainWindow extends Application
         	tbBeer.setToggleGroup(groupDrink);
         	tbBeer.setId("drinkName");
         	tbBeer.setMaxSize(250,250);
+        	typesOfDrink.add(tbBeer,0,2);
         	tbBeer.setOnAction(new EventHandler<ActionEvent>() {
      			
      			@Override
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('beer2.jpg');");
-     				
+     				borderPane1.setCenter(drinks.viewBeerStock());
      				
      			}
      		});
@@ -199,13 +219,14 @@ public class MainWindow extends Application
         	tbWisky.setToggleGroup(groupDrink);
         	tbWisky.setId("drinkName");
         	tbWisky.setMaxSize(250,250);
+        	typesOfDrink.add(tbWisky,0,3);
         	tbWisky.setOnAction(new EventHandler<ActionEvent>() {
      			
      			@Override
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('whisky.jpg');");
-     				
+     				borderPane1.setCenter(drinks.viewWhiskyStock());
      				
      			}
      		});
@@ -214,13 +235,14 @@ public class MainWindow extends Application
         	tbRum.setToggleGroup(groupDrink);
         	tbRum.setId("drinkName");
         	tbRum.setMaxSize(250,250);
+        	typesOfDrink.add(tbRum,0,4);
         	tbRum.setOnAction(new EventHandler<ActionEvent>() {
      			
      			@Override
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('rum2.jpg');");
-     				
+     				borderPane1.setCenter(drinks.viewRumStock());
      				
      			}
      		});
@@ -229,13 +251,14 @@ public class MainWindow extends Application
         	tbScotch.setToggleGroup(groupDrink);
         	tbScotch.setId("drinkName");
         	tbScotch.setMaxSize(250,250);
+        	typesOfDrink.add(tbScotch,0,5);
         	tbScotch.setOnAction(new EventHandler<ActionEvent>() {
      			
      			@Override
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('Scotch.jpg');");
-     				
+     				borderPane1.setCenter(drinks.viewScotchStock());
      				
      			}
      		});
@@ -243,19 +266,21 @@ public class MainWindow extends Application
         	tbOther.setToggleGroup(groupDrink);
         	tbOther.setId("drinkName");
         	tbOther.setMaxSize(250,250);
+        	typesOfDrink.add(tbOther,0,6);
         	tbOther.setOnAction(new EventHandler<ActionEvent>() {
      			
      			@Override
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('othertype.jpg');");
-     				
+     				borderPane1.setCenter(drinks.viewOtherStock());
      				
      			}
      		});
-            typesOfDrink.getChildren().addAll(tbWine,tbVodka,tbBeer,tbWisky,tbRum,tbScotch,tbOther);
+           // typesOfDrink.getChildren().addAll(tbWine,tbVodka,tbBeer,tbWisky,tbRum,tbScotch,tbOther);
            
 			borderPane1.setLeft(typesOfDrink);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
