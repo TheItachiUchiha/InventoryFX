@@ -58,7 +58,7 @@
     -fx-padding: 10 20 10 20;
 }
 #borderxx {
-   -fx-background-image: url("bgwine.jpg");
+   -fx-background-image: url("../../../../img/bgwine.jpg");
     -fx-background-color: white;
     -fx-background-repeat: stretch; 
  	-fx-background-position: right;
@@ -90,11 +90,11 @@
     -fx-text-fill: black;
 }
 .tab-header-background {
-   -fx-background-image: url("bgh3.png");
+   -fx-background-image: url("../../../../img/bgh3.png");
    
 } 
 .lowerHBox {
--fx-background-image: url("bgh3.png");
+-fx-background-image: url("../../../../img/bgh3.png");
        
    
 } 

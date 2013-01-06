@@ -3,6 +3,8 @@ package com.fnz.UI;
 
 
 
+import com.fnz.dao.DBInteraction;
+
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
@@ -54,12 +56,7 @@ public class MainWindow extends Application
      */
     public static void main(String[] args)
     {
-        launch(MainWindow.class, args);
-       
-        
-        
-        
-       
+        launch(MainWindow.class, args); 
     }
     
     @Override
@@ -69,7 +66,7 @@ public class MainWindow extends Application
 
 // Use a border pane as the root for scene
     		
-    	
+    	new DBInteraction().createDB();
     		
         border = new BorderPane();
         border.setTop(upperPart());
@@ -85,7 +82,7 @@ public class MainWindow extends Application
 	    stage.setHeight(Screen.getPrimary().getVisualBounds().getHeight());
 	    stage.setScene(this.scene);
         stage.setTitle("Inventory Management");
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/com/fnz/styles/icon.png")));
+        stage.getIcons().add(new Image("icon.png"));
         stage.show();
     	}
     	catch(Exception e)
@@ -141,7 +138,7 @@ public class MainWindow extends Application
     	
         //Create Tabs
         Tab tabA = new Tab();
-        tabA.setText("Add/View Items ");
+        tabA.setText("View Stock");
         
         final BorderPane borderPane1 = new BorderPane();
         borderPane1.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth());
@@ -164,9 +161,7 @@ public class MainWindow extends Application
      			@Override
      			public void handle(ActionEvent e) 
      			{
-     				borderPane1.setStyle("-fx-background-image: url('com/fnz/styles/wine.jpeg');");
-     				
-     				
+     				borderPane1.setStyle("-fx-background-image: url('wine.jpeg');");
      			}
      		});
         	
@@ -179,7 +174,7 @@ public class MainWindow extends Application
      			@Override
      			public void handle(ActionEvent e) 
      			{
-     				borderPane1.setStyle("-fx-background-image: url('com/fnz/styles/vodka.jpg');");
+     				borderPane1.setStyle("-fx-background-image: url('vodka.jpg');");
      				
      				
      			}
@@ -194,7 +189,7 @@ public class MainWindow extends Application
      			@Override
      			public void handle(ActionEvent e) 
      			{
-     				borderPane1.setStyle("-fx-background-image: url('com/fnz/styles/beer2.jpg');");
+     				borderPane1.setStyle("-fx-background-image: url('beer2.jpg');");
      				
      				
      			}
@@ -209,7 +204,7 @@ public class MainWindow extends Application
      			@Override
      			public void handle(ActionEvent e) 
      			{
-     				borderPane1.setStyle("-fx-background-image: url('com/fnz/styles/whisky.jpg');");
+     				borderPane1.setStyle("-fx-background-image: url('whisky.jpg');");
      				
      				
      			}
@@ -224,7 +219,7 @@ public class MainWindow extends Application
      			@Override
      			public void handle(ActionEvent e) 
      			{
-     				borderPane1.setStyle("-fx-background-image: url('com/fnz/styles/rum2.jpg');");
+     				borderPane1.setStyle("-fx-background-image: url('rum2.jpg');");
      				
      				
      			}
@@ -239,7 +234,7 @@ public class MainWindow extends Application
      			@Override
      			public void handle(ActionEvent e) 
      			{
-     				borderPane1.setStyle("-fx-background-image: url('com/fnz/styles/Scotch.jpg');");
+     				borderPane1.setStyle("-fx-background-image: url('Scotch.jpg');");
      				
      				
      			}
@@ -253,7 +248,7 @@ public class MainWindow extends Application
      			@Override
      			public void handle(ActionEvent e) 
      			{
-     				borderPane1.setStyle("-fx-background-image: url('com/fnz/styles/othertype.jpg');");
+     				borderPane1.setStyle("-fx-background-image: url('othertype.jpg');");
      				
      				
      			}
@@ -269,7 +264,7 @@ public class MainWindow extends Application
         tabPane.getTabs().add(tabA);
        
         Tab tabB = new Tab();
-        tabB.setText("Delete/Update Items");
+        tabB.setText("Incoming Stock");
         BorderPane borderPane2 = new BorderPane();
         borderPane2.setPadding(new Insets(5,5,5,5));
         try {
@@ -280,6 +275,19 @@ public class MainWindow extends Application
 		}
         tabB.setContent(borderPane2);
         tabPane.getTabs().add(tabB);
+        
+        Tab tabC = new Tab();
+        tabC.setText("Outgoing Stock");
+        BorderPane borderPane3 = new BorderPane();
+        borderPane2.setPadding(new Insets(5,5,5,5));
+        try {
+			borderPane2.setCenter(new Label("Window3"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        tabB.setContent(borderPane3);
+        tabPane.getTabs().add(tabC);
     
        
         mainPane.setCenter(tabPane);
