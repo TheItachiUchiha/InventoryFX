@@ -239,7 +239,9 @@ public class MainWindow extends Application
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('wine.jpeg');");
-     				borderPane1.setCenter(drinks.viewWineStock());
+     				/*borderPane1.setCenter(drinks.viewWineStock());
+     				chkRect()*/
+     				borderPane1.setCenter(drinks.chkRect());
      				animate(tbWine,0,0);
      			}
      		});
@@ -255,7 +257,8 @@ public class MainWindow extends Application
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('vodka.jpg');");
-     				borderPane1.setCenter(drinks.viewVodkaStock());
+     				//borderPane1.setCenter(drinks.viewVodkaStock());
+     				borderPane1.setCenter(drinks.chkRect());
      				animate(tbVodka,0,1);
      			}
      		});

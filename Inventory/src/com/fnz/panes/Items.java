@@ -10,12 +10,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.RectangleBuilder;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 
 public class Items {
@@ -25,7 +31,29 @@ public class Items {
 	
 	@SuppressWarnings("unchecked")
 	
+	public HBox chkRect(){
+		HBox  recHbox= new HBox();
+		recHbox.setPadding(new Insets(20));
+		
+	Rectangle roundRect = RectangleBuilder.create()
+    .x(50)
+    .y(50)
+    .width(1190)
+    .height(550)
+    .arcWidth(30)
+    .arcHeight(30)
+    .build();
 	
+	roundRect.setFill(Color.DARKORANGE);
+	roundRect.setOpacity(0.3);
+	roundRect.setStroke(Color.TRANSPARENT);
+	Text t = new Text("test");
+	
+	
+	recHbox.getChildren().add(roundRect);
+	return recHbox;
+	
+	}
 	
 	public GridPane viewBeerStock()
 	{
@@ -36,7 +64,9 @@ public class Items {
      /*   grid.setVgap(8);*/
        grid.setPadding(new Insets(10));
         
- 	
+      
+       
+       
         try
         {
         	
@@ -44,6 +74,8 @@ public class Items {
 		 	final Label label = new Label("Beer varities");
 		 	label.setFont(new Font("Arial", 20));
 		 	grid.add(label,50,0);
+		 	
+		 	
 		 	
 		 
 		 /*
@@ -119,8 +151,8 @@ public class Items {
 		grid.setHgap(10);
      /*   grid.setVgap(8);*/
        grid.setPadding(new Insets(10));
-        
- 	
+      
+     
         try
         {
         	
