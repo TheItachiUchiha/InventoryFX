@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
+
 
 import com.fnz.common.CommonConstants;
 import com.fnz.common.SQLConstants;
@@ -160,5 +164,96 @@ public class UtiliesDAO
 				resultSet.close();
 			}
 		}
+	}
+	public ObservableMap<String,String> fetchCategoryDetails() throws Exception
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		ObservableMap<String,String> categoryMap = FXCollections.observableHashMap();
+		
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			conn = DriverManager.getConnection(sDbUrl);
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_CATEGORY);
+			
+			resultSet = pstmt.executeQuery();
+			
+			while(resultSet.next())
+			{
+				categoryMap.put(resultSet.getString(2), resultSet.getString(1));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}	
+		return categoryMap;	
+	}
+	
+	public ObservableList<String> fetchCategory() throws Exception
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		ObservableList<String> categoryList = FXCollections.observableArrayList();
+		
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			conn = DriverManager.getConnection(sDbUrl);
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_CATEGORY);
+			
+			resultSet = pstmt.executeQuery();
+			
+			while(resultSet.next())
+			{
+				categoryList.add(resultSet.getString(2));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}	
+		return categoryList;	
 	}
 }

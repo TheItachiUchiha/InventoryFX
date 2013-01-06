@@ -59,10 +59,16 @@ public class MainWindow extends Application
 	private int listBtnX;
 	private int listBtnY;
 	
+	public Settings settings;
 	public boolean flag;
     /**
      * @param args the command line arguments
      */
+	
+	public MainWindow()
+	{
+		settings = new Settings();
+	}
     public static void main(String[] args)
     {
         launch(MainWindow.class, args); 
@@ -370,8 +376,70 @@ public class MainWindow extends Application
         tabPane.getTabs().add(tabC);
     
        
-        mainPane.setCenter(tabPane);
+      //Create Tabs
+        Tab tabSetting = new Tab();
+        tabSetting.setText("Settings");
+
+        final BorderPane borderPaneSettings = new BorderPane();
+        borderPaneSettings.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth());
+        borderPaneSettings.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight());
+        borderPaneSettings.setPadding(new Insets(15,0,0,20));
+
+        	
+    	borderPaneSettings.setId("borderxx");
+    	 
+    	
+    	GridPane gsettings = new GridPane();
+    	gsettings.setVgap(8);
+    	gsettings.setPadding(new Insets(30,0,0,0));
+    	ToggleGroup settingsGroup=new ToggleGroup();
+    	
+    	ToggleButton bAddCategory= new ToggleButton("Add Category");
+    	bAddCategory.setToggleGroup(settingsGroup);
+    	bAddCategory.setId("drinkName");
+    	bAddCategory.setMaxSize(250,250);
+    	gsettings.add(bAddCategory,0,0);
+    	
+    	bAddCategory.setOnAction(new EventHandler<ActionEvent>() {
+ 			
+ 			@Override
+ 			public void handle(ActionEvent e) 
+ 			{
+ 				borderPaneSettings.setStyle("-fx-background-image: url('settings.jpg');");
+ 				borderPaneSettings.setCenter(settings.addCategory());
+ 			}
+ 		});
+    	
+    	ToggleButton bAddItem= new ToggleButton("Add Item");
+    	bAddItem.setToggleGroup(settingsGroup);
+    	bAddItem.setId("drinkName");
+    	bAddItem.setMaxSize(250,250);
+    	gsettings.add(bAddItem,0,1);
+    	
+    	bAddItem.setOnAction(new EventHandler<ActionEvent>() {
+ 			
+ 			@Override
+ 			public void handle(ActionEvent e) 
+ 			{
+ 				borderPaneSettings.setStyle("-fx-background-image: url('settings.jpg');");
+ 				try {
+					borderPaneSettings.setCenter(settings.addItem());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+ 			}
+ 		});
         
+    	
+    	borderPaneSettings.setLeft(gsettings);
+        tabSetting.setContent(borderPaneSettings);
+    	
+    	tabPane.getTabs().add(tabSetting);
+        
+        
+        mainPane.setLeft(tabPane);
         return mainPane;
+    
     }
 }

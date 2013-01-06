@@ -3,9 +3,9 @@ package com.fnz.common;
 public class SQLConstants
 {
 	
-	public static final String CREATE_CATEGORY_TABLE = "CREATE TABLE if not exists CATEGORY_TABLE (CATEGORY_ID text PRIMARY KEY, CATEGORY_NAME TEXT primary key)";
+	public static final String CREATE_CATEGORY_TABLE = "CREATE TABLE if not exists CATEGORY_TABLE (CATEGORY_ID text PRIMARY KEY, CATEGORY_NAME TEXT UNIQUE NOT NULL)";
 	
-	public static final String CREATE_ITEM_TABLE = "CREATE TABLE if not exists ITEMS_TABLE (ITEM_ID text PRIMARY KEY NOT NULL,ITEM_NAME text primary key,CATEGORY_ID TEXT,QUANTITY INTEGER,"+
+	public static final String CREATE_ITEM_TABLE = "CREATE TABLE if not exists ITEMS_TABLE (ITEM_ID text PRIMARY KEY NOT NULL,ITEM_NAME text,CATEGORY_ID TEXT,QUANTITY INTEGER,"+
 			"FOREIGN KEY (CATEGORY_ID) REFERENCES CATEGORY_TABLE(CATEGORY_ID))";
 	
 	public static final String CREATE_INCOMING_STOCK = "CREATE TABLE if not exists INCOMING_STOCK (INVOICE_ID TEXT PRIMARY KEY, DATE_OF_DELIVERY text,"+
@@ -32,6 +32,6 @@ public class SQLConstants
 	
 	public static final String UPDATE_ITEM_QUANTITY = "UPDATE ITEMS_TABLE SET QUANTITY = ? where ITEM_ID =? ";
 	
-	
+	public static final String FETCH_CATEGORY = "SELECT CATEGORY_ID,CATEGORY_NAME FROM CATEGORY_TABLE";
 	
 }
