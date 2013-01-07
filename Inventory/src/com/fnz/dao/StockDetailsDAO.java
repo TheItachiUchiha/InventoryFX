@@ -7,14 +7,18 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import org.sqlite.SQLiteConfig;
 
+import com.fnz.VO.ItemVO;
 import com.fnz.common.CommonConstants;
 import com.fnz.common.SQLConstants;
 
 public class StockDetailsDAO 
 {
-	public Map<String,Integer> viewStock(String categoryId) throws Exception 
+	public ObservableList<ItemVO> viewStock(String categoryId) throws Exception 
 	{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -23,12 +27,12 @@ public class StockDetailsDAO
 		Class.forName(CommonConstants.DRIVERNAME);
 		
 		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
-		Map<String,Integer> itemQuantity = new HashMap<String,Integer>();
-		String itemName ="";
-		Integer quantity = 0;
+		ItemVO itemVO = new ItemVO();
+		ObservableList<ItemVO> listStock = FXCollections.observableArrayList();
 		
 		try 
 		{
+			
 			config = new SQLiteConfig();
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
@@ -37,9 +41,12 @@ public class StockDetailsDAO
 			resultSet = pstmt.executeQuery();
 			while(resultSet.next())
 			{
-				itemName = resultSet.getString(2);
-				quantity = resultSet.getInt(3);
-				itemQuantity.put(itemName, quantity);
+				itemVO = new ItemVO();
+				itemVO.setItemId(resultSet.getString(1));
+				itemVO.setItemName(resultSet.getString(2));
+				itemVO.setCategoryId(resultSet.getString(3));
+				itemVO.setQuantity(resultSet.getInt(4));
+				listStock.add(itemVO);
 			}
 		}
 		catch (Exception e) 
@@ -61,7 +68,7 @@ public class StockDetailsDAO
 				resultSet.close();
 			}
 		}
-		return itemQuantity;
+		return listStock;
 	}
 
 }

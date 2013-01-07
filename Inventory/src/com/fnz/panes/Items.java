@@ -17,7 +17,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.RectangleBuilder;
 import javafx.scene.text.Font;
@@ -29,29 +31,29 @@ public class Items {
 	
 	
 	
-	@SuppressWarnings("unchecked")
 	
-	public HBox chkRect(){
+	
+	public HBox chkRect()
+	{
 		HBox  recHbox= new HBox();
-		recHbox.setPadding(new Insets(20));
+		StackPane stack = new StackPane();
+			
+		Rectangle roundRect = RectangleBuilder.create()
+	    .x(50)
+	    .y(50)
+	    .width(1190)
+	    .height(550)
+	    .arcWidth(30)
+	    .arcHeight(30)
+	    .build();
 		
-	Rectangle roundRect = RectangleBuilder.create()
-    .x(50)
-    .y(50)
-    .width(1190)
-    .height(550)
-    .arcWidth(30)
-    .arcHeight(30)
-    .build();
-	
-	roundRect.setFill(Color.DARKORANGE);
-	roundRect.setOpacity(0.3);
-	roundRect.setStroke(Color.TRANSPARENT);
-	Text t = new Text("test");
-	
-	
-	recHbox.getChildren().add(roundRect);
-	return recHbox;
+		roundRect.setFill(Color.DARKGOLDENROD);
+		roundRect.setOpacity(0.3);
+		roundRect.setStroke(Color.TRANSPARENT);
+		
+		stack.getChildren().addAll(roundRect, new Label("adfsa"));
+		recHbox.getChildren().addAll(stack);
+		return recHbox;
 	
 	}
 	

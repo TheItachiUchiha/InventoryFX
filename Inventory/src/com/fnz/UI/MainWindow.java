@@ -5,6 +5,7 @@ package com.fnz.UI;
 
 import com.fnz.dao.DBInteraction;
 import com.fnz.panes.Items;
+import com.fnz.service.UtiliesService;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -12,6 +13,9 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -60,6 +64,9 @@ public class MainWindow extends Application
 	private int listBtnY;
 	
 	public Settings settings;
+	public StockDetails viewStock;
+	public UtiliesService utiliesService;
+	
 	public boolean flag;
     /**
      * @param args the command line arguments
@@ -68,6 +75,8 @@ public class MainWindow extends Application
 	public MainWindow()
 	{
 		settings = new Settings();
+		viewStock = new StockDetails();
+		utiliesService = new UtiliesService();
 	}
     public static void main(String[] args)
     {
@@ -205,6 +214,10 @@ public class MainWindow extends Application
     	BorderPane mainPane = new BorderPane();
     	final Items drinks=new Items();
     	
+    	final ObservableList<String> listCategory = FXCollections.observableArrayList();
+    	final ObservableMap<String, String> mapCategoryIdName = FXCollections.observableHashMap();
+    	
+     	
     	TabPane tabPane = new TabPane();
     	tabPane.setId(("MyTabPane"));
     	
@@ -218,7 +231,10 @@ public class MainWindow extends Application
         borderPane1.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight());
         borderPane1.setPadding(new Insets(15,0,0,20));
         try {
-        	
+        	listCategory.clear();
+        	listCategory.addAll(utiliesService.fetchCategory());
+        	mapCategoryIdName.clear();
+        	mapCategoryIdName.putAll(utiliesService.fetchCategoryDetails());
         	borderPane1.setId("borderxx");
         	 
         	
@@ -241,7 +257,7 @@ public class MainWindow extends Application
      				borderPane1.setStyle("-fx-background-image: url('wine.jpeg');");
      				/*borderPane1.setCenter(drinks.viewWineStock());
      				chkRect()*/
-     				borderPane1.setCenter(drinks.chkRect());
+     				borderPane1.setCenter(viewStock.wineStock(mapCategoryIdName.get("Wine")));
      				animate(tbWine,0,0);
      			}
      		});
