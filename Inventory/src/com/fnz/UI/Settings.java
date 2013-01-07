@@ -21,7 +21,7 @@ public class Settings
 	{
 		utiliesService = new UtiliesService();
 	}
-	public GridPane addCategory()
+	/*public GridPane addCategory()
 	{
 		GridPane settings = new GridPane();
 		Label lAddCategory = new Label("Name Of The Category");
@@ -100,7 +100,7 @@ public class Settings
 		settings.add(delete,2,3);
 		settings.add(lmsg, 2, 4);
 		return settings;
-	}
+	}*/
 	
 	public GridPane addItem() throws Exception
 	{

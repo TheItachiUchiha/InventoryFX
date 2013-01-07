@@ -16,7 +16,7 @@ public class SQLConstants
 			" PRIMARY KEY(INVOICE_ID,ITEM_ID), FOREIGN KEY(ITEM_ID) REFERENCES ITEMS_TABLE(ITEM_ID))";
 	
 	
-	public static final String INSERT_CATEGORY = "INSERT INTO CATEGORY_TABLE values (?,?)";
+	public static final String INSERT_CATEGORY_1 = "INSERT OR IGNORE INTO CATEGORY_TABLE (CATEGORY_ID, CATEGORY_NAME)";
 	
 	public static final String INSERT_ITEM = "INSERT INTO ITEMS_TABLE values (?,?,?,?)";
 

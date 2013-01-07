@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 
 import org.sqlite.SQLiteConfig;
 
@@ -17,7 +18,7 @@ import com.fnz.common.SQLConstants;
 
 public class UtiliesDAO 
 {
-	public void addCategory(String categoryName) throws Exception 
+	public void addCategory(ObservableList<String> categoryList) throws Exception 
 	{
 		SQLiteConfig config = null;
 		Connection conn = null;
@@ -25,6 +26,7 @@ public class UtiliesDAO
 		PreparedStatement pstmt1 = null;
 		ResultSet resultSet = null;
 		Integer latestRow = 0;
+		String query="";
 		
 		String newCategoryId = CommonConstants.CATEGORY_ID;
 		
@@ -37,10 +39,9 @@ public class UtiliesDAO
 			config = new SQLiteConfig();
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.INSERT_CATEGORY);
+			
 			
 			pstmt1 = conn.prepareStatement(SQLConstants.FETCH_LATEST_CATEGORY);
-			
 			
 			resultSet = pstmt1.executeQuery();
 			
@@ -48,24 +49,35 @@ public class UtiliesDAO
 			
 			latestRow = resultSet.getInt(1)+1;
 			
-			if(latestRow <10)
-			{
-				newCategoryId = newCategoryId + "00" + latestRow.toString();
-			}
-			else if(latestRow >=10 && latestRow <100)
-			{
-				newCategoryId = newCategoryId + "0" + latestRow.toString();
-			}
-			else
-			{
-				newCategoryId = newCategoryId + latestRow.toString();
-			}
-			
-			pstmt.setQueryTimeout(CommonConstants.TIMEOUT);
 			
 			
-			pstmt.setString(1, newCategoryId);
-			pstmt.setString(2, categoryName);
+			
+			for(int i = 0;i<categoryList.size();i++)
+			{
+				newCategoryId = CommonConstants.CATEGORY_ID;
+				if(latestRow <10)
+				{
+					newCategoryId = newCategoryId + "00" + latestRow.toString();
+				}
+				else if(latestRow >=10 && latestRow <100)
+				{
+					newCategoryId = newCategoryId + "0" + latestRow.toString();
+				}
+				else
+				{
+					newCategoryId = newCategoryId + latestRow.toString();
+				} 
+				latestRow++;
+				
+				query = query + " SELECT '"  + newCategoryId + "'"+CommonConstants.COMMA +"'"+ categoryList.get(i) + "' UNION ALL";
+				
+			}
+			
+			query = query.substring(0, query.length()-9);
+			query = query + ";";
+			
+			pstmt = conn.prepareStatement(SQLConstants.INSERT_CATEGORY_1+query);
+			
 			
 			pstmt.execute();
 			

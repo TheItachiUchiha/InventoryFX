@@ -15,9 +15,9 @@ public class UtiliesService
 	}
 	
 	
-	public void addCategory(String categoryName) throws Exception 
+	public void addCategory(ObservableList<String> categoryList) throws Exception 
 	{
-		utiliesDAO.addCategory(categoryName);
+		utiliesDAO.addCategory(categoryList);
 	}
 	
 	public void addItem(String itemName, String categoryId) throws Exception 

@@ -3,6 +3,7 @@ package com.fnz.UI;
 
 
 
+import com.fnz.common.CommonConstants;
 import com.fnz.dao.DBInteraction;
 import com.fnz.panes.Items;
 import com.fnz.service.UtiliesService;
@@ -64,8 +65,10 @@ public class MainWindow extends Application
 	private int listBtnY;
 	
 	public Settings settings;
-	public StockDetails viewStock;
+	public StockDetails stockDetails;
 	public UtiliesService utiliesService;
+	
+	public ObservableList<String> categoryList;
 	
 	public boolean flag;
     /**
@@ -75,8 +78,9 @@ public class MainWindow extends Application
 	public MainWindow()
 	{
 		settings = new Settings();
-		viewStock = new StockDetails();
+		stockDetails = new StockDetails();
 		utiliesService = new UtiliesService();
+		categoryList = FXCollections.observableArrayList();
 	}
     public static void main(String[] args)
     {
@@ -91,7 +95,12 @@ public class MainWindow extends Application
 // Use a border pane as the root for scene
     		
     	new DBInteraction().createDB();
-    		
+    	
+    	categoryList.addAll(CommonConstants.CATEGORY_WHISKY,CommonConstants.CATEGORY_VODKA,CommonConstants.CATEGORY_BEER,CommonConstants.CATEGORY_RUM,
+    			CommonConstants.CATEGORY_WINE,CommonConstants.CATEGORY_SCOTCH,CommonConstants.CATEGORY_OTHERS);
+    	
+        utiliesService.addCategory(categoryList);
+    	
         border = new BorderPane();
         border.setTop(upperPart());
         
@@ -257,7 +266,7 @@ public class MainWindow extends Application
      				borderPane1.setStyle("-fx-background-image: url('wine.jpeg');");
      				/*borderPane1.setCenter(drinks.viewWineStock());
      				chkRect()*/
-     				borderPane1.setCenter(viewStock.wineStock(mapCategoryIdName.get("Wine")));
+     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Wine"),"Wine"));
      				animate(tbWine,0,0);
      			}
      		});
@@ -274,7 +283,7 @@ public class MainWindow extends Application
      			{
      				borderPane1.setStyle("-fx-background-image: url('vodka.jpg');");
      				//borderPane1.setCenter(drinks.viewVodkaStock());
-     				borderPane1.setCenter(drinks.chkRect());
+     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Vodka"),"Vodka"));
      				animate(tbVodka,0,1);
      			}
      		});
@@ -290,7 +299,7 @@ public class MainWindow extends Application
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('beer2.jpg');");
-     				borderPane1.setCenter(drinks.viewBeerStock());
+     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Beer"),"Beer"));
      				animate(tbBeer,0,2);
      			}
      		});
@@ -306,7 +315,7 @@ public class MainWindow extends Application
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('whisky.jpg');");
-     				borderPane1.setCenter(drinks.viewWhiskyStock());
+     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Whisky"),"Whisky"));
      				animate(tbWisky,0,3);
      			}
      		});
@@ -322,7 +331,7 @@ public class MainWindow extends Application
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('rum2.jpg');");
-     				borderPane1.setCenter(drinks.viewRumStock());
+     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Rum"),"Rum"));
      				animate(tbRum,0,4);
      			}
      		});
@@ -338,7 +347,7 @@ public class MainWindow extends Application
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('Scotch.jpg');");
-     				borderPane1.setCenter(drinks.viewScotchStock());
+     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Scotch"),"Scotch"));
      				animate(tbScotch,0,5);
      			}
      		});
@@ -353,7 +362,7 @@ public class MainWindow extends Application
      			public void handle(ActionEvent e) 
      			{
      				borderPane1.setStyle("-fx-background-image: url('othertype.jpg');");
-     				borderPane1.setCenter(drinks.viewOtherStock());
+     				borderPane1.setCenter(stockDetails.viewStock(mapCategoryIdName.get("Others"),"Others"));
      				animate(tbOther,0,6);
      			}
      		});
@@ -413,7 +422,7 @@ public class MainWindow extends Application
     	gsettings.setPadding(new Insets(30,0,0,0));
     	ToggleGroup settingsGroup=new ToggleGroup();
     	
-    	ToggleButton bAddCategory= new ToggleButton("Add Category");
+    	/*ToggleButton bAddCategory= new ToggleButton("Add Category");
     	bAddCategory.setToggleGroup(settingsGroup);
     	bAddCategory.setId("drinkName");
     	bAddCategory.setMaxSize(250,250);
@@ -425,9 +434,9 @@ public class MainWindow extends Application
  			public void handle(ActionEvent e) 
  			{
  				borderPaneSettings.setStyle("-fx-background-image: url('settings.jpg');");
- 				borderPaneSettings.setCenter(settings.addCategory());
+ 				//borderPaneSettings.setCenter(settings.addCategory());
  			}
- 		});
+ 		});*/
     	
     	ToggleButton bAddItem= new ToggleButton("Add Item");
     	bAddItem.setToggleGroup(settingsGroup);
@@ -451,7 +460,7 @@ public class MainWindow extends Application
  		});
         
     	
-    	ToggleButton bDeleteCategory = new ToggleButton("Delete Category");
+    	/*ToggleButton bDeleteCategory = new ToggleButton("Delete Category");
     	bDeleteCategory.setToggleGroup(settingsGroup);
     	bDeleteCategory.setId("drinkName");
     	bDeleteCategory.setMaxSize(250,250);
@@ -470,7 +479,7 @@ public class MainWindow extends Application
 					e1.printStackTrace();
 				}
  			}
- 		});
+ 		});*/
     	
     	
     	ToggleButton bDeleteItem= new ToggleButton("Delete Item");

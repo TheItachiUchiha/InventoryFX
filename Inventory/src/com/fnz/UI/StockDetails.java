@@ -27,7 +27,7 @@ public class StockDetails
 		stockDetailsService = new StockDetailsService();
 	}
 	@SuppressWarnings("unchecked")
-	public StackPane wineStock(String categoryId)
+	public StackPane viewStock(String categoryId, String categoryName)
 	{
 		StackPane stack = new StackPane();
 		GridPane grid = new GridPane();
@@ -54,7 +54,7 @@ public class StockDetails
 			dataTable = FXCollections.observableArrayList();
 			dataTable = stockDetailsService.viewStock(categoryId);
 			
-			final Label label = new Label("Wine Stock");
+			final Label label = new Label(categoryName + " Stock");
 			label.setAlignment(Pos.CENTER);
 		 	grid.add(label,0,0);
 		 	
