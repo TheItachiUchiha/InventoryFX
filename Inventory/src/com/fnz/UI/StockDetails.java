@@ -26,11 +26,12 @@ public class StockDetails
 	{
 		stockDetailsService = new StockDetailsService();
 	}
+	@SuppressWarnings("unchecked")
 	public StackPane wineStock(String categoryId)
 	{
 		StackPane stack = new StackPane();
 		GridPane grid = new GridPane();
-		grid.setHgap(10);
+	
         grid.setVgap(8);
         grid.setPadding(new Insets(30));
 		ObservableList<ItemVO> dataTable;
@@ -57,26 +58,35 @@ public class StockDetails
 			label.setAlignment(Pos.CENTER);
 		 	grid.add(label,0,0);
 		 	
-		 	TableView<ItemVO> table = new TableView<ItemVO>();
-		 	table.setEditable(false);
-		 	table.setMaxSize(250, 250);
+		 	TableView<ItemVO> table1 = new TableView<ItemVO>();
+		 	table1.setEditable(false);
+		 	table1.setMaxSize(250, 250);
 		 	
-		 	TableColumn itemName = new TableColumn("Item");
+		 	TableView<ItemVO> table2 = new TableView<ItemVO>();
+		 	table2.setEditable(false);
+		 	table2.setMaxSize(250, 250);
+		 	
+		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
 		 	itemName.setMinWidth(125);
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
-		 	TableColumn quantity = new TableColumn("Quantity");
+		 	TableColumn<ItemVO,Integer>  quantity = new TableColumn<ItemVO,Integer> ("Quantity");
 		 	quantity.setMinWidth(125);
 		 	quantity.setCellValueFactory(
-		 			new PropertyValueFactory<ItemVO, String>("quantity"));
+		 			new PropertyValueFactory<ItemVO, Integer>("quantity"));
 		 	
 		 	
-		 	table.setItems(dataTable);
-		 	table.getColumns().addAll(itemName, quantity);
+		 	table1.setItems(dataTable);
+		 	table1.getColumns().addAll(itemName, quantity);
+		 	
+
+		 	table2.setItems(dataTable);
+		 	table2.getColumns().addAll(itemName, quantity);
 		 	
 			
-			grid.add(table,0,1);
+			grid.add(table1,0,1);
+			grid.add(table2,1,1);
 			grid.setAlignment(Pos.CENTER);
 			
 			stack.getChildren().addAll(roundRect, grid);
