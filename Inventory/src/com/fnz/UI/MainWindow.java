@@ -194,7 +194,23 @@ public class MainWindow extends Application
     	listBtnY=y;
     }
     
-    
+    public void animateSettings(Node obj,int x, int y) 
+    {
+    	
+    	if (listBtn!=obj){
+    	
+    	final Timeline timeline = new Timeline();
+    	timeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.ZERO, // set start position at 0
+                new KeyValue(obj.translateXProperty(), x),
+                new KeyValue(obj.translateYProperty(), y)),
+                new KeyFrame(new Duration(100), // set end position at 10s
+                new KeyValue(obj.translateXProperty(),x+25),
+                new KeyValue(obj.translateYProperty(), y)));
+    	
+			timeline.play();
+    	}
+    }
     public void animate(Node obj,int x, int y) 
     {
     	if (listBtn!=obj){
@@ -442,7 +458,7 @@ public class MainWindow extends Application
  			}
  		});*/
     	
-    	ToggleButton bAddItem= new ToggleButton("Add Item");
+    	final ToggleButton bAddItem= new ToggleButton("Settings");
     	bAddItem.setToggleGroup(settingsGroup);
     	bAddItem.setId("drinkName");
     	bAddItem.setMaxSize(250,250);
@@ -455,7 +471,8 @@ public class MainWindow extends Application
  			{
  				borderPaneSettings.setStyle("-fx-background-image: url('settings.jpg');");
  				try {
-					borderPaneSettings.setCenter(settings.addItem());
+ 					animateSettings(bAddItem, 0, 0);
+					borderPaneSettings.setCenter(settings.viewSettings("add"));
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -486,7 +503,7 @@ public class MainWindow extends Application
  		});*/
     	
     	
-    	ToggleButton bDeleteItem= new ToggleButton("Delete Item");
+    	/*ToggleButton bDeleteItem= new ToggleButton("Delete Item");
     	bDeleteItem.setToggleGroup(settingsGroup);
     	bDeleteItem.setId("drinkName");
     	bDeleteItem.setMaxSize(250,250);
@@ -499,13 +516,13 @@ public class MainWindow extends Application
  			{
  				borderPaneSettings.setStyle("-fx-background-image: url('settings.jpg');");
  				try {
-					borderPaneSettings.setCenter(settings.deleteItem());
+					borderPaneSettings.setCenter(settings.viewSettings("delete"));
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
  			}
- 		});
+ 		});*/
     	
     	
     	borderPaneSettings.setLeft(gsettings);

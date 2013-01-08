@@ -1,5 +1,6 @@
 package com.fnz.UI;
 
+import com.fnz.VO.ItemVO;
 import com.fnz.service.UtiliesService;
 
 import javafx.collections.FXCollections;
@@ -7,12 +8,26 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.RectangleBuilder;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Screen;
 
 public class Settings 
 {
@@ -101,7 +116,149 @@ public class Settings
 		settings.add(lmsg, 2, 4);
 		return settings;
 	}*/
+	public StackPane viewSettings(String buttonClicked) 
+	{
+		StackPane stack = new StackPane();
+		
+		GridPane grid = new GridPane();
+		GridPane grid2 = new GridPane();
+		try{
+			if (buttonClicked.equalsIgnoreCase("add")){
+		grid=addItem();
+		grid2=deleteItem();
+			}
+			else if(buttonClicked.equalsIgnoreCase("delete")){
+				grid=deleteItem();
+			}
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+        grid.setVgap(8);
+        grid.setPadding(new Insets(30));
+		ObservableList<ItemVO> dataTable;
+		
+		Rectangle roundRect = RectangleBuilder.create()
+	    .x(50)
+	    .y(50)
+	    .width(Screen.getPrimary().getVisualBounds().getWidth()-162)
+	    .height(Screen.getPrimary().getVisualBounds().getHeight()-150)
+	    .arcWidth(30)
+	    .arcHeight(30)
+	    .build();
+		
+		roundRect.setFill(Color.DARKGRAY);
+		roundRect.setOpacity(0.2);
+		roundRect.setStroke(Color.TRANSPARENT);
+		/*
+		HBox hlabel= new HBox();
+		hlabel.setMaxWidth(Screen.getPrimary().getVisualBounds().getWidth()-160);
+		hlabel.setMaxHeight(30);
+		hlabel.setStyle("-fx-background-color:black;");
+		hlabel.setOpacity(0.3);
+		hlabel.setLayoutX(20);*/
+		
+		Rectangle roundRectsub1 = RectangleBuilder.create()
+			    .x(50)
+			    .y(50)
+			    .width(Screen.getPrimary().getVisualBounds().getWidth()-875)
+			    .height(Screen.getPrimary().getVisualBounds().getHeight()-550)
+			    .arcWidth(30)
+			    .arcHeight(30)
+			    .build();
+				
+		roundRectsub1.setFill(Color.BLACK);
+		roundRectsub1.setOpacity(0.2);
+		roundRectsub1.setStroke(Color.TRANSPARENT);
+		
+		Rectangle roundRectsub2 = RectangleBuilder.create()
+			    .x(50)
+			    .y(50)
+			    .width(Screen.getPrimary().getVisualBounds().getWidth()-875)
+			    .height(Screen.getPrimary().getVisualBounds().getHeight()-550)
+			    .arcWidth(30)
+			    .arcHeight(30)
+			    .build();
+				
+		roundRectsub2.setFill(Color.BLACK);
+		roundRectsub2.setOpacity(0.2);
+		roundRectsub2.setStroke(Color.TRANSPARENT);
+		
+		try
+		{
+			/*dataTable = FXCollections.observableArrayList();
+			dataTable = stockDetailsService.viewStock(categoryId);*/
+			
+			/*final Label label = new Label(buttonClicked);*/
+			/*label.setAlignment(Pos.CENTER_LEFT);*/
+		 	//grid.add(label,1,0);
+			final Text text5 = new Text(25, 175, "Settings");  
+		      text5.setFill(Color.DARKORANGE);  
+		      text5.setFont(Font.font ("Edwardian Script ITC", 50));
+		      final Light.Distant light = new Light.Distant();  
+		      light.setAzimuth(-135.0);  
+		      final Lighting lighting = new Lighting();  
+		      lighting.setLight(light);  
+		      lighting.setSurfaceScale(9.0);  
+		      text5.setEffect(lighting);  
+		 	
+		      final Text textAdd = new Text(25, 175, "Add Items");  
+		      textAdd.setFill(Color.PURPLE);  
+		      textAdd.setFont(Font.font ("Edwardian Script ITC", 30));
+		      final Light.Distant lightAdd = new Light.Distant();  
+		      lightAdd.setAzimuth(-135.0);  
+		      final Lighting lightingAdd = new Lighting();  
+		      lighting.setLight(lightAdd);  
+		      lighting.setSurfaceScale(9.0);  
+		      textAdd.setEffect(lighting);
+		      
+		      final Text textDelete = new Text(25, 175, "Delete Items");
+		      textDelete.setFill(Color.PURPLE);  
+		      textDelete.setFont(Font.font ("Edwardian Script ITC", 30));
+		      textDelete.setEffect(lighting);
+		      
+		     
+		      
+			/*grid.add(table1,0,12);
+			grid.add(table2,1,12);
+			grid.setAlignment(Pos.TOP_CENTER);*/
+		     
+			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
+			
+			StackPane.setAlignment(roundRectsub1, Pos.CENTER_LEFT);
+			StackPane.setMargin(roundRectsub1, new Insets(00,200,200,100));
+			
+			StackPane.setAlignment(roundRectsub2, Pos.CENTER_RIGHT);
+			StackPane.setMargin(roundRectsub2, new Insets(0,100,200,60));
+			
+			StackPane.setMargin(text5, new Insets(50,8,8,8));
+			StackPane.setAlignment(text5, Pos.TOP_CENTER);
+			
+			StackPane.setAlignment(textAdd, Pos.CENTER_LEFT);
+			StackPane.setMargin(textAdd, new Insets(0,600,300,300));
+			
+			
+			
+			StackPane.setAlignment(textDelete,Pos.CENTER_RIGHT);
+			StackPane.setMargin(textDelete, new Insets(0,300,300,200));
+			
+			StackPane.setAlignment(grid, Pos.CENTER_LEFT);
+			StackPane.setMargin(grid, new Insets(200,0,200,175));
+			
+			StackPane.setAlignment(grid2, Pos.CENTER_RIGHT);
+			StackPane.setMargin(grid2, new Insets(225,0,100,800));
+			
+			stack.getChildren().addAll(roundRectsub1,roundRectsub2,textAdd,textDelete,text5,roundRect,grid,grid2);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return stack;
 	
+	}
 	public GridPane addItem() throws Exception
 	{
 		GridPane settings = new GridPane();
@@ -137,8 +294,9 @@ public class Settings
 		
 		
 		
-		settings.setAlignment(Pos.CENTER);
-		
+		//settings.setAlignment(Pos.CENTER);
+		settings.setVgap(8);
+		settings.setHgap(10);
 		settings.add(lAddItem, 1, 1);
 		settings.add(itemName, 2, 1);
 		settings.add(lCategoryName, 1, 2);
@@ -180,8 +338,9 @@ public class Settings
  			}
  		});
 		
-		settings.setAlignment(Pos.CENTER);
-		
+		//settings.setAlignment(Pos.CENTER);
+		settings.setVgap(8);
+		settings.setHgap(10);
 		settings.add(lAddItem, 1, 1);
 		settings.add(cbItem, 2, 1);
 		settings.add(delete,2,3);
