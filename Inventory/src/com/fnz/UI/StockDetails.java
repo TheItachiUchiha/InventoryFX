@@ -66,8 +66,9 @@ public class StockDetails
 			dataTable = stockDetailsService.viewStock(categoryId);
 			
 			final Label label = new Label(categoryName + " Stock");
-			label.setAlignment(Pos.BASELINE_LEFT);
-		 	grid.add(label,1,0);
+			label.setAlignment(Pos.CENTER_LEFT);
+		 	//grid.add(label,1,0);
+		 	
 		 	
 		 	TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(false);
@@ -101,7 +102,9 @@ public class StockDetails
 			grid.setAlignment(Pos.TOP_CENTER);
 			
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
-			stack.getChildren().addAll(hlabel,roundRect,grid);
+			StackPane.setMargin(label, new Insets(40,8,8,8));
+			StackPane.setAlignment(label, Pos.TOP_CENTER);
+			stack.getChildren().addAll(label,roundRect,grid);
 		}
 		catch (Exception e) 
 		{
