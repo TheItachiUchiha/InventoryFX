@@ -208,7 +208,7 @@ public class MainWindow extends Application
                 new KeyValue(obj.translateXProperty(), x),
                 new KeyValue(obj.translateYProperty(), y)),
                 new KeyFrame(new Duration(100), // set end position at 10s
-                new KeyValue(obj.translateXProperty(),x+20),
+                new KeyValue(obj.translateXProperty(),x+25),
                 new KeyValue(obj.translateYProperty(), y)));
     	
 			timeline.play();
@@ -233,6 +233,7 @@ public class MainWindow extends Application
     	
         //Create Tabs
         Tab tabA = new Tab();
+        tabA.setClosable(false);
         tabA.setText("View Stock");
         
         final BorderPane borderPane1 = new BorderPane();
@@ -378,6 +379,7 @@ public class MainWindow extends Application
         tabPane.getTabs().add(tabA);
        
         Tab tabB = new Tab();
+        tabB.setClosable(false);
         tabB.setText("Incoming Stock");
         BorderPane borderPane2 = new BorderPane();
         borderPane2.setPadding(new Insets(5,5,5,5));
@@ -391,6 +393,7 @@ public class MainWindow extends Application
         tabPane.getTabs().add(tabB);
         
         Tab tabC = new Tab();
+        tabC.setClosable(false);
         tabC.setText("Outgoing Stock");
         BorderPane borderPane3 = new BorderPane();
         borderPane2.setPadding(new Insets(5,5,5,5));
@@ -406,6 +409,7 @@ public class MainWindow extends Application
        
       //Create Tabs
         Tab tabSetting = new Tab();
+        tabSetting.setClosable(false);
         tabSetting.setText("Settings");
 
         final BorderPane borderPaneSettings = new BorderPane();
