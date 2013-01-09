@@ -28,7 +28,7 @@ public class SQLConstants
 	
 	public static final String FETCH_LATEST_ITEM = "SELECT max(rowid) as row from ITEMS_TABLE";
 	
-	public static final String FETCH_ITEM_QUANTITY = "SELECT ITEM_ID, ITEM_NAME, QUANTITY from ITEMS_TABLE where CATEGORY_ID =? ";
+	public static final String FETCH_ITEM_QUANTITY = "SELECT ITEM_ID, ITEM_NAME, CATEGORY_ID, QUANTITY from ITEMS_TABLE where CATEGORY_ID =? ";
 	
 	public static final String UPDATE_ITEM_QUANTITY = "UPDATE ITEMS_TABLE SET QUANTITY = ? where ITEM_ID =? ";
 	
@@ -39,5 +39,7 @@ public class SQLConstants
 	public static final String DELETE_ITEMS = "DELETE FROM ITEMS_TABLE where ITEM_ID = ?";
 	
 	public static final String DELETE_CATEGORY = "DELETE FROM CATEGORY_TABLE where CATEGORY_ID = ?";
+	
+	public static final String FETCH_ITEMS_FROM_CATEGORY = "SELECT ITEM_ID,ITEM_NAME FROM ITEMS_TABLE WHERE CATEGORY_ID = ?";
 	
 }

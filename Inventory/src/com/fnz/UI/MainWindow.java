@@ -68,6 +68,7 @@ public class MainWindow extends Application
 	public Settings settings;
 	public StockDetails stockDetails;
 	public UtiliesService utiliesService;
+	public IncomingStock incomingStock;
 	
 	public ObservableList<String> categoryList;
 	
@@ -81,6 +82,7 @@ public class MainWindow extends Application
 		settings = new Settings();
 		stockDetails = new StockDetails();
 		utiliesService = new UtiliesService();
+		incomingStock = new IncomingStock();
 		categoryList = FXCollections.observableArrayList();
 	}
     public static void main(String[] args)
@@ -207,21 +209,16 @@ public class MainWindow extends Application
         tabA.setContent(stockDetails.viewStockDrinkList(listCategory,mapCategoryIdName));
         tabPane.getTabs().add(tabA);
        
-       /* Tab tabB = new Tab();
+        final Tab tabB = new Tab();
         tabB.setClosable(false);
         tabB.setText("Incoming Stock");
-        BorderPane borderPane2 = new BorderPane();
-        borderPane2.setPadding(new Insets(5,5,5,5));
-        try {
-			borderPane2.setCenter(new Label("Window2"));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        tabB.setContent(borderPane2);
+      
+        
+        
         tabPane.getTabs().add(tabB);
         
-        Tab tabC = new Tab();
+        
+        /*Tab tabC = new Tab();
         tabC.setClosable(false);
         tabC.setText("Outgoing Stock");
         BorderPane borderPane3 = new BorderPane();
@@ -332,6 +329,10 @@ public class MainWindow extends Application
   		    	
   		    	tabA.setContent(stockDetails.viewStockDrinkList(listCategory,mapCategoryIdName));
   		    }
+  			if(newTab.getText().equals(tabB.getText()))
+  			{
+  				tabB.setContent(incomingStock.addStockDrinkList(listCategory,mapCategoryIdName));
+  			}
   		    if(newTab.getText().equals(tabSetting.getText()))
   		    {
   		    	//borderPane.setCenter(new BorderPane());
