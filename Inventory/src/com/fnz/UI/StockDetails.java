@@ -242,6 +242,7 @@ public class StockDetails
 		 	
 		 	TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(false);
+		 	
 		 	table2.setMaxSize(400, 300);
 		 	table2.setStyle("-fx-background-color: transparent;");
 		 	
