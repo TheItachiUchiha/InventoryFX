@@ -20,9 +20,9 @@ public class UtiliesService
 		utiliesDAO.addCategory(categoryList);
 	}
 	
-	public void addItem(String itemName, String categoryId) throws Exception 
+	public void addItem(String itemName, String categoryId, Integer dp, Integer mrp, Integer hp, Integer qDP, Integer qMRP, Integer qHP, Integer pDP, Integer pMRP, Integer pHP, Integer nDP, Integer nMRP, Integer nHP) throws Exception 
 	{
-		utiliesDAO.addItem(itemName, categoryId);
+		utiliesDAO.addItem(itemName, categoryId, qDP,qMRP,qHP,pDP,pMRP,pHP,nDP,nMRP,nHP);
 	}
 	
 	public ObservableMap<String,String> fetchCategoryDetails() throws Exception

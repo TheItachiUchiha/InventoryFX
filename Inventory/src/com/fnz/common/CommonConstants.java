@@ -50,5 +50,9 @@ public class CommonConstants
 	
 	public static final String COMMA= ",";
 	
+	public static final String NIP= "NIP";
+	public static final String PINT= "PINT";
+	public static final String QUAD= "QUAD";
+	
 
 }

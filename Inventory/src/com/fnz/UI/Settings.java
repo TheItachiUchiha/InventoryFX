@@ -1,6 +1,7 @@
 package com.fnz.UI;
 
 import com.fnz.VO.ItemVO;
+import com.fnz.common.CommonConstants;
 import com.fnz.service.UtiliesService;
 
 import javafx.collections.FXCollections;
@@ -11,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -278,6 +280,20 @@ public class Settings
 		Button add = new Button("Add Item");
 		Label lCategoryName = new Label("Select Category");
 		final ChoiceBox<String> cbcategory = new  ChoiceBox<String>(listOfCategories);
+		final Label ldp = new Label("Distributor Price");
+		final TextField dp = new TextField();
+		final Label lmrp = new Label("MRP");
+		final TextField mrp = new TextField();
+		final Label lhp = new Label("Hotel Price");
+		final TextField hp = new TextField();
+		
+		final Label lTypes = new Label("Types");
+		
+		final String[] types = new String[]{CommonConstants.QUAD, CommonConstants.PINT, CommonConstants.NIP};
+		final CheckBox cb1 = new CheckBox(CommonConstants.QUAD);
+		final CheckBox cb2 = new CheckBox(CommonConstants.PINT);
+		final CheckBox cb3 = new CheckBox(CommonConstants.NIP);
+		
 		final Label lmsg = new Label();
 		add.setOnAction(new EventHandler<ActionEvent>() {
  			
@@ -286,7 +302,9 @@ public class Settings
  			{
  				try 
  				{
-					utiliesService.addItem(itemName.getText(), mapCategories.get(cbcategory.getValue()));
+					utiliesService.addItem(itemName.getText(), mapCategories.get(cbcategory.getValue()),Integer.parseInt(dp.getText()),
+							Integer.parseInt(mrp.getText()),Integer.parseInt(hp.getText()),
+							cb1.isSelected(), cb2.isSelected(), cb3.isSelected());
 					lmsg.setText("Item added successfully");
 				} catch (Exception e1) 
 				{
@@ -306,8 +324,21 @@ public class Settings
 		settings.add(itemName, 2, 1);
 		settings.add(lCategoryName, 1, 2);
 		settings.add(cbcategory,2,2);
-		settings.add(add,2,3);
-		settings.add(lmsg,2,4);
+		
+		
+		settings.add(ldp,1,3);
+		settings.add(dp,2,3);
+		settings.add(lmrp,1,4);
+		settings.add(mrp,2,4);
+		settings.add(lhp,1,5);
+		settings.add(hp,2,5);
+		settings.add(lTypes,1,6);
+		settings.add(cb1,2,6);	
+		settings.add(cb2,3,6);	
+		settings.add(cb3,4,6);	
+		
+		settings.add(add,2,7);
+		settings.add(lmsg,2,8);
 		return settings;
 	}
 	

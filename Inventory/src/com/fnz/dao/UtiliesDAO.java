@@ -107,7 +107,7 @@ public class UtiliesDAO
 		}
 	}
 	
-	public void addItem(String itemName, String categoryId) throws Exception 
+	public void addItem(String itemName, String categoryId, Integer qDP, Integer qMRP, Integer qHP, Integer pDP, Integer pMRP, Integer pHP, Integer nDP, Integer nMRP, Integer nHP) throws Exception 
 	{
 		SQLiteConfig config = null;
 		Connection conn = null;
@@ -117,6 +117,9 @@ public class UtiliesDAO
 		Integer latestRow = 0;
 		
 		String newItemId = CommonConstants.ITEM_ID;
+		String isQuad = "N";
+		String isPint = "N";
+		String isNip = "N";
 		
 		Class.forName(CommonConstants.DRIVERNAME);
 		
@@ -151,6 +154,7 @@ public class UtiliesDAO
 				newItemId = newItemId + latestRow.toString();
 			}
 			
+			
 			pstmt.setQueryTimeout(CommonConstants.TIMEOUT);
 			
 			
@@ -158,6 +162,19 @@ public class UtiliesDAO
 			pstmt.setString(2, itemName);
 			pstmt.setString(3, categoryId);
 			pstmt.setInt(4, CommonConstants.ZERO);
+			pstmt.setInt(5, qDP);
+			pstmt.setInt(6, qMRP);
+			pstmt.setInt(7, qHP);
+			pstmt.setInt(5, pDP);
+			pstmt.setInt(6, pMRP);
+			pstmt.setInt(7, pHP);
+			pstmt.setInt(5, nDP);
+			pstmt.setInt(6, nMRP);
+			pstmt.setInt(7, nHP);
+			
+			
+			
+			
 			pstmt.execute();
 			
 		}
