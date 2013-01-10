@@ -24,19 +24,29 @@ public class CommonConstants
 	
 	public static final String STATUS_UNAVAILABLE= "Unavailable";
 	
-	public static final String CATEGORY_WHISKY= "Whisky";
 	
-	public static final String CATEGORY_VODKA= "Vodka";
-	
+	public static final String CATEGORY_PREMIUM_SCOTCH = "Premium Scotch";
+	public static final String CATEGORY_REGULAR_SCOTCH = "Regular Scotch";
+	public static final String CATEGORY_PREMIUM_WHISKY= "Premium Whisky";
+	public static final String CATEGORY_REGULAR_WHISKY= "Regular Whisky"; 
+	public static final String CATEGORY_PREMIUM_VODKA= "Premium Vodka";
+	public static final String CATEGORY_REGULAR_VODKA= "Regular Vodka";
+	public static final String CATEGORY_BRANDY= "Brandy";
+	public static final String CATEGORY_GIN= "Gin";
+	public static final String CATEGORY_PREMIUM_RUM= "White Rum & Premixes";
+ 	public static final String CATEGORY_REGULAR_RUM= "Regular Rum";
+ 	public static final String CATEGORY_WINE= "Wine";
 	public static final String CATEGORY_BEER= "Beer";
+	public static final String CATEGORY_BEVRAGES= "Beverages";	
 	
-	public static final String CATEGORY_RUM= "Rum";
+
 	
-	public static final String CATEGORY_WINE= "Wine";
 	
-	public static final String CATEGORY_SCOTCH= "Scotch";
 	
-	public static final String CATEGORY_OTHERS= "Others";
+	
+	
+	
+
 	
 	public static final String COMMA= ",";
 	

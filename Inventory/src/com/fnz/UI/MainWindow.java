@@ -99,8 +99,10 @@ public class MainWindow extends Application
     		
     	new DBInteraction().createDB();
     	
-    	categoryList.addAll(CommonConstants.CATEGORY_WHISKY,CommonConstants.CATEGORY_VODKA,CommonConstants.CATEGORY_BEER,CommonConstants.CATEGORY_RUM,
-    			CommonConstants.CATEGORY_WINE,CommonConstants.CATEGORY_SCOTCH,CommonConstants.CATEGORY_OTHERS);
+    	categoryList.addAll(CommonConstants.CATEGORY_PREMIUM_WHISKY,CommonConstants.CATEGORY_REGULAR_WHISKY,CommonConstants.CATEGORY_PREMIUM_VODKA,CommonConstants.CATEGORY_REGULAR_VODKA,
+    			CommonConstants.CATEGORY_BRANDY,CommonConstants.CATEGORY_GIN,CommonConstants.CATEGORY_PREMIUM_RUM,
+    			CommonConstants.CATEGORY_REGULAR_RUM,CommonConstants.CATEGORY_BEER,CommonConstants.CATEGORY_WINE,
+    			CommonConstants.CATEGORY_PREMIUM_SCOTCH,CommonConstants.CATEGORY_REGULAR_SCOTCH,CommonConstants.CATEGORY_BEVRAGES);
     	
         utiliesService.addCategory(categoryList);
     	
