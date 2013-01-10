@@ -50,11 +50,13 @@ public class StockDetails
 	public BorderPane viewStockDrinkList(ObservableList<String> listCategory, final ObservableMap<String, String> mapCategoryIdName)
 	{
 		final BorderPane borderPane = new BorderPane();
+		
 		 borderPane.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth());
 	        borderPane.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight());
 	        borderPane.setPadding(new Insets(15,0,0,20));
 	        borderPane.setId("borderxx");
 		GridPane typesOfDrink = new GridPane();
+		
 		typesOfDrink.setVgap(8);
     	typesOfDrink.setPadding(new Insets(30,0,0,0));
 
@@ -169,7 +171,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('othertype.jpg');");
+ 				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(mapCategoryIdName.get("Others"),"Others"));
  				mainWindow.animate(tbOther,0,6);
  			}
