@@ -150,6 +150,7 @@ public class MainWindow extends Application
         hbox.getChildren().add(upload);
         
         border.setRight(hbox);*/
+        
         return border;
     }
     

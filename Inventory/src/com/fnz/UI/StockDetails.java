@@ -61,16 +61,23 @@ public class StockDetails
 	        borderPane.setId("borderxx");
 		GridPane typesOfDrink = new GridPane();
 		
-		typesOfDrink.setVgap(8);
-    	typesOfDrink.setPadding(new Insets(30,0,0,0));
+		typesOfDrink.setVgap(20);
+    	typesOfDrink.setPadding(new Insets(130,0,0,0));
 
     	ToggleGroup groupDrink=new ToggleGroup();
+    	
+    	GridPane typesOfDrink2 = new GridPane();
+		
+		typesOfDrink2.setVgap(20);
+    	typesOfDrink2.setPadding(new Insets(130,30,0,0));
+
+    	
     	
     	final ToggleButton bt1= new ToggleButton(listCategory.get(0));
     	bt1.setToggleGroup(groupDrink);
     	bt1.setId("drinkName");
     	bt1.setMaxSize(250,250);
-    	typesOfDrink.add(bt1,0,0);
+    	typesOfDrink2.add(bt1,0,0); //premium whisky
     	
     	bt1.setOnAction(new EventHandler<ActionEvent>() {
  			
@@ -81,7 +88,7 @@ public class StockDetails
  				/*borderPane.setCenter(drinks.viewWineStock());
  				chkRect()*/
  				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(0)),listCategory.get(0)));
- 				mainWindow.animate(bt1,0,0);
+ 				mainWindow.animateLeft(bt1,0,0);
  			}
  		});
     	
@@ -89,7 +96,7 @@ public class StockDetails
     	bt2.setToggleGroup(groupDrink);
     	bt2.setId("drinkName");
     	bt2.setMaxSize(250,250);
-    	typesOfDrink.add(bt2,0,1);
+    	typesOfDrink.add(bt2,0,0); //regular whisky
     	bt2.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -98,7 +105,7 @@ public class StockDetails
  				borderPane.setStyle("-fx-background-image: url('vodka.jpg');");
  				//borderPane.setCenter(drinks.viewVodkaStock());
  				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(1)),listCategory.get(1)));
- 				mainWindow.animate(bt2,0,1);
+ 				mainWindow.animateRight(bt2,0,0);
  			}
  		});
     	
@@ -106,7 +113,7 @@ public class StockDetails
     	bt3.setToggleGroup(groupDrink);
     	bt3.setId("drinkName");
     	bt3.setMaxSize(250,250);
-    	typesOfDrink.add(bt3,0,2);
+    	typesOfDrink2.add(bt3,0,1);//Premium Vodka
     	bt3.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -114,7 +121,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('beer2.jpg');");
  				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(2)),listCategory.get(2)));
- 				mainWindow.animate(bt3,0,2);
+ 				mainWindow.animateLeft(bt3,0,1);
  			}
  		});
 
@@ -122,7 +129,7 @@ public class StockDetails
     	bt4.setToggleGroup(groupDrink);
     	bt4.setId("drinkName");
     	bt4.setMaxSize(250,250);
-    	typesOfDrink.add(bt4,0,3);
+    	typesOfDrink.add(bt4,0,1);//Regular Vodka
     	bt4.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -130,7 +137,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('whisky.jpg');");
  				borderPane.setCenter(viewStock(mapCategoryIdName.get("Whisky"),"Whisky"));
- 				mainWindow.animate(bt4,0,3);
+ 				mainWindow.animateRight(bt4,0,1);
  			}
  		});
     	
@@ -138,7 +145,7 @@ public class StockDetails
     	bt5.setToggleGroup(groupDrink);
     	bt5.setId("drinkName");
     	bt5.setMaxSize(250,250);
-    	typesOfDrink.add(bt5,0,4);
+    	typesOfDrink.add(bt5,0,4);//Brandy
     	bt5.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -146,7 +153,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('rum2.jpg');");
  				borderPane.setCenter(viewStock(mapCategoryIdName.get("Rum"),"Rum"));
- 				mainWindow.animate(bt5,0,4);
+ 				mainWindow.animateRight(bt5,0,4);
  			}
  		});
     	
@@ -154,7 +161,7 @@ public class StockDetails
     	bt6.setToggleGroup(groupDrink);
     	bt6.setId("drinkName");
     	bt6.setMaxSize(250,250);
-    	typesOfDrink.add(bt6,0,5);
+    	typesOfDrink.add(bt6,0,5);//Gin
     	bt6.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -162,15 +169,15 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('Scotch.jpg');");
  				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(5)),listCategory.get(5)));
- 				mainWindow.animate(bt6,0,5);
+ 				mainWindow.animateRight(bt6,0,5);
  			}
  		});
     	
-    	final ToggleButton bt7= new ToggleButton(listCategory.get(6));
+    	final ToggleButton bt7= new ToggleButton(listCategory.get(6).replace('&','\n' ));
     	bt7.setToggleGroup(groupDrink);
     	bt7.setId("drinkName");
     	bt7.setMaxSize(250,250);
-    	typesOfDrink.add(bt7,0,6);
+    	typesOfDrink2.add(bt7,0,5);//White Rum and Premixes
     	bt7.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -178,7 +185,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(6)),listCategory.get(6)));
- 				mainWindow.animate(bt7,0,6);
+ 				mainWindow.animateLeft(bt7,0,5);
  			}
  		});
     	
@@ -186,7 +193,7 @@ public class StockDetails
     	bt8.setToggleGroup(groupDrink);
     	bt8.setId("drinkName");
     	bt8.setMaxSize(250,250);
-    	typesOfDrink.add(bt8,0,7);
+    	typesOfDrink.add(bt8,0,3);//Regular Rum
     	bt8.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -194,7 +201,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(6)),listCategory.get(6)));
- 				mainWindow.animate(bt8,0,7);
+ 				mainWindow.animateRight(bt8,0,3);
  			}
  		});
     	
@@ -202,7 +209,7 @@ public class StockDetails
     	bt9.setToggleGroup(groupDrink);
     	bt9.setId("drinkName");
     	bt9.setMaxSize(250,250);
-    	typesOfDrink.add(bt9,0,8);
+    	typesOfDrink.add(bt9,0,6);//Beer
     	bt9.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -210,7 +217,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(8)),listCategory.get(8)));
- 				mainWindow.animate(bt9,0,8);
+ 				mainWindow.animateRight(bt9,0,6);
  			}
  		});
     	
@@ -218,7 +225,7 @@ public class StockDetails
     	bt10.setToggleGroup(groupDrink);
     	bt10.setId("drinkName");
     	bt10.setMaxSize(250,250);
-    	typesOfDrink.add(bt10,0,9);
+    	typesOfDrink2.add(bt10,0,3);//Wine
     	bt10.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -226,7 +233,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(9)),listCategory.get(9)));
- 				mainWindow.animate(bt10,0,9);
+ 				mainWindow.animateLeft(bt10,0,3);
  			}
  		});
     	
@@ -234,7 +241,7 @@ public class StockDetails
     	bt11.setToggleGroup(groupDrink);
     	bt11.setId("drinkName");
     	bt11.setMaxSize(250,250);
-    	typesOfDrink.add(bt11,0,10);
+    	typesOfDrink2.add(bt11,0,2);//Premium Scotch
     	bt11.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -242,7 +249,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(10)),listCategory.get(10)));
- 				mainWindow.animate(bt11,0,106);
+ 				mainWindow.animateLeft(bt11,0,2);
  			}
  		});
     	
@@ -250,7 +257,7 @@ public class StockDetails
     	bt12.setToggleGroup(groupDrink);
     	bt12.setId("drinkName");
     	bt12.setMaxSize(250,250);
-    	typesOfDrink.add(bt12,0,11);
+    	typesOfDrink.add(bt12,0,2); //regular Scotch
     	bt12.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -258,7 +265,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(11)),listCategory.get(11)));
- 				mainWindow.animate(bt12,0,11);
+ 				mainWindow.animateRight(bt12,0,2);
  			}
  		});
     	
@@ -266,7 +273,7 @@ public class StockDetails
     	bt13.setToggleGroup(groupDrink);
     	bt13.setId("drinkName");
     	bt13.setMaxSize(250,250);
-    	typesOfDrink.add(bt13,0,12);
+    	typesOfDrink2.add(bt13,0,4);//Beverages
     	bt13.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -274,11 +281,13 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(12)),listCategory.get(12)));
- 				mainWindow.animate(bt13,0,12);
+ 				mainWindow.animateLeft(bt13,0,4);
  			}
  		});
        // typesOfDrink.getChildren().addAll(tbWine,tbVodka,tbBeer,tbWisky,tbRum,tbScotch,tbOther);
     	borderPane.setLeft(typesOfDrink);
+    	borderPane.setRight(typesOfDrink2);
+    	bt2.fire();
     	return borderPane;
 	}
 	
@@ -298,7 +307,7 @@ public class StockDetails
 		Rectangle roundRect = RectangleBuilder.create()
 	    .x(50)
 	    .y(50)
-	    .width(Screen.getPrimary().getVisualBounds().getWidth()-160)
+	    .width(Screen.getPrimary().getVisualBounds().getWidth()-428)
 	    .height(Screen.getPrimary().getVisualBounds().getHeight()-150)
 	    .arcWidth(30)
 	    .arcHeight(30)
