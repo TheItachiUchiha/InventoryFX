@@ -16,6 +16,8 @@ public class CommonConstants
 	
 	public static final String ITEM_ID = "I_";
 	
+	public static final String TYPE_ID = "T_";
+	
 	public static final int ZERO = 0;
 	
 	public static final String STATUS_LOW_ON_STOCK = "Cancelled";

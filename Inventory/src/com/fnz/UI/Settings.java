@@ -1,9 +1,16 @@
 package com.fnz.UI;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.common.CommonConstants;
 import com.fnz.service.UtiliesService;
+import com.mytdev.javafx.scene.control.AutoCompleteTextField;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -268,12 +275,18 @@ public class Settings
 	}
 	public GridPane addItem() throws Exception
 	{
-		GridPane settings = new GridPane();
+		final GridPane settings = new GridPane();
 		//list Creation
+		
+		final ItemVO itemVO = new ItemVO();
 		ObservableList<String> listOfCategories = FXCollections.observableArrayList();
 		listOfCategories = utiliesService.fetchCategory();
+		ObservableList<String> listOfTypes = FXCollections.observableArrayList();
+		listOfTypes = utiliesService.fetchTypes();
 		final ObservableMap<String, String> mapCategories = FXCollections.observableHashMap();
 		mapCategories.putAll(utiliesService.fetchCategoryDetails());
+		
+		final ObservableList<ItemTypeVO> listItemTypes  = FXCollections.observableArrayList();
 		
  		Label lAddItem = new Label("Name Of The Item");
 		final TextField itemName = new TextField();
@@ -281,38 +294,34 @@ public class Settings
 		Label lCategoryName = new Label("Select Category");
 		final ChoiceBox<String> cbcategory = new  ChoiceBox<String>(listOfCategories);
 		final Label ldp = new Label("Distributor Price");
-		final TextField dp = new TextField();
+		
 		final Label lmrp = new Label("MRP");
-		final TextField mrp = new TextField();
+		
 		final Label lhp = new Label("Hotel Price");
-		final TextField hp = new TextField();
+		
+		
 		
 		final Label lTypes = new Label("Types");
 		
-		final String[] types = new String[]{CommonConstants.QUAD, CommonConstants.PINT, CommonConstants.NIP};
-		final CheckBox cb1 = new CheckBox(CommonConstants.QUAD);
-		final CheckBox cb2 = new CheckBox(CommonConstants.PINT);
-		final CheckBox cb3 = new CheckBox(CommonConstants.NIP);
+		final AutoCompleteTextField<String> type1 = new AutoCompleteTextField<String>();
+		type1.setItems(listOfTypes);
+		final AutoCompleteTextField<String> type2 = new AutoCompleteTextField<String>();
+		type2.setItems(listOfTypes);
+		final AutoCompleteTextField<String> type3 = new AutoCompleteTextField<String>();
+		type3.setItems(listOfTypes);
+		
+		final TextField tdp1 = new TextField();
+		final TextField tdp2 = new TextField();
+		final TextField tdp3 = new TextField();
+		final TextField tmrp1 = new TextField();
+		final TextField tmrp2 = new TextField();
+		final TextField tmrp3 = new TextField();
+		final TextField thp1 = new TextField();
+		final TextField thp2 = new TextField();
+		final TextField thp3 = new TextField();
 		
 		final Label lmsg = new Label();
-		add.setOnAction(new EventHandler<ActionEvent>() {
- 			
- 			@Override
- 			public void handle(ActionEvent e) 
- 			{
- 				try 
- 				{
-					utiliesService.addItem(itemName.getText(), mapCategories.get(cbcategory.getValue()),Integer.parseInt(dp.getText()),
-							Integer.parseInt(mrp.getText()),Integer.parseInt(hp.getText()),
-							cb1.isSelected(), cb2.isSelected(), cb3.isSelected());
-					lmsg.setText("Item added successfully");
-				} catch (Exception e1) 
-				{
-					lmsg.setText("Some Error Occured !!");
-					e1.printStackTrace();
-				}
- 			}
- 		});
+		
 		
 		
 		
@@ -325,22 +334,245 @@ public class Settings
 		settings.add(lCategoryName, 1, 2);
 		settings.add(cbcategory,2,2);
 		
+		settings.add(lTypes,1,3);
+		settings.add(type1,2,3);	
+		settings.add(type2,3,3);	
+		settings.add(type3,4,3);
 		
-		settings.add(ldp,1,3);
-		settings.add(dp,2,3);
-		settings.add(lmrp,1,4);
-		settings.add(mrp,2,4);
-		settings.add(lhp,1,5);
-		settings.add(hp,2,5);
-		settings.add(lTypes,1,6);
-		settings.add(cb1,2,6);	
-		settings.add(cb2,3,6);	
-		settings.add(cb3,4,6);	
+		settings.add(ldp,1,4);
+		settings.add(lmrp,1,5);	
+		settings.add(lhp,1,6);
+		
+		settings.add(tdp1,2,4);
+		settings.add(tdp2,3,4);
+		settings.add(tdp3,4,4);
+		
+		settings.add(tmrp1,2,5);
+		settings.add(tmrp2,3,5);
+		settings.add(tmrp3,4,5);
+		
+		settings.add(thp1,2,6);
+		settings.add(thp2,3,6);
+		settings.add(thp3,4,6);
+		
+				
 		
 		settings.add(add,2,7);
 		settings.add(lmsg,2,8);
+		
+		add.setOnAction(new EventHandler<ActionEvent>() {
+ 			
+ 			@Override
+ 			public void handle(ActionEvent e) 
+ 			{
+ 				try 
+ 				{
+ 					ItemTypeVO itemTypeVO;
+ 					if(!type1.getText().equals(""))
+ 					{
+ 						itemTypeVO = new ItemTypeVO();
+ 						
+ 						itemTypeVO.setType(type1.getText());
+ 						itemTypeVO.setQuantity(CommonConstants.ZERO);
+ 						itemTypeVO.setDp(Integer.parseInt(tdp1.getText()));
+ 						itemTypeVO.setMrp(Integer.parseInt(tmrp1.getText()));
+ 						itemTypeVO.setHp(Integer.parseInt(thp1.getText()));
+ 						
+ 						listItemTypes.add(itemTypeVO);
+ 					}
+ 					if(!type2.getText().equals(""))
+ 					{
+ 						itemTypeVO = new ItemTypeVO();
+ 						
+ 						itemTypeVO.setType(type2.getText());
+ 						itemTypeVO.setQuantity(CommonConstants.ZERO);
+ 						itemTypeVO.setDp(Integer.parseInt(tdp2.getText()));
+ 						itemTypeVO.setMrp(Integer.parseInt(tmrp2.getText()));
+ 						itemTypeVO.setHp(Integer.parseInt(thp2.getText()));
+ 						
+ 						listItemTypes.add(itemTypeVO);
+ 					}
+ 					if(!type3.getText().equals(""))
+ 					{
+ 						itemTypeVO = new ItemTypeVO();
+ 						
+ 						itemTypeVO.setType(type3.getText());
+ 						itemTypeVO.setQuantity(CommonConstants.ZERO);
+ 						itemTypeVO.setDp(Integer.parseInt(tdp3.getText()));
+ 						itemTypeVO.setMrp(Integer.parseInt(tmrp3.getText()));
+ 						itemTypeVO.setHp(Integer.parseInt(thp3.getText()));
+ 						
+ 						listItemTypes.add(itemTypeVO);
+ 					}
+
+ 					itemVO.setItemName(itemName.getText());
+ 					itemVO.setCategoryId(mapCategories.get(cbcategory.getValue()));
+ 					itemVO.setListType(listItemTypes);
+
+					utiliesService.addItem(itemVO);
+					lmsg.setText("Item added successfully");
+				} catch (Exception e1) 
+				{
+					lmsg.setText("Some Error Occured !!");
+					e1.printStackTrace();
+				}
+ 			}
+ 		});
 		return settings;
 	}
+	
+	public GridPane EditItem() throws Exception
+	{
+		final GridPane settings = new GridPane();
+		//list Creation
+		
+		final ItemVO itemVO = new ItemVO();
+		ObservableList<String> listOfCategories = FXCollections.observableArrayList();
+		listOfCategories = utiliesService.fetchCategory();
+		ObservableList<String> listOfItemsOfCategories = FXCollections.observableArrayList();
+		listOfItemsOfCategories = utiliesService.fetchCategory();
+		final ObservableMap<String, String> mapItem = FXCollections.observableHashMap();
+		//mapItem.putAll(utiliesService.fetchItemDetails());
+		ObservableList<String> listOfTypes = FXCollections.observableArrayList();
+		listOfTypes = utiliesService.fetchTypes();
+		final ObservableMap<String, String> mapCategories = FXCollections.observableHashMap();
+		mapCategories.putAll(utiliesService.fetchCategoryDetails());
+		
+		final ObservableList<ItemTypeVO> listItemTypes  = FXCollections.observableArrayList();
+		
+ 		Label lAddItem = new Label("Name Of The Item");
+		final TextField itemName = new TextField();
+		Button add = new Button("Add Item");
+		Label lCategoryName = new Label("Select Category");
+		final ChoiceBox<String> cbcategory = new  ChoiceBox<String>(listOfCategories);
+		final Label ldp = new Label("Distributor Price");
+		
+		final Label lmrp = new Label("MRP");
+		
+		final Label lhp = new Label("Hotel Price");
+		
+		
+		
+		final Label lTypes = new Label("Types");
+		
+		final AutoCompleteTextField<String> type1 = new AutoCompleteTextField<String>();
+		type1.setItems(listOfTypes);
+		final AutoCompleteTextField<String> type2 = new AutoCompleteTextField<String>();
+		type2.setItems(listOfTypes);
+		final AutoCompleteTextField<String> type3 = new AutoCompleteTextField<String>();
+		type3.setItems(listOfTypes);
+		
+		final TextField tdp1 = new TextField();
+		final TextField tdp2 = new TextField();
+		final TextField tdp3 = new TextField();
+		final TextField tmrp1 = new TextField();
+		final TextField tmrp2 = new TextField();
+		final TextField tmrp3 = new TextField();
+		final TextField thp1 = new TextField();
+		final TextField thp2 = new TextField();
+		final TextField thp3 = new TextField();
+		
+		final Label lmsg = new Label();
+		
+		
+		
+		
+		
+		//settings.setAlignment(Pos.CENTER);
+		settings.setVgap(8);
+		settings.setHgap(10);
+		settings.add(lAddItem, 1, 1);
+		settings.add(itemName, 2, 1);
+		settings.add(lCategoryName, 1, 2);
+		settings.add(cbcategory,2,2);
+		
+		settings.add(lTypes,1,3);
+		settings.add(type1,2,3);	
+		settings.add(type2,3,3);	
+		settings.add(type3,4,3);
+		
+		settings.add(ldp,1,4);
+		settings.add(lmrp,1,5);	
+		settings.add(lhp,1,6);
+		
+		settings.add(tdp1,2,4);
+		settings.add(tdp2,3,4);
+		settings.add(tdp3,4,4);
+		
+		settings.add(tmrp1,2,5);
+		settings.add(tmrp2,3,5);
+		settings.add(tmrp3,4,5);
+		
+		settings.add(thp1,2,6);
+		settings.add(thp2,3,6);
+		settings.add(thp3,4,6);
+		
+				
+		
+		settings.add(add,2,7);
+		settings.add(lmsg,2,8);
+		
+		add.setOnAction(new EventHandler<ActionEvent>() {
+ 			
+ 			@Override
+ 			public void handle(ActionEvent e) 
+ 			{
+ 				try 
+ 				{
+ 					ItemTypeVO itemTypeVO;
+ 					if(!type1.getText().equals(""))
+ 					{
+ 						itemTypeVO = new ItemTypeVO();
+ 						
+ 						itemTypeVO.setType(type1.getText());
+ 						itemTypeVO.setQuantity(CommonConstants.ZERO);
+ 						itemTypeVO.setDp(Integer.parseInt(tdp1.getText()));
+ 						itemTypeVO.setMrp(Integer.parseInt(tmrp1.getText()));
+ 						itemTypeVO.setHp(Integer.parseInt(thp1.getText()));
+ 						
+ 						listItemTypes.add(itemTypeVO);
+ 					}
+ 					if(!type2.getText().equals(""))
+ 					{
+ 						itemTypeVO = new ItemTypeVO();
+ 						
+ 						itemTypeVO.setType(type2.getText());
+ 						itemTypeVO.setQuantity(CommonConstants.ZERO);
+ 						itemTypeVO.setDp(Integer.parseInt(tdp2.getText()));
+ 						itemTypeVO.setMrp(Integer.parseInt(tmrp2.getText()));
+ 						itemTypeVO.setHp(Integer.parseInt(thp2.getText()));
+ 						
+ 						listItemTypes.add(itemTypeVO);
+ 					}
+ 					if(!type3.getText().equals(""))
+ 					{
+ 						itemTypeVO = new ItemTypeVO();
+ 						
+ 						itemTypeVO.setType(type3.getText());
+ 						itemTypeVO.setQuantity(CommonConstants.ZERO);
+ 						itemTypeVO.setDp(Integer.parseInt(tdp3.getText()));
+ 						itemTypeVO.setMrp(Integer.parseInt(tmrp3.getText()));
+ 						itemTypeVO.setHp(Integer.parseInt(thp3.getText()));
+ 						
+ 						listItemTypes.add(itemTypeVO);
+ 					}
+
+ 					itemVO.setItemName(itemName.getText());
+ 					itemVO.setCategoryId(mapCategories.get(cbcategory.getValue()));
+ 					itemVO.setListType(listItemTypes);
+
+					utiliesService.addItem(itemVO);
+					lmsg.setText("Item added successfully");
+				} catch (Exception e1) 
+				{
+					lmsg.setText("Some Error Occured !!");
+					e1.printStackTrace();
+				}
+ 			}
+ 		});
+		return settings;
+	}
+	
 	
 	public GridPane deleteItem() throws Exception
 	{
@@ -349,7 +581,7 @@ public class Settings
 		final ObservableList<String> listOfItems = FXCollections.observableArrayList();
 		listOfItems.addAll(utiliesService.fetchItem());
 		final ObservableMap<String, String> mapItem = FXCollections.observableHashMap();
-		mapItem.putAll(utiliesService.fetchItemDetails());
+		//mapItem.putAll(utiliesService.fetchItemDetails());
 		
  		Label lAddItem = new Label("Select Item");
  		final ChoiceBox<String> cbItem = new  ChoiceBox<String>(listOfItems);

@@ -45,7 +45,6 @@ public class StockDetailsDAO
 				itemVO.setItemId(resultSet.getString(1));
 				itemVO.setItemName(resultSet.getString(2));
 				itemVO.setCategoryId(resultSet.getString(3));
-				itemVO.setQuantity(resultSet.getInt(4));
 				listStock.add(itemVO);
 			}
 		}

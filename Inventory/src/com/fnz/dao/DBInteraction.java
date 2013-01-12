@@ -53,8 +53,9 @@ public class DBInteraction
 			stmt.setQueryTimeout(CommonConstants.TIMEOUT);
 			stmt.execute(SQLConstants.CREATE_CATEGORY_TABLE);
 			stmt.executeUpdate( SQLConstants.CREATE_ITEM_TABLE );
+			stmt.executeUpdate(SQLConstants.CREATE_ITEM_TYPE_TABLE);
 			stmt.executeUpdate( SQLConstants.CREATE_INCOMING_STOCK );
-			stmt.execute(SQLConstants.CREATE_INCOMING_STOCK_DETAILS);
+			stmt.executeUpdate(SQLConstants.CREATE_INCOMING_STOCK_DETAILS);
 		}
 		catch (Exception e) 
 		{
@@ -73,38 +74,4 @@ public class DBInteraction
 		
 		}
 	}
-		
-		public void foreignKeys() throws SQLException, ClassNotFoundException {
-			Class.forName(CommonConstants.DRIVERNAME);
-	        SQLiteConfig config = new SQLiteConfig();
-	        config.enforceForeignKeys(true);
-	        String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
-	        Connection conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-	        Statement stat = conn.createStatement();
-	        
-	        try {
-	            stat.executeUpdate("create table track(id integer primary key, name, aid, foreign key (aid) references artist(id))");
-	            stat.executeUpdate("create table artist(id integer primary key, name)");
-
-	            stat.executeUpdate("insert into artist values(10, 'leo')");
-	            stat.executeUpdate("insert into track values(1, 'first track', 10)"); // OK
-
-	            try {
-	                stat.executeUpdate("insert into track values(2, 'second track', 3)"); // invalid reference
-	            }
-	            catch (SQLException e) {
-	               System.out.println("Violated");
-	               e.printStackTrace();// successfully detect violation of foreign key constraints
-	            }
-	        }
-	        finally {
-	            stat.close();
-	            conn.close();
-	        }
-		}
-	        public static void main(String args[]) throws SQLException, ClassNotFoundException
-	        {
-	        	new DBInteraction().foreignKeys();
-	        }
-
 }

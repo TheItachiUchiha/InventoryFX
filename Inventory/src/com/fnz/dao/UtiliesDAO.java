@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.sqlite.SQLiteConfig;
@@ -13,6 +14,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 
+import com.fnz.VO.ItemTypeVO;
+import com.fnz.VO.ItemVO;
 import com.fnz.common.CommonConstants;
 import com.fnz.common.SQLConstants;
 
@@ -107,7 +110,7 @@ public class UtiliesDAO
 		}
 	}
 	
-	public void addItem(String itemName, String categoryId, Integer qDP, Integer qMRP, Integer qHP, Integer pDP, Integer pMRP, Integer pHP, Integer nDP, Integer nMRP, Integer nHP) throws Exception 
+	public void addItem(ItemVO itemVO) throws Exception 
 	{
 		SQLiteConfig config = null;
 		Connection conn = null;
@@ -117,9 +120,6 @@ public class UtiliesDAO
 		Integer latestRow = 0;
 		
 		String newItemId = CommonConstants.ITEM_ID;
-		String isQuad = "N";
-		String isPint = "N";
-		String isNip = "N";
 		
 		Class.forName(CommonConstants.DRIVERNAME);
 		
@@ -159,23 +159,100 @@ public class UtiliesDAO
 			
 			
 			pstmt.setString(1, newItemId);
-			pstmt.setString(2, itemName);
-			pstmt.setString(3, categoryId);
-			pstmt.setInt(4, CommonConstants.ZERO);
-			pstmt.setInt(5, qDP);
-			pstmt.setInt(6, qMRP);
-			pstmt.setInt(7, qHP);
-			pstmt.setInt(5, pDP);
-			pstmt.setInt(6, pMRP);
-			pstmt.setInt(7, pHP);
-			pstmt.setInt(5, nDP);
-			pstmt.setInt(6, nMRP);
-			pstmt.setInt(7, nHP);
-			
-			
-			
+			pstmt.setString(2, itemVO.getItemName());
+			pstmt.setString(3, itemVO.getCategoryId());	
 			
 			pstmt.execute();
+			
+			
+			
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(pstmt1 != null )
+			{
+				pstmt1.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}
+		for(ItemTypeVO itemTypeVO : itemVO.getListType())
+		{
+			addItemTypes(itemVO.getCategoryId(), itemTypeVO);
+		}
+	}
+	
+	public void addItemTypes(String categoryId, ItemTypeVO itemTypeVO) throws Exception 
+	{
+		SQLiteConfig config = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
+		ResultSet resultSet = null;
+		Integer latestRow = 0;
+		
+		String newTypeId = CommonConstants.TYPE_ID;
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.INSERT_ITEMS_TYPES);
+			
+			
+			pstmt1 = conn.prepareStatement(SQLConstants.FETCH_LATEST_ITEMS_TYPE);
+			
+			
+			resultSet = pstmt1.executeQuery();
+			
+			resultSet.next();
+			
+			latestRow = resultSet.getInt(1)+1;
+			
+			if(latestRow <10)
+			{
+				newTypeId = newTypeId + "00" + latestRow.toString();
+			}
+			else if(latestRow >=10 && latestRow <100)
+			{
+				newTypeId = newTypeId + "0" + latestRow.toString();
+			}
+			else
+			{
+				newTypeId = newTypeId + latestRow.toString();
+			}
+			
+			
+			pstmt.setQueryTimeout(CommonConstants.TIMEOUT);
+			
+			
+			pstmt.setString(1, newTypeId);
+			pstmt.setString(2, categoryId);
+			pstmt.setString(3, itemTypeVO.getType());	
+			pstmt.setInt(4, itemTypeVO.getQuantity());
+			pstmt.setInt(5, itemTypeVO.getDp());
+			pstmt.setInt(6, itemTypeVO.getMrp());
+			pstmt.setInt(7, itemTypeVO.getHp());
+			pstmt.executeUpdate();
 			
 		}
 		catch (Exception e) 
@@ -301,14 +378,14 @@ public class UtiliesDAO
 	}
 	
 	
-	public ObservableMap<String,String> fetchItemDetails() throws Exception
+	public ObservableList<ItemVO> fetchItemDetails() throws Exception
 	{
 		SQLiteConfig config = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
-		ObservableMap<String,String> itemMap = FXCollections.observableHashMap();
-		
+		ObservableList<ItemVO> itemDetailsList = FXCollections.observableArrayList();
+		ItemVO itemVO = new ItemVO();
 		
 		Class.forName(CommonConstants.DRIVERNAME);
 		
@@ -325,7 +402,11 @@ public class UtiliesDAO
 			
 			while(resultSet.next())
 			{
-				itemMap.put(resultSet.getString(2), resultSet.getString(1));
+				itemVO = new ItemVO();
+				itemVO.setItemId(resultSet.getString(1));
+				itemVO.setItemName(resultSet.getString(2));
+				itemVO.setCategoryId(resultSet.getString(3));
+				itemDetailsList.add(itemVO);
 			}
 		}
 		catch(Exception e)
@@ -346,8 +427,78 @@ public class UtiliesDAO
 			{
 				resultSet.close();
 			}
-		}	
-		return itemMap;	
+		}
+		try
+		{
+			itemDetailsList = addTypesToList(itemDetailsList);
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return itemDetailsList;	
+	}
+	
+	public ObservableList<ItemVO> addTypesToList(ObservableList<ItemVO> itemList) throws Exception
+	{
+		SQLiteConfig config = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		ItemTypeVO itemTypeVO = new ItemTypeVO();
+		ObservableList<ItemTypeVO> typeList = FXCollections.observableArrayList();
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			
+			for(ItemVO itemVO : itemList)
+			{
+				pstmt = conn.prepareStatement(SQLConstants.FETCH_ITEMS_TYPES);
+				pstmt.setString(1, itemVO.getCategoryId());
+				resultSet = pstmt.executeQuery();
+				typeList = FXCollections.observableArrayList();
+				while(resultSet.next())
+				{
+					itemTypeVO = new ItemTypeVO();
+					itemTypeVO.setTypeId(resultSet.getString(1));
+					itemTypeVO.setType(resultSet.getString(2));
+					itemTypeVO.setQuantity(resultSet.getInt(3));
+					itemTypeVO.setDp(resultSet.getInt(4));
+					itemTypeVO.setMrp(resultSet.getInt(5));
+					itemTypeVO.setHp(resultSet.getInt(6));
+					itemTypeVO.setCategoryId(itemVO.getCategoryId());
+					typeList.add(itemTypeVO);
+				}
+				itemVO.setListType(typeList);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}
+		return itemList;	
 	}
 	
 	
@@ -489,5 +640,54 @@ public class UtiliesDAO
 				resultSet.close();
 			}
 		}		
+	}
+	
+	public ObservableList<String> fetchTypes() throws Exception
+	{
+		SQLiteConfig config = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		ObservableList<String> typeList = FXCollections.observableArrayList();
+		
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_TYPE);
+			
+			resultSet = pstmt.executeQuery();
+			
+			while(resultSet.next())
+			{
+				typeList.add(resultSet.getString(1));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}	
+		return typeList;	
 	}
 }
