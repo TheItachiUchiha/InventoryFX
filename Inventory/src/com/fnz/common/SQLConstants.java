@@ -7,10 +7,15 @@ public class SQLConstants
 	
 	public static final String CREATE_ITEM_TABLE = "CREATE TABLE if not exists ITEMS_TABLE (ITEM_ID text UNIQUE NOT NULL,ITEM_NAME text,CATEGORY_ID TEXT)";
 			
-			
-	public static final String CREATE_ITEM_TYPE_TABLE =	"CREATE TABLE if not exists ITEMS_TYPES_TABLE (TYPE_ID text UNIQUE NOT NULL, CATEGORY_ID TEXT, TYPE TEXT, QUANTITY	INTEGER, D_PRICE INTEGER, MRP INTEGER, H_PRICE INTEGER,"+
-			"PRIMARY KEY(CATEGORY_ID, TYPE),"+
-			"FOREIGN KEY(CATEGORY_ID) REFERENCES CATEGORY_TABLE(CATEGORY_ID))";
+	
+	public static final String CREATE_CATEGORY_TYPES = "CREATE TABLE if not exists CATEGORY_TYPES (TYPE_ID text PRIMARY KEY,TYPE TEXT, CATEGORY_ID TEXT,"+
+			"FOREIGN KEY(CATEGORY_ID) REFERENCES CATEGORY_TABLE(CATEGORY_ID))" ;
+
+	
+	public static final String CREATE_ITEM_TYPE_TABLE =	"CREATE TABLE if not exists ITEMS_TYPES_TABLE (ITEM_ID text, TYPE_ID TEXT,  QUANTITY INTEGER, D_PRICE INTEGER, MRP INTEGER, H_PRICE INTEGER,"+
+			"PRIMARY KEY(ITEM_ID, TYPE_ID),"+
+			"FOREIGN KEY(ITEM_ID) REFERENCES ITEMS_TABLE(ITEM_ID)," +
+			"FOREIGN KEY(TYPE_ID) REFERENCES CATEGORY_TYPES(TYPE_ID))";
 	
 	public static final String CREATE_INCOMING_STOCK = "CREATE TABLE if not exists INCOMING_STOCK (INVOICE_ID TEXT PRIMARY KEY, DATE_OF_DELIVERY text,"+
 	"SUPPLIER TEXT)";
@@ -24,9 +29,11 @@ public class SQLConstants
 	
 	public static final String INSERT_ITEM = "INSERT INTO ITEMS_TABLE values (?,?,?)";
 	
-	public static final String INSERT_ITEMS_TYPES = "INSERT INTO ITEMS_TYPES_TABLE values (?,?,?,?,?,?,?)";
+	public static final String INSERT_ITEMS_TYPES = "INSERT INTO ITEMS_TYPES_TABLE values (?,?,?,?,?,?)";
 
 	public static final String INSERT_INCOMING_STOCK = "INSERT INTO INCOMING_STOCK values (?,?,?)";
+	
+	public static final String INSERT_CATEGORY_TYPES = "INSERT INTO CATEGORY_TYPES values (?,?,?)";
 	
 	public static final String INSERT_INCOMING_STOCK_DETAILS = "INSERT INTO INCOMING_STOCK_DETAILS values (?,?)"; 
 	
@@ -34,7 +41,7 @@ public class SQLConstants
 	
 	public static final String FETCH_LATEST_ITEM = "SELECT max(rowid) as row from ITEMS_TABLE";
 	
-	public static final String FETCH_LATEST_ITEMS_TYPE = "SELECT max(rowid) as row from ITEMS_TYPES_TABLE";
+	public static final String FETCH_LATEST_CATEGORY_TYPE = "SELECT max(rowid) as row from CATEGORY_TYPES";
 	
 	public static final String FETCH_ITEM_QUANTITY = "SELECT ITEM_ID, ITEM_NAME, CATEGORY_ID, QUANTITY from ITEMS_TABLE where CATEGORY_ID =? ";
 	

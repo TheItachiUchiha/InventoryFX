@@ -42,6 +42,7 @@ import javafx.util.Callback;
 
 
 
+import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.service.IncomingStockService;
 import com.fnz.service.StockDetailsService;
@@ -59,7 +60,7 @@ public class IncomingStock
 		incomingStockService = new IncomingStockService();
 		animation = new Animation();
 	}
-	public BorderPane addStockDrinkList(ObservableList<String> listCategory, final ObservableMap<String, String> mapCategoryIdName)
+	public BorderPane addStockDrinkList(ObservableList<CategoryVO> categoryList)
 	{
 		final BorderPane borderPane = new BorderPane();
 		

@@ -52,6 +52,7 @@ public class DBInteraction
 			
 			stmt.setQueryTimeout(CommonConstants.TIMEOUT);
 			stmt.execute(SQLConstants.CREATE_CATEGORY_TABLE);
+			stmt.execute(SQLConstants.CREATE_CATEGORY_TYPES);
 			stmt.executeUpdate( SQLConstants.CREATE_ITEM_TABLE );
 			stmt.executeUpdate(SQLConstants.CREATE_ITEM_TYPE_TABLE);
 			stmt.executeUpdate( SQLConstants.CREATE_INCOMING_STOCK );

@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 
+import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.common.CommonConstants;
@@ -21,6 +22,48 @@ import com.fnz.common.SQLConstants;
 
 public class UtiliesDAO 
 {
+	
+	private static UtiliesDAO utiliesDAO = null;
+	public ObservableList<ItemVO> itemList;
+	public ObservableList<CategoryVO> categoryList;
+
+	private UtiliesDAO() 
+	{
+		itemList =FXCollections.observableArrayList();
+		try 
+		{
+			itemList = fetchItemDetails();
+			categoryList = fetchCategory();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public static synchronized UtiliesDAO getUtiliesDAO() {
+	    if (null == utiliesDAO) {
+	    	utiliesDAO = new UtiliesDAO();
+	    }
+	    return utiliesDAO;
+	}
+	
+	
+	
+	/**
+	 * @return the itemList
+	 */
+	public ObservableList<ItemVO> getItemList() {
+		return itemList;
+	}
+
+	/**
+	 * @param itemList the itemList to set
+	 */
+	public void setItemList(ObservableList<ItemVO> itemList) {
+		this.itemList = itemList;
+	}
+
 	public void addCategory(ObservableList<String> categoryList) throws Exception 
 	{
 		SQLiteConfig config = null;
@@ -192,11 +235,11 @@ public class UtiliesDAO
 		}
 		for(ItemTypeVO itemTypeVO : itemVO.getListType())
 		{
-			addItemTypes(itemVO.getCategoryId(), itemTypeVO);
+			addItemTypes(itemVO.getCategoryId(),newItemId, itemTypeVO);
 		}
 	}
 	
-	public void addItemTypes(String categoryId, ItemTypeVO itemTypeVO) throws Exception 
+	public void addItemTypes(String categoryId,String itemId, ItemTypeVO itemTypeVO) throws Exception 
 	{
 		SQLiteConfig config = null;
 		Connection conn = null;
@@ -245,13 +288,13 @@ public class UtiliesDAO
 			pstmt.setQueryTimeout(CommonConstants.TIMEOUT);
 			
 			
-			pstmt.setString(1, newTypeId);
-			pstmt.setString(2, categoryId);
-			pstmt.setString(3, itemTypeVO.getType());	
-			pstmt.setInt(4, itemTypeVO.getQuantity());
-			pstmt.setInt(5, itemTypeVO.getDp());
-			pstmt.setInt(6, itemTypeVO.getMrp());
-			pstmt.setInt(7, itemTypeVO.getHp());
+			
+			pstmt.setString(1, itemId);
+			pstmt.setString(2, newTypeId);	
+			pstmt.setInt(3, itemTypeVO.getQuantity());
+			pstmt.setInt(4, itemTypeVO.getDp());
+			pstmt.setInt(5, itemTypeVO.getMrp());
+			pstmt.setInt(6, itemTypeVO.getHp());
 			pstmt.executeUpdate();
 			
 		}
@@ -328,13 +371,13 @@ public class UtiliesDAO
 		return categoryMap;	
 	}
 	
-	public ObservableList<String> fetchCategory() throws Exception
+	public ObservableList<CategoryVO> fetchCategory() throws Exception
 	{
 		SQLiteConfig config = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
-		ObservableList<String> categoryList = FXCollections.observableArrayList();
+		ObservableList<CategoryVO> categoryList = FXCollections.observableArrayList();
 		
 		
 		Class.forName(CommonConstants.DRIVERNAME);
@@ -352,7 +395,10 @@ public class UtiliesDAO
 			
 			while(resultSet.next())
 			{
-				categoryList.add(resultSet.getString(2));
+				CategoryVO categoryVO = new CategoryVO();
+				categoryVO.setCategotyId(resultSet.getString(1));
+				categoryVO.setCategoryName(resultSet.getString(2));
+				categoryList.add(categoryVO);
 			}
 		}
 		catch(Exception e)
@@ -689,5 +735,85 @@ public class UtiliesDAO
 			}
 		}	
 		return typeList;	
+	}
+	public void addTypes(CategoryVO categoryVO,String typeName) throws Exception 
+	{
+		SQLiteConfig config = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
+		ResultSet resultSet = null;
+		Integer latestRow = 0;
+		
+		String newTypeId = CommonConstants.TYPE_ID;
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.INSERT_CATEGORY_TYPES);
+			
+			
+			pstmt1 = conn.prepareStatement(SQLConstants.FETCH_LATEST_CATEGORY_TYPE);
+			
+			
+			resultSet = pstmt1.executeQuery();
+			
+			resultSet.next();
+			
+			latestRow = resultSet.getInt(1)+1;
+			
+			if(latestRow <10)
+			{
+				newTypeId = newTypeId + "00" + latestRow.toString();
+			}
+			else if(latestRow >=10 && latestRow <100)
+			{
+				newTypeId = newTypeId + "0" + latestRow.toString();
+			}
+			else
+			{
+				newTypeId = newTypeId + latestRow.toString();
+			}
+			
+			
+			pstmt.setQueryTimeout(CommonConstants.TIMEOUT);
+			
+			
+			pstmt.setString(1, newTypeId);	
+			pstmt.setString(2, typeName);
+			pstmt.setString(3, categoryVO.getCategotyId());
+			
+			pstmt.executeUpdate();
+			
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(pstmt1 != null )
+			{
+				pstmt1.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}
 	}
 }

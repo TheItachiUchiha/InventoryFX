@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.w3c.dom.ls.LSInput;
 
+import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.service.StockDetailsService;
 
@@ -51,7 +52,7 @@ public class StockDetails
 	}
 	
 	
-	public BorderPane viewStockDrinkList(final ObservableList<String> listCategory, final ObservableMap<String, String> mapCategoryIdName)
+	public BorderPane viewStockDrinkList(final ObservableList<CategoryVO> listCategory)
 	{
 		final BorderPane borderPane = new BorderPane();
 		
@@ -73,7 +74,7 @@ public class StockDetails
 
     	
     	
-    	final ToggleButton bt1= new ToggleButton(listCategory.get(0));
+    	final ToggleButton bt1= new ToggleButton(listCategory.get(0).getCategoryName());
     	bt1.setToggleGroup(groupDrink);
     	bt1.setId("drinkName");
     	bt1.setMaxSize(250,250);
@@ -87,12 +88,12 @@ public class StockDetails
  				borderPane.setStyle("-fx-background-image: url('wine.jpeg');");
  				/*borderPane.setCenter(drinks.viewWineStock());
  				chkRect()*/
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(0)),listCategory.get(0)));
+ 				borderPane.setCenter(viewStock(listCategory.get(0).getCategotyId(),listCategory.get(0).getCategoryName()));
  				mainWindow.animateLeft(bt1,0,0);
  			}
  		});
     	
-    	final ToggleButton bt2= new ToggleButton(listCategory.get(1));
+    	final ToggleButton bt2= new ToggleButton(listCategory.get(1).getCategoryName());
     	bt2.setToggleGroup(groupDrink);
     	bt2.setId("drinkName");
     	bt2.setMaxSize(250,250);
@@ -104,12 +105,12 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('vodka.jpg');");
  				//borderPane.setCenter(drinks.viewVodkaStock());
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(1)),listCategory.get(1)));
+ 				borderPane.setCenter(viewStock(listCategory.get(1).getCategotyId(),listCategory.get(1).getCategoryName()));
  				mainWindow.animateRight(bt2,0,0);
  			}
  		});
     	
-    	final ToggleButton bt3= new ToggleButton(listCategory.get(2));
+    	final ToggleButton bt3= new ToggleButton(listCategory.get(2).getCategoryName());
     	bt3.setToggleGroup(groupDrink);
     	bt3.setId("drinkName");
     	bt3.setMaxSize(250,250);
@@ -120,12 +121,12 @@ public class StockDetails
  			public void handle(ActionEvent e) 
  			{
  				borderPane.setStyle("-fx-background-image: url('beer2.jpg');");
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(2)),listCategory.get(2)));
+ 				borderPane.setCenter(viewStock(listCategory.get(2).getCategotyId(),listCategory.get(2).getCategoryName()));
  				mainWindow.animateLeft(bt3,0,1);
  			}
  		});
 
-    	final ToggleButton bt4= new ToggleButton(listCategory.get(3));
+    	final ToggleButton bt4= new ToggleButton(listCategory.get(3).getCategoryName());
     	bt4.setToggleGroup(groupDrink);
     	bt4.setId("drinkName");
     	bt4.setMaxSize(250,250);
@@ -136,12 +137,12 @@ public class StockDetails
  			public void handle(ActionEvent e) 
  			{
  				borderPane.setStyle("-fx-background-image: url('whisky.jpg');");
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get("Whisky"),"Whisky"));
+ 				borderPane.setCenter(viewStock(listCategory.get(3).getCategotyId(),listCategory.get(3).getCategoryName()));
  				mainWindow.animateRight(bt4,0,1);
  			}
  		});
     	
-    	final ToggleButton bt5= new ToggleButton(listCategory.get(4));
+    	final ToggleButton bt5= new ToggleButton(listCategory.get(4).getCategoryName());
     	bt5.setToggleGroup(groupDrink);
     	bt5.setId("drinkName");
     	bt5.setMaxSize(250,250);
@@ -152,12 +153,12 @@ public class StockDetails
  			public void handle(ActionEvent e) 
  			{
  				borderPane.setStyle("-fx-background-image: url('rum2.jpg');");
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get("Rum"),"Rum"));
+ 				borderPane.setCenter(viewStock(listCategory.get(4).getCategotyId(),listCategory.get(5).getCategoryName()));
  				mainWindow.animateRight(bt5,0,4);
  			}
  		});
     	
-    	final ToggleButton bt6= new ToggleButton(listCategory.get(5));
+    	final ToggleButton bt6= new ToggleButton(listCategory.get(5).getCategoryName());
     	bt6.setToggleGroup(groupDrink);
     	bt6.setId("drinkName");
     	bt6.setMaxSize(250,250);
@@ -168,12 +169,12 @@ public class StockDetails
  			public void handle(ActionEvent e) 
  			{
  				borderPane.setStyle("-fx-background-image: url('Scotch.jpg');");
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(5)),listCategory.get(5)));
+ 				borderPane.setCenter(viewStock(listCategory.get(5).getCategotyId(),listCategory.get(5).getCategoryName()));
  				mainWindow.animateRight(bt6,0,5);
  			}
  		});
     	
-    	final ToggleButton bt7= new ToggleButton(listCategory.get(6).replace('&','\n' ));
+    	final ToggleButton bt7= new ToggleButton(listCategory.get(6).getCategoryName().replace('&','\n' ));
     	bt7.setToggleGroup(groupDrink);
     	bt7.setId("drinkName");
     	bt7.setMaxSize(250,250);
@@ -184,12 +185,12 @@ public class StockDetails
  			public void handle(ActionEvent e) 
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(6)),listCategory.get(6)));
+ 				borderPane.setCenter(viewStock(listCategory.get(6).getCategotyId(),listCategory.get(6).getCategoryName()));
  				mainWindow.animateLeft(bt7,0,5);
  			}
  		});
     	
-    	final ToggleButton bt8= new ToggleButton(listCategory.get(7));
+    	final ToggleButton bt8= new ToggleButton(listCategory.get(7).getCategoryName());
     	bt8.setToggleGroup(groupDrink);
     	bt8.setId("drinkName");
     	bt8.setMaxSize(250,250);
@@ -200,12 +201,12 @@ public class StockDetails
  			public void handle(ActionEvent e) 
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(6)),listCategory.get(6)));
+ 				borderPane.setCenter(viewStock(listCategory.get(7).getCategotyId(),listCategory.get(7).getCategoryName()));
  				mainWindow.animateRight(bt8,0,3);
  			}
  		});
     	
-    	final ToggleButton bt9= new ToggleButton(listCategory.get(8));
+    	final ToggleButton bt9= new ToggleButton(listCategory.get(8).getCategoryName());
     	bt9.setToggleGroup(groupDrink);
     	bt9.setId("drinkName");
     	bt9.setMaxSize(250,250);
@@ -216,12 +217,12 @@ public class StockDetails
  			public void handle(ActionEvent e) 
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(8)),listCategory.get(8)));
+ 				borderPane.setCenter(viewStock(listCategory.get(8).getCategotyId(),listCategory.get(8).getCategoryName()));
  				mainWindow.animateRight(bt9,0,6);
  			}
  		});
     	
-    	final ToggleButton bt10= new ToggleButton(listCategory.get(9));
+    	final ToggleButton bt10= new ToggleButton(listCategory.get(9).getCategoryName());
     	bt10.setToggleGroup(groupDrink);
     	bt10.setId("drinkName");
     	bt10.setMaxSize(250,250);
@@ -232,12 +233,12 @@ public class StockDetails
  			public void handle(ActionEvent e) 
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(9)),listCategory.get(9)));
+ 				borderPane.setCenter(viewStock(listCategory.get(9).getCategotyId(),listCategory.get(9).getCategoryName()));
  				mainWindow.animateLeft(bt10,0,3);
  			}
  		});
     	
-    	final ToggleButton bt11= new ToggleButton(listCategory.get(10));
+    	final ToggleButton bt11= new ToggleButton(listCategory.get(10).getCategoryName());
     	bt11.setToggleGroup(groupDrink);
     	bt11.setId("drinkName");
     	bt11.setMaxSize(250,250);
@@ -248,12 +249,12 @@ public class StockDetails
  			public void handle(ActionEvent e) 
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(10)),listCategory.get(10)));
+ 				borderPane.setCenter(viewStock(listCategory.get(10).getCategotyId(),listCategory.get(10).getCategoryName()));
  				mainWindow.animateLeft(bt11,0,2);
  			}
  		});
     	
-    	final ToggleButton bt12= new ToggleButton(listCategory.get(11));
+    	final ToggleButton bt12= new ToggleButton(listCategory.get(11).getCategoryName());
     	bt12.setToggleGroup(groupDrink);
     	bt12.setId("drinkName");
     	bt12.setMaxSize(250,250);
@@ -264,12 +265,12 @@ public class StockDetails
  			public void handle(ActionEvent e) 
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(11)),listCategory.get(11)));
+ 				borderPane.setCenter(viewStock(listCategory.get(11).getCategotyId(),listCategory.get(11).getCategoryName()));
  				mainWindow.animateRight(bt12,0,2);
  			}
  		});
     	
-    	final ToggleButton bt13= new ToggleButton(listCategory.get(12));
+    	final ToggleButton bt13= new ToggleButton(listCategory.get(12).getCategoryName());
     	bt13.setToggleGroup(groupDrink);
     	bt13.setId("drinkName");
     	bt13.setMaxSize(250,250);
@@ -280,7 +281,7 @@ public class StockDetails
  			public void handle(ActionEvent e) 
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
- 				borderPane.setCenter(viewStock(mapCategoryIdName.get(listCategory.get(12)),listCategory.get(12)));
+ 				borderPane.setCenter(viewStock(listCategory.get(12).getCategotyId(),listCategory.get(12).getCategoryName()));
  				mainWindow.animateLeft(bt13,0,4);
  			}
  		});

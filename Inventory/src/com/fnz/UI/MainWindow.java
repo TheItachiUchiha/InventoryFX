@@ -3,8 +3,11 @@ package com.fnz.UI;
 
 
 
+import com.fnz.VO.CategoryVO;
+import com.fnz.VO.ItemVO;
 import com.fnz.common.CommonConstants;
 import com.fnz.dao.DBInteraction;
+import com.fnz.dao.UtiliesDAO;
 import com.fnz.panes.Items;
 import com.fnz.service.UtiliesService;
 
@@ -70,7 +73,8 @@ public class MainWindow extends Application
 	public UtiliesService utiliesService;
 	public IncomingStock incomingStock;
 	
-	public ObservableList<String> categoryList;
+	public ObservableList<CategoryVO> categoryList;
+	public ObservableList<ItemVO> itemList;
 	
 	public boolean flag;
     /**
@@ -84,6 +88,9 @@ public class MainWindow extends Application
 		utiliesService = new UtiliesService();
 		incomingStock = new IncomingStock();
 		categoryList = FXCollections.observableArrayList();
+		itemList =FXCollections.observableArrayList();
+		itemList = UtiliesDAO.getUtiliesDAO().getItemList();
+		categoryList = UtiliesDAO.getUtiliesDAO().categoryList;
 	}
     public static void main(String[] args)
     {
@@ -98,7 +105,7 @@ public class MainWindow extends Application
 // Use a border pane as the root for scene
     		
     	new DBInteraction().createDB();
-    	
+    	ObservableList<String> categoryList =FXCollections.observableArrayList();
     	categoryList.addAll(CommonConstants.CATEGORY_PREMIUM_WHISKY,CommonConstants.CATEGORY_REGULAR_WHISKY,CommonConstants.CATEGORY_PREMIUM_VODKA,CommonConstants.CATEGORY_REGULAR_VODKA,
     			CommonConstants.CATEGORY_BRANDY,CommonConstants.CATEGORY_GIN,CommonConstants.CATEGORY_PREMIUM_RUM,
     			CommonConstants.CATEGORY_REGULAR_RUM,CommonConstants.CATEGORY_BEER,CommonConstants.CATEGORY_WINE,
@@ -181,10 +188,6 @@ public class MainWindow extends Application
     {
 
     	BorderPane mainPane = new BorderPane();
-    	final Items drinks=new Items();
-    	
-    	final ObservableList<String> listCategory = FXCollections.observableArrayList();
-    	final ObservableMap<String, String> mapCategoryIdName = FXCollections.observableHashMap();
     	
      	
     	TabPane tabPane = new TabPane();
@@ -198,18 +201,8 @@ public class MainWindow extends Application
         tabA.setClosable(false);
         tabA.setText("View Stock");
         
-        try
-        {
-        	listCategory.clear();
-        	listCategory.addAll(utiliesService.fetchCategory());
-        	mapCategoryIdName.clear();
-        	mapCategoryIdName.putAll(utiliesService.fetchCategoryDetails());
-        
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        tabA.setContent(stockDetails.viewStockDrinkList(listCategory,mapCategoryIdName));
+
+        tabA.setContent(stockDetails.viewStockDrinkList(categoryList));
         tabPane.getTabs().add(tabA);
        
         final Tab tabB = new Tab();
@@ -330,11 +323,11 @@ public class MainWindow extends Application
   		    {
   				//borderPane.setCenter(new BorderPane());
   		    	
-  		    	tabA.setContent(stockDetails.viewStockDrinkList(listCategory,mapCategoryIdName));
+  		    	tabA.setContent(stockDetails.viewStockDrinkList(categoryList));
   		    }
   			if(newTab.getText().equals(tabB.getText()))
   			{
-  				tabB.setContent(incomingStock.addStockDrinkList(listCategory,mapCategoryIdName));
+  				tabB.setContent(incomingStock.addStockDrinkList(categoryList));
   			}
   		    if(newTab.getText().equals(tabSetting.getText()))
   		    {

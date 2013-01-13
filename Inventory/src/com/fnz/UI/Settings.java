@@ -3,9 +3,11 @@ package com.fnz.UI;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.common.CommonConstants;
+import com.fnz.dao.UtiliesDAO;
 import com.fnz.service.UtiliesService;
 import com.mytdev.javafx.scene.control.AutoCompleteTextField;
 
@@ -21,7 +23,11 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -40,19 +46,24 @@ import javafx.scene.shape.RectangleBuilder;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
+import javafx.util.Callback;
 
 public class Settings 
 {
 	UtiliesService utiliesService;
 	Animation animation;
+	ObservableList<CategoryVO> listOfCategories;
 	public Settings()
 	{
 		utiliesService = new UtiliesService();
 		animation = new Animation();
+		listOfCategories = UtiliesDAO.getUtiliesDAO().categoryList;
+		
 	}
 	/*public GridPane addCategory()
 	{
 		GridPane settings = new GridPane();
+		final CategoryVO categoryVO = new CategoryVO();
 		Label lAddCategory = new Label("Name Of The Category");
 		final TextField categoryName = new TextField();
 		Button add = new Button("Add Category");
@@ -279,8 +290,7 @@ public class Settings
 		//list Creation
 		
 		final ItemVO itemVO = new ItemVO();
-		ObservableList<String> listOfCategories = FXCollections.observableArrayList();
-		listOfCategories = utiliesService.fetchCategory();
+		
 		ObservableList<String> listOfTypes = FXCollections.observableArrayList();
 		listOfTypes = utiliesService.fetchTypes();
 		final ObservableMap<String, String> mapCategories = FXCollections.observableHashMap();
@@ -292,7 +302,7 @@ public class Settings
 		final TextField itemName = new TextField();
 		Button add = new Button("Add Item");
 		Label lCategoryName = new Label("Select Category");
-		final ChoiceBox<String> cbcategory = new  ChoiceBox<String>(listOfCategories);
+		final ChoiceBox<CategoryVO> cbcategory = new  ChoiceBox<CategoryVO>(listOfCategories);
 		final Label ldp = new Label("Distributor Price");
 		
 		final Label lmrp = new Label("MRP");
@@ -427,10 +437,8 @@ public class Settings
 		//list Creation
 		
 		final ItemVO itemVO = new ItemVO();
-		ObservableList<String> listOfCategories = FXCollections.observableArrayList();
-		listOfCategories = utiliesService.fetchCategory();
-		ObservableList<String> listOfItemsOfCategories = FXCollections.observableArrayList();
-		listOfItemsOfCategories = utiliesService.fetchCategory();
+	
+	
 		final ObservableMap<String, String> mapItem = FXCollections.observableHashMap();
 		//mapItem.putAll(utiliesService.fetchItemDetails());
 		ObservableList<String> listOfTypes = FXCollections.observableArrayList();
@@ -444,7 +452,7 @@ public class Settings
 		final TextField itemName = new TextField();
 		Button add = new Button("Add Item");
 		Label lCategoryName = new Label("Select Category");
-		final ChoiceBox<String> cbcategory = new  ChoiceBox<String>(listOfCategories);
+		final ChoiceBox<CategoryVO> cbcategory = new  ChoiceBox<CategoryVO>(listOfCategories);
 		final Label ldp = new Label("Distributor Price");
 		
 		final Label lmrp = new Label("MRP");
@@ -657,6 +665,33 @@ public class Settings
  			}
  		});
     	
+    	final ToggleButton bCategory= new ToggleButton("Categories");
+    	bCategory.setToggleGroup(settingsGroup);
+    	bCategory.setId("drinkName");
+    	bCategory.setMaxSize(250,250);
+    	gsettings.add(bCategory,0,2);
+    	
+    	
+    	bCategory.setOnAction(new EventHandler<ActionEvent>() {
+ 			
+ 			@Override
+ 			public void handle(ActionEvent e) 
+ 			{
+ 				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
+ 				try
+ 				{
+ 					animation.animateSettings(bCategory, 0, 1);
+					borderPane.setCenter(addTypeToCategory());
+				}
+ 				catch (Exception e1)
+ 				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+ 			}
+ 		});
+    	
+    	
     	borderPane.setLeft(gsettings);
 		
 		
@@ -664,4 +699,118 @@ public class Settings
 	}
 	
 	
+	public GridPane addTypeToCategory()
+	{
+		GridPane gridPane = new GridPane();
+		gridPane.setVgap(8);
+		gridPane.setPadding(new Insets(30,0,0,0));
+		gridPane.setAlignment(Pos.CENTER);
+		
+		final ComboBox<CategoryVO> categories = new ComboBox<CategoryVO>(listOfCategories);
+		final TextField type = new TextField();
+		Button add = new Button("Add Type");
+		final Label msg = new Label();
+		
+		
+		add.setOnAction(new EventHandler<ActionEvent>() {
+		 			
+		 			@Override
+		 			public void handle(ActionEvent e) 
+		 			{
+		 				try
+		 				{
+							utiliesService.addTypes(categories.getValue(), type.getText());
+							msg.setText("Type added Successfully to Category");
+						}
+		 				catch (Exception e1) 
+		 				{
+							e1.printStackTrace();
+						}
+		 			}
+		 		});
+		gridPane.add(new Label("Category"), 0, 0);
+		gridPane.add(categories, 1, 0);
+		gridPane.add(new Label("Type"),0,1);
+		gridPane.add(type,1,1);
+		gridPane.add(add, 1, 2);
+		gridPane.add(msg, 1, 3);
+		return gridPane;
+	}
+	
+	
+	/*public GridPane editTypeToCategory()
+	{
+		GridPane gridPane = new GridPane();
+		gridPane.setVgap(8);
+		gridPane.setPadding(new Insets(30,0,0,0));
+		gridPane.setAlignment(Pos.CENTER);
+		
+		final ComboBox<CategoryVO> categories = new ComboBox<CategoryVO>(listOfCategories);
+		final ComboBox<CategoryVO> types = new ComboBox<CategoryVO>();
+		Button add = new Button("Add Type");
+		final Label msg = new Label();
+		
+		
+		add.setOnAction(new EventHandler<ActionEvent>() {
+		 			
+		 			@Override
+		 			public void handle(ActionEvent e) 
+		 			{
+		 				try
+		 				{
+							utiliesService.addTypes(categories.getValue(), type.getText());
+							msg.setText("Type added Successfully to Category");
+						}
+		 				catch (Exception e1) 
+		 				{
+							e1.printStackTrace();
+						}
+		 			}
+		 		});
+		gridPane.add(new Label("Category"), 0, 0);
+		gridPane.add(categories, 1, 0);
+		gridPane.add(new Label("Type"),0,1);
+		gridPane.add(type,1,1);
+		gridPane.add(add, 1, 2);
+		gridPane.add(msg, 1, 3);
+		return gridPane;
+	}*/
+	
+	public GridPane deleteTypeToCategory()
+	{
+		GridPane gridPane = new GridPane();
+		gridPane.setVgap(8);
+		gridPane.setPadding(new Insets(30,0,0,0));
+		gridPane.setAlignment(Pos.CENTER);
+		
+		final ComboBox<CategoryVO> combobox = new ComboBox<CategoryVO>(listOfCategories);
+		final TextField type = new TextField();
+		Button add = new Button("Add Type");
+		final Label msg = new Label();
+		
+		
+		add.setOnAction(new EventHandler<ActionEvent>() {
+		 			
+		 			@Override
+		 			public void handle(ActionEvent e) 
+		 			{
+		 				try
+		 				{
+							utiliesService.addTypes(combobox.getValue(), type.getText());
+							msg.setText("Type added Successfully to Category");
+						}
+		 				catch (Exception e1) 
+		 				{
+							e1.printStackTrace();
+						}
+		 			}
+		 		});
+		gridPane.add(new Label("Category"), 0, 0);
+		gridPane.add(combobox, 1, 0);
+		gridPane.add(new Label("Type"),0,1);
+		gridPane.add(type,1,1);
+		gridPane.add(add, 1, 2);
+		gridPane.add(msg, 1, 3);
+		return gridPane;
+	}
 }

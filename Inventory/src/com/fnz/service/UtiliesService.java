@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
+import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.dao.UtiliesDAO;
 
@@ -12,7 +13,7 @@ public class UtiliesService
 	UtiliesDAO utiliesDAO;
 	public UtiliesService()
 	{
-		utiliesDAO = new UtiliesDAO();
+		utiliesDAO = UtiliesDAO.getUtiliesDAO();
 	}
 	
 	
@@ -35,9 +36,9 @@ public class UtiliesService
 	{
 		return utiliesDAO.fetchCategoryDetails();
 	}
-	public ObservableList<String> fetchCategory() throws Exception
+	public ObservableList<CategoryVO> fetchCategory() throws Exception
 	{
-		ObservableList<String> list = FXCollections.observableArrayList();
+		ObservableList<CategoryVO> list = FXCollections.observableArrayList();
 		list = utiliesDAO.fetchCategory();
 		return list;
 	}
@@ -70,5 +71,9 @@ public class UtiliesService
 	public ObservableList<String> fetchTypes() throws Exception
 	{
 		return utiliesDAO.fetchTypes();
+	}
+	public void addTypes(CategoryVO categoryVO,String typeName) throws Exception 
+	{
+		utiliesDAO.addTypes(categoryVO, typeName);
 	}
 }

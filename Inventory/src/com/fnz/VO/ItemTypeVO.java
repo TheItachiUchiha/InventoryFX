@@ -4,6 +4,7 @@ public class ItemTypeVO
 {
 	private String typeId;
 	private String categoryId;
+	private String itemId;
 	private String type;
 	private Integer quantity;
 	private Integer dp;
@@ -24,6 +25,19 @@ public class ItemTypeVO
 	}
 	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
+	}
+	
+	/**
+	 * @return the itemId
+	 */
+	public String getItemId() {
+		return itemId;
+	}
+	/**
+	 * @param itemId the itemId to set
+	 */
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
 	}
 	public String getType() {
 		return type;
