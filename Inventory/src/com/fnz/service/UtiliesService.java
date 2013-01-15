@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
+import com.fnz.VO.CategoryTypeVO;
 import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.dao.UtiliesDAO;
@@ -68,12 +69,21 @@ public class UtiliesService
 			throw e;
 		}
 	}
-	public ObservableList<String> fetchTypes() throws Exception
+	public ObservableList<CategoryTypeVO> fetchTypes(String categoryId) throws Exception
 	{
-		return utiliesDAO.fetchTypes();
+		return utiliesDAO.fetchTypes(categoryId);
 	}
 	public void addTypes(CategoryVO categoryVO,String typeName) throws Exception 
 	{
 		utiliesDAO.addTypes(categoryVO, typeName);
+	}
+	
+	public void deleteCategoryTypes(CategoryTypeVO deleteCategoryTypes) throws Exception 
+	{
+		utiliesDAO.deleteCategoryTypes(deleteCategoryTypes);
+	}
+	public void editCategoryTypes(CategoryTypeVO editCategoryTypes, String newTypeName) throws Exception 
+	{
+		utiliesDAO.editCategoryTypes(editCategoryTypes, newTypeName);
 	}
 }

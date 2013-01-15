@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 
+import com.fnz.VO.CategoryTypeVO;
 import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
@@ -688,13 +689,13 @@ public class UtiliesDAO
 		}		
 	}
 	
-	public ObservableList<String> fetchTypes() throws Exception
+	public ObservableList<CategoryTypeVO> fetchTypes(String categoryId) throws Exception
 	{
 		SQLiteConfig config = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
-		ObservableList<String> typeList = FXCollections.observableArrayList();
+		ObservableList<CategoryTypeVO> typeList = FXCollections.observableArrayList();
 		
 		
 		Class.forName(CommonConstants.DRIVERNAME);
@@ -707,12 +708,17 @@ public class UtiliesDAO
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			pstmt = conn.prepareStatement(SQLConstants.FETCH_TYPE);
+			pstmt.setString(1, categoryId);
 			
 			resultSet = pstmt.executeQuery();
 			
 			while(resultSet.next())
 			{
-				typeList.add(resultSet.getString(1));
+				CategoryTypeVO categoryTypeVO = new CategoryTypeVO();
+				categoryTypeVO.setTypeId(resultSet.getString(1));
+				categoryTypeVO.setTypeName(resultSet.getString(2));
+				categoryTypeVO.setCategoryId(categoryId);
+				typeList.add(categoryTypeVO);
 			}
 		}
 		catch(Exception e)
@@ -815,5 +821,95 @@ public class UtiliesDAO
 				resultSet.close();
 			}
 		}
+	}
+	
+	
+	
+	
+	public void deleteCategoryTypes(CategoryTypeVO deleteCategoryTypes) throws Exception 
+	{
+		SQLiteConfig config = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		ResultSet resultSet = null;
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.DELETE_CATEGORY_TYPE);
+			pstmt.setString(1, deleteCategoryTypes.getTypeId());
+			pstmt.execute();
+			
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}
+	}
+		
+		public void editCategoryTypes(CategoryTypeVO editCategoryTypes, String newTypeName) throws Exception 
+		{
+			SQLiteConfig config = null;
+			Connection conn = null;
+			PreparedStatement pstmt = null;			
+			ResultSet resultSet = null;
+
+			
+			Class.forName(CommonConstants.DRIVERNAME);
+			
+			String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+			
+			try 
+			{
+				config = new SQLiteConfig();
+				config.enforceForeignKeys(true);
+				conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+				pstmt = conn.prepareStatement(SQLConstants.EDIT_CATEGORY_TYPE);
+				pstmt.setString(1, newTypeName);
+				pstmt.setString(2, editCategoryTypes.getTypeId());
+				pstmt.executeUpdate();
+				
+			}
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				if(conn !=null )
+				{
+					conn.close();
+				}
+				if(pstmt != null )
+				{
+					pstmt.close();
+				}
+				if(resultSet != null)
+				{
+					resultSet.close();
+				}
+			}
 	}
 }

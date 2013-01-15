@@ -3,6 +3,7 @@ package com.fnz.UI;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fnz.VO.CategoryTypeVO;
 import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
@@ -292,7 +293,7 @@ public class Settings
 		final ItemVO itemVO = new ItemVO();
 		
 		ObservableList<String> listOfTypes = FXCollections.observableArrayList();
-		listOfTypes = utiliesService.fetchTypes();
+		//listOfTypes = utiliesService.fetchTypes();
 		final ObservableMap<String, String> mapCategories = FXCollections.observableHashMap();
 		mapCategories.putAll(utiliesService.fetchCategoryDetails());
 		
@@ -442,7 +443,7 @@ public class Settings
 		final ObservableMap<String, String> mapItem = FXCollections.observableHashMap();
 		//mapItem.putAll(utiliesService.fetchItemDetails());
 		ObservableList<String> listOfTypes = FXCollections.observableArrayList();
-		listOfTypes = utiliesService.fetchTypes();
+		//listOfTypes = utiliesService.fetchTypes();
 		final ObservableMap<String, String> mapCategories = FXCollections.observableHashMap();
 		mapCategories.putAll(utiliesService.fetchCategoryDetails());
 		
@@ -665,7 +666,7 @@ public class Settings
  			}
  		});
     	
-    	final ToggleButton bCategory= new ToggleButton("Categories");
+    	final ToggleButton bCategory= new ToggleButton("Add Categories");
     	bCategory.setToggleGroup(settingsGroup);
     	bCategory.setId("drinkName");
     	bCategory.setMaxSize(250,250);
@@ -691,6 +692,31 @@ public class Settings
  			}
  		});
     	
+    	final ToggleButton edCategory= new ToggleButton("Edit/Delete Categories");
+    	edCategory.setToggleGroup(settingsGroup);
+    	edCategory.setId("drinkName");
+    	edCategory.setMaxSize(250,250);
+    	gsettings.add(edCategory,0,3);
+    	
+    	
+    	edCategory.setOnAction(new EventHandler<ActionEvent>() {
+ 			
+ 			@Override
+ 			public void handle(ActionEvent e) 
+ 			{
+ 				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
+ 				try
+ 				{
+ 					animation.animateSettings(edCategory, 0, 1);
+					borderPane.setCenter(editDeleteTypeToCategory());
+				}
+ 				catch (Exception e1)
+ 				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+ 			}
+ 		});
     	
     	borderPane.setLeft(gsettings);
 		
@@ -776,41 +802,104 @@ public class Settings
 		return gridPane;
 	}*/
 	
-	public GridPane deleteTypeToCategory()
+	public GridPane editDeleteTypeToCategory()
 	{
-		GridPane gridPane = new GridPane();
+		final GridPane gridPane = new GridPane();
 		gridPane.setVgap(8);
 		gridPane.setPadding(new Insets(30,0,0,0));
 		gridPane.setAlignment(Pos.CENTER);
 		
-		final ComboBox<CategoryVO> combobox = new ComboBox<CategoryVO>(listOfCategories);
-		final TextField type = new TextField();
-		Button add = new Button("Add Type");
+		final ObservableList<CategoryTypeVO> listTypes = FXCollections.observableArrayList();
+		
+		
+		final ComboBox<CategoryVO> category = new ComboBox<CategoryVO>(listOfCategories);
+		final ComboBox<CategoryTypeVO> type = new ComboBox<CategoryTypeVO>(listTypes);
+		final TextField typeName = new TextField();
+		final Button edit = new Button("Edit Type");
+		final Button editFinal = new Button("Edit Type");
+		final Button delete = new Button("Delete Type");
 		final Label msg = new Label();
 		
 		
-		add.setOnAction(new EventHandler<ActionEvent>() {
+		category.valueProperty().addListener(new ChangeListener<CategoryVO>() {
+
+			@Override
+			public void changed(
+					ObservableValue<? extends CategoryVO> observable,
+					CategoryVO oldValue, CategoryVO newValue) {
+				// TODO Auto-generated method stub
+				listTypes.clear();
+				try {
+					listTypes.addAll(utiliesService.fetchTypes(newValue.getCategotyId()));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					msg.setText("Some error occured..");
+				}
+			}
+		});
+		
+		delete.setOnAction(new EventHandler<ActionEvent>() {
 		 			
 		 			@Override
 		 			public void handle(ActionEvent e) 
 		 			{
 		 				try
 		 				{
-							utiliesService.addTypes(combobox.getValue(), type.getText());
-							msg.setText("Type added Successfully to Category");
+							utiliesService.deleteCategoryTypes(type.getValue());
+							msg.setText("Type deleted Successfully from Category");
 						}
 		 				catch (Exception e1) 
 		 				{
-							e1.printStackTrace();
+		 					msg.setText("Some error occured..");
 						}
 		 			}
 		 		});
 		gridPane.add(new Label("Category"), 0, 0);
-		gridPane.add(combobox, 1, 0);
+		gridPane.add(category, 1, 0);
 		gridPane.add(new Label("Type"),0,1);
 		gridPane.add(type,1,1);
-		gridPane.add(add, 1, 2);
-		gridPane.add(msg, 1, 3);
+		gridPane.add(edit, 0, 3);
+		gridPane.add(delete, 1, 3);
+		gridPane.add(msg,1,4);
+		
+		edit.setOnAction(new EventHandler<ActionEvent>() {
+ 			
+ 			@Override
+ 			public void handle(ActionEvent e) 
+ 			{
+ 				try
+ 				{
+ 					gridPane.add(new Label("New Type Name"), 0, 2);
+ 					gridPane.add(typeName, 1, 2);
+ 					gridPane.add(editFinal, 0, 3);
+ 					edit.setVisible(false);
+ 					delete.setVisible(false);
+				}
+ 				catch (Exception e1) 
+ 				{
+ 					msg.setText("Some error occured..");
+				}
+ 			}
+ 		});
+		
+		
+		editFinal.setOnAction(new EventHandler<ActionEvent>() {
+		 			
+		 			@Override
+		 			public void handle(ActionEvent e) 
+		 			{
+		 				try
+		 				{
+		 					utiliesService.editCategoryTypes(type.getValue(),typeName.getText());
+		 					msg.setText("New Type Name saved Successfully");
+						}
+		 				catch (Exception e1) 
+		 				{
+		 					msg.setText("Some error occured..");
+						}
+		 			}
+		 		});
+		
 		return gridPane;
 	}
 }

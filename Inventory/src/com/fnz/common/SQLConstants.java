@@ -53,7 +53,11 @@ public class SQLConstants
 	
 	public static final String FETCH_ITEMS_TYPES = "SELECT TYPE_ID,TYPE,QUANTITY,D_PRICE,MRP,H_PRICE FROM ITEMS_TYPES_TABLE WHERE CATEGORY_ID = ?";
 	
-	public static final String FETCH_TYPE = "SELECT DISTINCT TYPE FROM ITEMS_TYPES_TABLE";
+	public static final String FETCH_TYPE = "SELECT TYPE_ID, TYPE FROM CATEGORY_TYPES WHERE CATEGORY_ID = ?";
+	
+	public static final String DELETE_CATEGORY_TYPE = "DELETE FROM CATEGORY_TYPES WHERE TYPE_ID = ?";
+	
+	public static final String EDIT_CATEGORY_TYPE = "UPDATE CATEGORY_TYPES SET TYPE = ? WHERE TYPE_ID = ?";
 	
 	public static final String DELETE_ITEMS = "DELETE FROM ITEMS_TABLE where ITEM_ID = ?";
 	
