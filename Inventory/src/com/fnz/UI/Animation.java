@@ -85,10 +85,8 @@ public class Animation
 	    	listBtnX=x;
 	    	listBtnY=y;
 	    }
-	    public void animateSettings(Node obj,int x, int y) 
+	    public void animateRightSettings(Node obj,int x, int y) 
 	    {
-	    	
-	    	if (listBtn!=obj){
 	    	
 	    	final Timeline timeline = new Timeline();
 	    	timeline.getKeyFrames().addAll(
@@ -99,7 +97,18 @@ public class Animation
 	                new KeyValue(obj.translateXProperty(),x+25),
 	                new KeyValue(obj.translateYProperty(), y)));
 	    	
-				timeline.play();
+	    	if (listBtn==null){
+	    	
 	    	}
+	    	else if (listBtn==obj){
+	    		
+	    	}
+	    	else if (listBtn!=obj){
+	    		unanimate(listBtn,listBtnX,listBtnY);
+	    	}
+	    	timeline.play();
+	    	listBtn=obj;
+	    	listBtnX=x;
+	    	listBtnY=y;
 	    }
 }
