@@ -1,14 +1,22 @@
 package com.fnz.UI;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.w3c.dom.ls.LSInput;
 
+import com.fnz.VO.CategoryTypeVO;
 import com.fnz.VO.CategoryVO;
+import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
+import com.fnz.dao.UtiliesDAO;
 import com.fnz.service.StockDetailsService;
 
 import javafx.beans.Observable;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -19,6 +27,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -39,6 +48,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBuilder;
 import javafx.stage.Screen;
+import javafx.util.Callback;
 
 public class StockDetails 
 {
@@ -304,6 +314,7 @@ public class StockDetails
         grid.setVgap(8);
         grid.setPadding(new Insets(30));
 		ObservableList<ItemVO> dataTable;
+		ObservableList<CategoryTypeVO> typeList;
 		
 		Rectangle roundRect = RectangleBuilder.create()
 	    .x(50)
@@ -326,6 +337,9 @@ public class StockDetails
 		hlabel.setLayoutX(20);
 		try
 		{
+			typeList =  FXCollections.observableArrayList();
+			typeList = UtiliesDAO.getUtiliesDAO().fetchTypes(categoryId);
+			
 			dataTable = FXCollections.observableArrayList();
 			dataTable = stockDetailsService.viewStock(categoryId);
 			
@@ -364,10 +378,44 @@ public class StockDetails
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
-		 	TableColumn<ItemVO,Integer>  quantity = new TableColumn<ItemVO,Integer> ("Quantity");
+		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity");
 		 	quantity.setMinWidth(200);
-		 	quantity.setCellValueFactory(
-		 			new PropertyValueFactory<ItemVO, Integer>("quantity"));
+		 	/*quantity.setCellValueFactory(
+		 			new PropertyValueFactory<ItemVO, Integer>("quantity"));*/
+		 	
+		 	
+		 	
+		 	for (final CategoryTypeVO type : typeList)
+		 	{
+		 		  TableColumn<ItemVO, Integer> col = new TableColumn<ItemVO, Integer>(type.getTypeName());
+		 		  col.setCellValueFactory(new Callback<CellDataFeatures<ItemVO,Integer>, ObservableValue<Integer>>() {
+		 		    @Override
+		 		    public ObservableValue<Integer> call(CellDataFeatures<ItemVO,Integer> item) 
+		 		    {
+		 		    	ItemVO itemVO = item.getValue();
+		 		    	if (itemVO == null) 
+		 		    	{
+		 		    	  return null ;
+		 		    	// or perhaps
+		 		    	// return new ReadOnlyObjectWrapper<Integer>(null);
+		 		    	} 
+		 		    	else
+		 		    	{
+			 		    	ObservableMap<String,ItemTypeVO> itemTypesMap = FXCollections.observableHashMap();
+			 		    	itemTypesMap = item.getValue().getListType();
+			 		    
+			 		    	return new ReadOnlyObjectWrapper<Integer>(itemTypesMap.get(type.getTypeId()).getQuantity());
+			 		    	
+		 		    	}
+
+		 		    }
+
+		 		  });
+		 		  quantity.getColumns().add(col);
+		 		}
+
+		 	
+		 	
 		 	
 		 	
 		 	table1.setItems(dataTable);
@@ -394,4 +442,6 @@ public class StockDetails
 		return stack;
 	
 	}
+	
+	
 }

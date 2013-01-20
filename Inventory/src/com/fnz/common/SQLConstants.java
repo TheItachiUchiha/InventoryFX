@@ -43,7 +43,7 @@ public class SQLConstants
 	
 	public static final String FETCH_LATEST_CATEGORY_TYPE = "SELECT max(rowid) as row from CATEGORY_TYPES";
 	
-	public static final String FETCH_ITEM_QUANTITY = "SELECT ITEM_ID, ITEM_NAME, CATEGORY_ID, QUANTITY from ITEMS_TABLE where CATEGORY_ID =? ";
+	public static final String FETCH_ITEM_FROM_CATEGORY = "SELECT ITEM_ID, ITEM_NAME from ITEMS_TABLE where CATEGORY_ID =? ";
 	
 	public static final String UPDATE_ITEM_QUANTITY = "UPDATE ITEMS_TABLE SET QUANTITY = ? where ITEM_ID =? ";
 	
@@ -51,9 +51,11 @@ public class SQLConstants
 	
 	public static final String FETCH_ITEMS = "SELECT ITEM_ID, ITEM_NAME,CATEGORY_ID FROM ITEMS_TABLE";
 	
-	public static final String FETCH_ITEMS_TYPES = "SELECT TYPE_ID,TYPE,QUANTITY,D_PRICE,MRP,H_PRICE FROM ITEMS_TYPES_TABLE WHERE CATEGORY_ID = ?";
+	public static final String FETCH_ITEMS_TYPES = "SELECT TYPE_ID,QUANTITY,D_PRICE,MRP,H_PRICE FROM ITEMS_TYPES_TABLE WHERE ITEM_ID =" ;
 	
-	public static final String FETCH_TYPE = "SELECT TYPE_ID, TYPE FROM CATEGORY_TYPES WHERE CATEGORY_ID = ?";
+	public static final String FETCH_ITEMS_TYPES_2 = "AND TYPE_ID IN ";
+	
+	public static final String FETCH_TYPE_FROM_CATEGORY = "SELECT TYPE_ID, TYPE FROM CATEGORY_TYPES WHERE CATEGORY_ID = ?";
 	
 	public static final String DELETE_CATEGORY_TYPE = "DELETE FROM CATEGORY_TYPES WHERE TYPE_ID = ?";
 	

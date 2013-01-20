@@ -229,6 +229,7 @@ public class MainWindow extends Application
         tabPane.getTabs().add(tabC);
     */
        
+        
       //Create Tabs
         final Tab tabSetting = new Tab();
         tabSetting.setClosable(false);
@@ -321,8 +322,6 @@ public class MainWindow extends Application
   			  
   			if(newTab.getText().equals(tabA.getText()))
   		    {
-  				//borderPane.setCenter(new BorderPane());
-  		    	
   		    	tabA.setContent(stockDetails.viewStockDrinkList(categoryList));
   		    }
   			if(newTab.getText().equals(tabB.getText()))

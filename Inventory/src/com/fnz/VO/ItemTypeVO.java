@@ -3,30 +3,23 @@ package com.fnz.VO;
 public class ItemTypeVO 
 {
 	private String typeId;
-	private String categoryId;
 	private String itemId;
-	private String type;
 	private Integer quantity;
 	private Integer dp;
 	private Integer mrp;
 	private Integer hp;
-	
-	
+	/**
+	 * @return the typeId
+	 */
 	public String getTypeId() {
 		return typeId;
 	}
+	/**
+	 * @param typeId the typeId to set
+	 */
 	public void setTypeId(String typeId) {
 		this.typeId = typeId;
 	}
-	
-	
-	public String getCategoryId() {
-		return categoryId;
-	}
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
-	
 	/**
 	 * @return the itemId
 	 */
@@ -39,36 +32,55 @@ public class ItemTypeVO
 	public void setItemId(String itemId) {
 		this.itemId = itemId;
 	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
+	/**
+	 * @return the quantity
+	 */
 	public Integer getQuantity() {
 		return quantity;
 	}
+	/**
+	 * @param quantity the quantity to set
+	 */
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+	/**
+	 * @return the dp
+	 */
 	public Integer getDp() {
 		return dp;
 	}
+	/**
+	 * @param dp the dp to set
+	 */
 	public void setDp(Integer dp) {
 		this.dp = dp;
 	}
+	/**
+	 * @return the mrp
+	 */
 	public Integer getMrp() {
 		return mrp;
 	}
+	/**
+	 * @param mrp the mrp to set
+	 */
 	public void setMrp(Integer mrp) {
 		this.mrp = mrp;
 	}
+	/**
+	 * @return the hp
+	 */
 	public Integer getHp() {
 		return hp;
 	}
+	/**
+	 * @param hp the hp to set
+	 */
 	public void setHp(Integer hp) {
 		this.hp = hp;
 	}
 	
 	
+
 }

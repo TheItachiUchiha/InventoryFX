@@ -493,7 +493,7 @@ public class UtiliesDAO
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		ItemTypeVO itemTypeVO = new ItemTypeVO();
-		ObservableList<ItemTypeVO> typeList = FXCollections.observableArrayList();
+		ObservableMap<String,ItemTypeVO> typeMap = FXCollections.observableHashMap();
 		
 		Class.forName(CommonConstants.DRIVERNAME);
 		
@@ -510,20 +510,19 @@ public class UtiliesDAO
 				pstmt = conn.prepareStatement(SQLConstants.FETCH_ITEMS_TYPES);
 				pstmt.setString(1, itemVO.getCategoryId());
 				resultSet = pstmt.executeQuery();
-				typeList = FXCollections.observableArrayList();
+				typeMap = FXCollections.observableHashMap();
 				while(resultSet.next())
 				{
 					itemTypeVO = new ItemTypeVO();
+					itemTypeVO.setItemId(itemVO.getItemId());
 					itemTypeVO.setTypeId(resultSet.getString(1));
-					itemTypeVO.setType(resultSet.getString(2));
-					itemTypeVO.setQuantity(resultSet.getInt(3));
-					itemTypeVO.setDp(resultSet.getInt(4));
-					itemTypeVO.setMrp(resultSet.getInt(5));
-					itemTypeVO.setHp(resultSet.getInt(6));
-					itemTypeVO.setCategoryId(itemVO.getCategoryId());
-					typeList.add(itemTypeVO);
+					itemTypeVO.setQuantity(resultSet.getInt(2));
+					itemTypeVO.setDp(resultSet.getInt(3));
+					itemTypeVO.setMrp(resultSet.getInt(4));
+					itemTypeVO.setHp(resultSet.getInt(5));
+					typeMap.put(itemTypeVO.getTypeId(),itemTypeVO);
 				}
-				itemVO.setListType(typeList);
+				itemVO.setListType(typeMap);
 			}
 		}
 		catch(Exception e)
@@ -707,7 +706,7 @@ public class UtiliesDAO
 			config = new SQLiteConfig();
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.FETCH_TYPE);
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_TYPE_FROM_CATEGORY);
 			pstmt.setString(1, categoryId);
 			
 			resultSet = pstmt.executeQuery();
@@ -742,6 +741,61 @@ public class UtiliesDAO
 		}	
 		return typeList;	
 	}
+	
+	public ObservableList<ItemVO> fetchTtemsFromCategory(String categoryId) throws Exception
+	{
+		SQLiteConfig config = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		ObservableList<ItemVO> itemList = FXCollections.observableArrayList();
+		ItemVO itemVO = new ItemVO();
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_ITEM_FROM_CATEGORY);
+			pstmt.setString(1, categoryId);
+			resultSet = pstmt.executeQuery();
+			while(resultSet.next())
+			{
+				itemVO = new ItemVO();
+				itemVO.setItemId(resultSet.getString(1));
+				itemVO.setItemName(resultSet.getString(2));
+				itemVO.setCategoryId(categoryId);
+				itemList.add(itemVO);
+			}
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}
+		return itemList;
+	}
+	
+	
+	
 	public void addTypes(CategoryVO categoryVO,String typeName) throws Exception 
 	{
 		SQLiteConfig config = null;

@@ -9,9 +9,12 @@ import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 import org.sqlite.SQLiteConfig;
 
+import com.fnz.VO.CategoryTypeVO;
+import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.common.CommonConstants;
 import com.fnz.common.SQLConstants;
@@ -27,30 +30,50 @@ public class StockDetailsDAO
 		Class.forName(CommonConstants.DRIVERNAME);
 		
 		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
-		ItemVO itemVO = new ItemVO();
-		ObservableList<ItemVO> listStock = FXCollections.observableArrayList();
-		
+		//ItemVO itemVO = new ItemVO();
+		String temp = "(";
+		String query;
+		ObservableList<ItemVO> listItemVOs = FXCollections.observableArrayList();
+		ObservableList<CategoryTypeVO> types = FXCollections.observableArrayList();
+		ObservableMap<String,ItemTypeVO> map = FXCollections.observableHashMap();
 		try 
 		{
-			
 			config = new SQLiteConfig();
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.FETCH_ITEM_QUANTITY);
-			pstmt.setString(1, categoryId);
-			resultSet = pstmt.executeQuery();
-			while(resultSet.next())
+		
+			types = UtiliesDAO.getUtiliesDAO().fetchTypes(categoryId);
+			listItemVOs = UtiliesDAO.getUtiliesDAO().fetchTtemsFromCategory(categoryId);
+			
+			for(ItemVO itemVO : listItemVOs)
 			{
-				itemVO = new ItemVO();
-				itemVO.setItemId(resultSet.getString(1));
-				itemVO.setItemName(resultSet.getString(2));
-				itemVO.setCategoryId(resultSet.getString(3));
-				listStock.add(itemVO);
+				map = FXCollections.observableHashMap();
+				temp = "(";
+				for(CategoryTypeVO categoryTypeVO : types)
+				{
+					temp = temp + "'"+categoryTypeVO.getTypeId() + "',";
+				}
+				temp = temp.substring(0, temp.length()-1);
+				temp = temp + ")";
+				query = SQLConstants.FETCH_ITEMS_TYPES + " '" + itemVO.getItemId()+"' "+SQLConstants.FETCH_ITEMS_TYPES_2 + temp;
+				pstmt = conn.prepareStatement(query);
+				resultSet = pstmt.executeQuery();
+				while(resultSet.next())
+				{
+					ItemTypeVO itemTypeVO = new ItemTypeVO();
+					itemTypeVO.setItemId(itemVO.getItemId());
+					itemTypeVO.setTypeId(resultSet.getString(1));
+					itemTypeVO.setQuantity(resultSet.getInt(2));
+					itemTypeVO.setDp(resultSet.getInt(3));
+					itemTypeVO.setMrp(resultSet.getInt(4));
+					itemTypeVO.setHp(resultSet.getInt(5));
+					map.put(itemTypeVO.getTypeId(),itemTypeVO);
+				}
+				itemVO.setListType(map);
 			}
 		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
+		catch (Exception e) {
+			// TODO: handle exception
 		}
 		finally
 		{
@@ -67,7 +90,8 @@ public class StockDetailsDAO
 				resultSet.close();
 			}
 		}
-		return listStock;
+			
+		return listItemVOs;
 	}
 
 }
