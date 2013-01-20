@@ -169,7 +169,7 @@ public class Settings
 		Rectangle roundRect = RectangleBuilder.create()
 	    .x(50)
 	    .y(50)
-	    .width(Screen.getPrimary().getVisualBounds().getWidth()-162)
+	    .width(Screen.getPrimary().getVisualBounds().getWidth()-180)
 	    .height(Screen.getPrimary().getVisualBounds().getHeight()-150)
 	    .arcWidth(30)
 	    .arcHeight(30)
@@ -269,6 +269,146 @@ public class Settings
 			
 			StackPane.setAlignment(textDelete,Pos.CENTER_RIGHT);
 			StackPane.setMargin(textDelete, new Insets(0,300,300,200));
+			
+			StackPane.setAlignment(grid, Pos.CENTER_LEFT);
+			StackPane.setMargin(grid, new Insets(200,0,200,175));
+			
+			StackPane.setAlignment(grid2, Pos.CENTER_RIGHT);
+			StackPane.setMargin(grid2, new Insets(225,0,100,800));
+			
+			stack.getChildren().addAll(roundRectsub1,roundRectsub2,textAdd,textDelete,text5,roundRect,grid,grid2);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return stack;
+	
+	}
+	
+	
+	
+	/* Veiw Edit Delete */
+	
+	public StackPane viewAddDeleteCategories(String buttonClicked) throws Exception 
+	{
+		StackPane stack = new StackPane();
+		
+		GridPane grid = new GridPane();
+		GridPane grid2 = new GridPane();
+		
+		grid=addTypeToCategory();
+		grid2=editDeleteTypeToCategory();
+			
+		
+		
+        grid.setVgap(8);
+        grid.setPadding(new Insets(30));
+		ObservableList<ItemVO> dataTable;
+		
+		Rectangle roundRect = RectangleBuilder.create()
+	    .x(50)
+	    .y(50)
+	    .width(Screen.getPrimary().getVisualBounds().getWidth()-180)
+	    .height(Screen.getPrimary().getVisualBounds().getHeight()-150)
+	    .arcWidth(30)
+	    .arcHeight(30)
+	    .build();
+		
+		roundRect.setFill(Color.DARKGRAY);
+		roundRect.setOpacity(0.2);
+		roundRect.setStroke(Color.TRANSPARENT);
+		/*
+		HBox hlabel= new HBox();
+		hlabel.setMaxWidth(Screen.getPrimary().getVisualBounds().getWidth()-160);
+		hlabel.setMaxHeight(30);
+		hlabel.setStyle("-fx-background-color:black;");
+		hlabel.setOpacity(0.3);
+		hlabel.setLayoutX(20);*/
+		
+		Rectangle roundRectsub1 = RectangleBuilder.create()
+			    .x(50)
+			    .y(50)
+			    .width(Screen.getPrimary().getVisualBounds().getWidth()-875)
+			    .height(Screen.getPrimary().getVisualBounds().getHeight()-550)
+			    .arcWidth(30)
+			    .arcHeight(30)
+			    .build();
+				
+		roundRectsub1.setFill(Color.BLACK);
+		roundRectsub1.setOpacity(0.2);
+		roundRectsub1.setStroke(Color.TRANSPARENT);
+		
+		Rectangle roundRectsub2 = RectangleBuilder.create()
+			    .x(50)
+			    .y(50)
+			    .width(Screen.getPrimary().getVisualBounds().getWidth()-875)
+			    .height(Screen.getPrimary().getVisualBounds().getHeight()-550)
+			    .arcWidth(30)
+			    .arcHeight(30)
+			    .build();
+				
+		roundRectsub2.setFill(Color.BLACK);
+		roundRectsub2.setOpacity(0.2);
+		roundRectsub2.setStroke(Color.TRANSPARENT);
+		
+		try
+		{
+			/*dataTable = FXCollections.observableArrayList();
+			dataTable = stockDetailsService.viewStock(categoryId);*/
+			
+			/*final Label label = new Label(buttonClicked);*/
+			/*label.setAlignment(Pos.CENTER_LEFT);*/
+		 	//grid.add(label,1,0);
+			final Text text5 = new Text(25, 175, "Add/Delete/Edit Categories");  
+		      text5.setFill(Color.DARKORANGE);  
+		      text5.setFont(Font.font ("Edwardian Script ITC", 50));
+		      final Light.Distant light = new Light.Distant();  
+		      light.setAzimuth(-135.0);  
+		      final Lighting lighting = new Lighting();  
+		      lighting.setLight(light);  
+		      lighting.setSurfaceScale(9.0);  
+		      text5.setEffect(lighting);  
+		 	
+		      final Text textAdd = new Text(25, 175, "Add Categories");  
+		      textAdd.setFill(Color.PURPLE);  
+		      textAdd.setFont(Font.font ("Edwardian Script ITC", 30));
+		      final Light.Distant lightAdd = new Light.Distant();  
+		      lightAdd.setAzimuth(-135.0);  
+		      final Lighting lightingAdd = new Lighting();  
+		      lighting.setLight(lightAdd);  
+		      lighting.setSurfaceScale(9.0);  
+		      textAdd.setEffect(lighting);
+		      
+		      final Text textDelete = new Text(25, 1000, "Edit/Delete Categories");
+		      textDelete.setFill(Color.PURPLE);  
+		      textDelete.setFont(Font.font ("Edwardian Script ITC", 30));
+		      textDelete.setEffect(lighting);
+		      
+		     
+		      
+			/*grid.add(table1,0,12);
+			grid.add(table2,1,12);
+			grid.setAlignment(Pos.TOP_CENTER);*/
+		     
+			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
+			
+			StackPane.setAlignment(roundRectsub1, Pos.CENTER_LEFT);
+			StackPane.setMargin(roundRectsub1, new Insets(00,200,200,100));
+			
+			StackPane.setAlignment(roundRectsub2, Pos.CENTER_RIGHT);
+			StackPane.setMargin(roundRectsub2, new Insets(0,100,200,60));
+			
+			StackPane.setMargin(text5, new Insets(50,8,8,8));
+			StackPane.setAlignment(text5, Pos.TOP_CENTER);
+			
+			StackPane.setAlignment(textAdd, Pos.CENTER_LEFT);
+			StackPane.setMargin(textAdd, new Insets(0,600,300,300));
+			
+			
+			
+			StackPane.setAlignment(textDelete,Pos.CENTER_RIGHT);
+			StackPane.setMargin(textDelete, new Insets(0,230,300,20));
 			
 			StackPane.setAlignment(grid, Pos.CENTER_LEFT);
 			StackPane.setMargin(grid, new Insets(200,0,200,175));
@@ -636,7 +776,7 @@ public class Settings
         
 		final GridPane gsettings = new GridPane();
     	gsettings.setVgap(8);
-    	gsettings.setPadding(new Insets(30,0,0,0));
+    	gsettings.setPadding(new Insets(25,0,0,0));
     	
     	ToggleGroup settingsGroup=new ToggleGroup();
     	
@@ -655,7 +795,7 @@ public class Settings
  				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
  				try
  				{
- 					animation.animateSettings(bAddItem, 0, 0);
+ 					animation.animateRightSettings(bAddItem, 0, 0);
 					borderPane.setCenter(viewSettings("add"));
 				}
  				catch (Exception e1)
@@ -666,7 +806,7 @@ public class Settings
  			}
  		});
     	
-    	final ToggleButton bCategory= new ToggleButton("Add Categories");
+    	final ToggleButton bCategory= new ToggleButton("Settings \nCategories");
     	bCategory.setToggleGroup(settingsGroup);
     	bCategory.setId("drinkName");
     	bCategory.setMaxSize(250,250);
@@ -681,8 +821,9 @@ public class Settings
  				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
  				try
  				{
- 					animation.animateSettings(bCategory, 0, 1);
-					borderPane.setCenter(addTypeToCategory());
+ 					animation.animateRightSettings(bCategory, 0, 1);
+					//borderPane.setCenter(addTypeToCategory());
+ 					borderPane.setCenter(viewAddDeleteCategories("AddDeleteEdit"));
 				}
  				catch (Exception e1)
  				{
@@ -692,7 +833,7 @@ public class Settings
  			}
  		});
     	
-    	final ToggleButton edCategory= new ToggleButton("Edit/Delete Categories");
+    	/*final ToggleButton edCategory= new ToggleButton("Edit/Delete Categories");
     	edCategory.setToggleGroup(settingsGroup);
     	edCategory.setId("drinkName");
     	edCategory.setMaxSize(250,250);
@@ -717,7 +858,7 @@ public class Settings
 				}
  			}
  		});
-    	
+    	*/
     	borderPane.setLeft(gsettings);
 		
 		
@@ -729,8 +870,9 @@ public class Settings
 	{
 		GridPane gridPane = new GridPane();
 		gridPane.setVgap(8);
+		gridPane.setHgap(10);
 		gridPane.setPadding(new Insets(30,0,0,0));
-		gridPane.setAlignment(Pos.CENTER);
+		//gridPane.setAlignment(Pos.CENTER);
 		
 		final ComboBox<CategoryVO> categories = new ComboBox<CategoryVO>(listOfCategories);
 		final TextField type = new TextField();
@@ -806,8 +948,8 @@ public class Settings
 	{
 		final GridPane gridPane = new GridPane();
 		gridPane.setVgap(8);
-		gridPane.setPadding(new Insets(30,0,0,0));
-		gridPane.setAlignment(Pos.CENTER);
+		gridPane.setPadding(new Insets(10,0,0,0));
+		//gridPane.setAlignment(Pos.CENTER);
 		
 		final ObservableList<CategoryTypeVO> listTypes = FXCollections.observableArrayList();
 		
