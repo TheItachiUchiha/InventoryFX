@@ -53,12 +53,12 @@ import javafx.util.Callback;
 public class StockDetails 
 {
 	StockDetailsService stockDetailsService;
-	Animation mainWindow;
+	Animation animation;
 	public StackPane stack;
 	public StockDetails()
 	{
 		stockDetailsService = new StockDetailsService();
-		mainWindow = new Animation();
+		animation = new Animation();
 	}
 	
 	
@@ -99,7 +99,7 @@ public class StockDetails
  				/*borderPane.setCenter(drinks.viewWineStock());
  				chkRect()*/
  				borderPane.setCenter(viewStock(listCategory.get(0).getCategotyId(),listCategory.get(0).getCategoryName()));
- 				mainWindow.animateLeft(bt1,0,0);
+ 				animation.animateLeft(bt1,0,0);
  			}
  		});
     	
@@ -116,7 +116,7 @@ public class StockDetails
  				borderPane.setStyle("-fx-background-image: url('vodka.jpg');");
  				//borderPane.setCenter(drinks.viewVodkaStock());
  				borderPane.setCenter(viewStock(listCategory.get(1).getCategotyId(),listCategory.get(1).getCategoryName()));
- 				mainWindow.animateRight(bt2,0,0);
+ 				animation.animateRight(bt2,0,0);
  			}
  		});
     	
@@ -132,7 +132,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('beer2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(2).getCategotyId(),listCategory.get(2).getCategoryName()));
- 				mainWindow.animateLeft(bt3,0,1);
+ 				animation.animateLeft(bt3,0,1);
  			}
  		});
 
@@ -148,7 +148,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('whisky.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(3).getCategotyId(),listCategory.get(3).getCategoryName()));
- 				mainWindow.animateRight(bt4,0,1);
+ 				animation.animateRight(bt4,0,1);
  			}
  		});
     	
@@ -164,7 +164,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('rum2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(4).getCategotyId(),listCategory.get(5).getCategoryName()));
- 				mainWindow.animateRight(bt5,0,4);
+ 				animation.animateRight(bt5,0,4);
  			}
  		});
     	
@@ -180,7 +180,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('Scotch.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(5).getCategotyId(),listCategory.get(5).getCategoryName()));
- 				mainWindow.animateRight(bt6,0,5);
+ 				animation.animateRight(bt6,0,5);
  			}
  		});
     	
@@ -196,7 +196,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(6).getCategotyId(),listCategory.get(6).getCategoryName()));
- 				mainWindow.animateLeft(bt7,0,5);
+ 				animation.animateLeft(bt7,0,5);
  			}
  		});
     	
@@ -212,7 +212,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(7).getCategotyId(),listCategory.get(7).getCategoryName()));
- 				mainWindow.animateRight(bt8,0,3);
+ 				animation.animateRight(bt8,0,3);
  			}
  		});
     	
@@ -228,7 +228,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(8).getCategotyId(),listCategory.get(8).getCategoryName()));
- 				mainWindow.animateRight(bt9,0,6);
+ 				animation.animateRight(bt9,0,6);
  			}
  		});
     	
@@ -244,7 +244,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(9).getCategotyId(),listCategory.get(9).getCategoryName()));
- 				mainWindow.animateLeft(bt10,0,3);
+ 				animation.animateLeft(bt10,0,3);
  			}
  		});
     	
@@ -260,7 +260,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(10).getCategotyId(),listCategory.get(10).getCategoryName()));
- 				mainWindow.animateLeft(bt11,0,2);
+ 				animation.animateLeft(bt11,0,2);
  			}
  		});
     	
@@ -276,7 +276,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(11).getCategotyId(),listCategory.get(11).getCategoryName()));
- 				mainWindow.animateRight(bt12,0,2);
+ 				animation.animateRight(bt12,0,2);
  			}
  		});
     	
@@ -292,7 +292,7 @@ public class StockDetails
  			{
  				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(12).getCategotyId(),listCategory.get(12).getCategoryName()));
- 				mainWindow.animateLeft(bt13,0,4);
+ 				animation.animateLeft(bt13,0,4);
  			}
  		});
        // typesOfDrink.getChildren().addAll(tbWine,tbVodka,tbBeer,tbWisky,tbRum,tbScotch,tbOther);
@@ -388,6 +388,7 @@ public class StockDetails
 		 	for (final CategoryTypeVO type : typeList)
 		 	{
 		 		  TableColumn<ItemVO, Integer> col = new TableColumn<ItemVO, Integer>(type.getTypeName());
+		 		  col.setMinWidth(100);
 		 		  col.setCellValueFactory(new Callback<CellDataFeatures<ItemVO,Integer>, ObservableValue<Integer>>() {
 		 		    @Override
 		 		    public ObservableValue<Integer> call(CellDataFeatures<ItemVO,Integer> item) 

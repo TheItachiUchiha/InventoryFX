@@ -149,9 +149,10 @@ public class Settings
 		GridPane grid = new GridPane();
 		GridPane grid2 = new GridPane();
 		try{
-			if (buttonClicked.equalsIgnoreCase("add")){
-		grid=addItem();
-		grid2=deleteItem();
+			if (buttonClicked.equalsIgnoreCase("add"))
+			{
+				grid=addItem();
+				grid2=deleteItem();
 			}
 			else if(buttonClicked.equalsIgnoreCase("delete")){
 				grid=deleteItem();
@@ -164,7 +165,6 @@ public class Settings
 		
         grid.setVgap(8);
         grid.setPadding(new Insets(30));
-		ObservableList<ItemVO> dataTable;
 		
 		Rectangle roundRect = RectangleBuilder.create()
 	    .x(50)
@@ -432,44 +432,19 @@ public class Settings
 		
 		final ItemVO itemVO = new ItemVO();
 		
-		ObservableList<String> listOfTypes = FXCollections.observableArrayList();
+		//ObservableList<String> listOfTypes = FXCollections.observableArrayList();
 		//listOfTypes = utiliesService.fetchTypes();
 		final ObservableMap<String, String> mapCategories = FXCollections.observableHashMap();
 		mapCategories.putAll(utiliesService.fetchCategoryDetails());
 		
-		final ObservableList<ItemTypeVO> listItemTypes  = FXCollections.observableArrayList();
+		//final ObservableList<ItemTypeVO> listItemTypes  = FXCollections.observableArrayList();
 		
  		Label lAddItem = new Label("Name Of The Item");
 		final TextField itemName = new TextField();
 		Button add = new Button("Add Item");
 		Label lCategoryName = new Label("Select Category");
 		final ChoiceBox<CategoryVO> cbcategory = new  ChoiceBox<CategoryVO>(listOfCategories);
-		final Label ldp = new Label("Distributor Price");
-		
-		final Label lmrp = new Label("MRP");
-		
-		final Label lhp = new Label("Hotel Price");
-		
-		
-		
-		final Label lTypes = new Label("Types");
-		
-		final AutoCompleteTextField<String> type1 = new AutoCompleteTextField<String>();
-		type1.setItems(listOfTypes);
-		final AutoCompleteTextField<String> type2 = new AutoCompleteTextField<String>();
-		type2.setItems(listOfTypes);
-		final AutoCompleteTextField<String> type3 = new AutoCompleteTextField<String>();
-		type3.setItems(listOfTypes);
-		
-		final TextField tdp1 = new TextField();
-		final TextField tdp2 = new TextField();
-		final TextField tdp3 = new TextField();
-		final TextField tmrp1 = new TextField();
-		final TextField tmrp2 = new TextField();
-		final TextField tmrp3 = new TextField();
-		final TextField thp1 = new TextField();
-		final TextField thp2 = new TextField();
-		final TextField thp3 = new TextField();
+
 		
 		final Label lmsg = new Label();
 		
@@ -484,32 +459,10 @@ public class Settings
 		settings.add(itemName, 2, 1);
 		settings.add(lCategoryName, 1, 2);
 		settings.add(cbcategory,2,2);
+			
 		
-		settings.add(lTypes,1,3);
-		settings.add(type1,2,3);	
-		settings.add(type2,3,3);	
-		settings.add(type3,4,3);
-		
-		settings.add(ldp,1,4);
-		settings.add(lmrp,1,5);	
-		settings.add(lhp,1,6);
-		
-		settings.add(tdp1,2,4);
-		settings.add(tdp2,3,4);
-		settings.add(tdp3,4,4);
-		
-		settings.add(tmrp1,2,5);
-		settings.add(tmrp2,3,5);
-		settings.add(tmrp3,4,5);
-		
-		settings.add(thp1,2,6);
-		settings.add(thp2,3,6);
-		settings.add(thp3,4,6);
-		
-				
-		
-		settings.add(add,2,7);
-		settings.add(lmsg,2,8);
+		settings.add(add,2,4);
+		settings.add(lmsg,2,5);
 		
 		add.setOnAction(new EventHandler<ActionEvent>() {
  			
@@ -518,51 +471,13 @@ public class Settings
  			{
  				try 
  				{
- 					ItemTypeVO itemTypeVO;
- 					if(!type1.getText().equals(""))
- 					{
- 						itemTypeVO = new ItemTypeVO();
- 						
- 						itemTypeVO.setType(type1.getText());
- 						itemTypeVO.setQuantity(CommonConstants.ZERO);
- 						itemTypeVO.setDp(Integer.parseInt(tdp1.getText()));
- 						itemTypeVO.setMrp(Integer.parseInt(tmrp1.getText()));
- 						itemTypeVO.setHp(Integer.parseInt(thp1.getText()));
- 						
- 						listItemTypes.add(itemTypeVO);
- 					}
- 					if(!type2.getText().equals(""))
- 					{
- 						itemTypeVO = new ItemTypeVO();
- 						
- 						itemTypeVO.setType(type2.getText());
- 						itemTypeVO.setQuantity(CommonConstants.ZERO);
- 						itemTypeVO.setDp(Integer.parseInt(tdp2.getText()));
- 						itemTypeVO.setMrp(Integer.parseInt(tmrp2.getText()));
- 						itemTypeVO.setHp(Integer.parseInt(thp2.getText()));
- 						
- 						listItemTypes.add(itemTypeVO);
- 					}
- 					if(!type3.getText().equals(""))
- 					{
- 						itemTypeVO = new ItemTypeVO();
- 						
- 						itemTypeVO.setType(type3.getText());
- 						itemTypeVO.setQuantity(CommonConstants.ZERO);
- 						itemTypeVO.setDp(Integer.parseInt(tdp3.getText()));
- 						itemTypeVO.setMrp(Integer.parseInt(tmrp3.getText()));
- 						itemTypeVO.setHp(Integer.parseInt(thp3.getText()));
- 						
- 						listItemTypes.add(itemTypeVO);
- 					}
-
  					itemVO.setItemName(itemName.getText());
- 					itemVO.setCategoryId(mapCategories.get(cbcategory.getValue()));
- 					itemVO.setListType(listItemTypes);
+ 					itemVO.setCategoryId(cbcategory.getValue().getCategotyId());
 
 					utiliesService.addItem(itemVO);
 					lmsg.setText("Item added successfully");
-				} catch (Exception e1) 
+				} 
+ 				catch (Exception e1) 
 				{
 					lmsg.setText("Some Error Occured !!");
 					e1.printStackTrace();
@@ -572,7 +487,7 @@ public class Settings
 		return settings;
 	}
 	
-	public GridPane EditItem() throws Exception
+/*	public GridPane EditItem() throws Exception
 	{
 		final GridPane settings = new GridPane();
 		//list Creation
@@ -720,7 +635,7 @@ public class Settings
  			}
  		});
 		return settings;
-	}
+	}*/
 	
 	
 	public GridPane deleteItem() throws Exception

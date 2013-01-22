@@ -234,10 +234,6 @@ public class UtiliesDAO
 				resultSet.close();
 			}
 		}
-		for(ItemTypeVO itemTypeVO : itemVO.getListType())
-		{
-			addItemTypes(itemVO.getCategoryId(),newItemId, itemTypeVO);
-		}
 	}
 	
 	public void addItemTypes(String categoryId,String itemId, ItemTypeVO itemTypeVO) throws Exception 
