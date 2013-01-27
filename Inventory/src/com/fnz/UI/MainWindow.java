@@ -72,6 +72,7 @@ public class MainWindow extends Application
 	public StockDetails stockDetails;
 	public UtiliesService utiliesService;
 	public IncomingStock incomingStock;
+	public OutgoingStock outgoingStock;
 	
 	public ObservableList<CategoryVO> categoryList;
 	public ObservableList<ItemVO> itemList;
@@ -79,17 +80,21 @@ public class MainWindow extends Application
 	public boolean flag;
     /**
      * @param args the command line arguments
+     * @throws Exception 
      */
 	
-	public MainWindow()
+	public MainWindow() throws Exception
 	{
+		new DBInteraction().createDB();
 		settings = new Settings();
 		stockDetails = new StockDetails();
 		utiliesService = new UtiliesService();
 		incomingStock = new IncomingStock();
+		outgoingStock = new OutgoingStock();
 		categoryList = FXCollections.observableArrayList();
 		itemList =FXCollections.observableArrayList();
 		itemList = UtiliesDAO.getUtiliesDAO().getItemList();
+		
 		categoryList = UtiliesDAO.getUtiliesDAO().categoryList;
 	}
     public static void main(String[] args)
@@ -104,7 +109,7 @@ public class MainWindow extends Application
 
 // Use a border pane as the root for scene
     		
-    	new DBInteraction().createDB();
+    	
     	ObservableList<String> categoryList =FXCollections.observableArrayList();
     	categoryList.addAll(CommonConstants.CATEGORY_PREMIUM_WHISKY,CommonConstants.CATEGORY_REGULAR_WHISKY,CommonConstants.CATEGORY_PREMIUM_VODKA,CommonConstants.CATEGORY_REGULAR_VODKA,
     			CommonConstants.CATEGORY_BRANDY,CommonConstants.CATEGORY_GIN,CommonConstants.CATEGORY_PREMIUM_RUM,
@@ -143,7 +148,11 @@ public class MainWindow extends Application
        // hbox.setSpacing(10);   // Gap between nodes
        // hbox.setStyle("-fx-background-color: #336699;");
     	border.getStyleClass().add("lowerHBox");
-        Label lName=new Label("copyright © something");
+        
+        Text text = new Text("© Vikrity Technologies Limited");
+        text.setFill(Color.WHITE);
+        
+        Label lName=new Label(text.getText());
         border.setLeft(lName);
         
         
@@ -213,7 +222,13 @@ public class MainWindow extends Application
         
         tabPane.getTabs().add(tabB);
         
+        final Tab tabC = new Tab();
+        tabC.setClosable(false);
+        tabC.setText("Outgoing Stock");
+      
         
+        
+        tabPane.getTabs().add(tabC);
         /*Tab tabC = new Tab();
         tabC.setClosable(false);
         tabC.setText("Outgoing Stock");
@@ -327,6 +342,10 @@ public class MainWindow extends Application
   			if(newTab.getText().equals(tabB.getText()))
   			{
   				tabB.setContent(incomingStock.addStockDrinkList(categoryList));
+  			}
+  			if(newTab.getText().equals(tabC.getText()))
+  			{
+  				tabC.setContent(outgoingStock.delStockDrinkList(categoryList));
   			}
   		    if(newTab.getText().equals(tabSetting.getText()))
   		    {

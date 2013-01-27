@@ -20,6 +20,8 @@ public class CommonConstants
 	
 	public static final int ZERO = 0;
 	
+	public static final int CASE_SIZE = 12;
+	
 	public static final String STATUS_LOW_ON_STOCK = "Cancelled";
 	
 	public static final String STATUS_AVAILABLE = "Available";

@@ -53,23 +53,23 @@ import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.dao.UtiliesDAO;
-import com.fnz.service.IncomingStockService;
+import com.fnz.service.OutgoingStockService;
 import com.fnz.service.StockDetailsService;
 
-public class IncomingStock 
+public class OutgoingStock 
 {
-	IncomingStockService incomingStockService;
+	OutgoingStockService outgoingStockService;
 	StockDetailsService stockDetailsService;
 	Animation animation;
 	StackPane stack;
 	
-	public IncomingStock() 
+	public OutgoingStock() 
 	{
 		stockDetailsService= new StockDetailsService();
-		incomingStockService = new IncomingStockService();
+		outgoingStockService = new OutgoingStockService();
 		animation = new Animation();
 	}
-	public BorderPane addStockDrinkList(final ObservableList<CategoryVO> listCategory)
+	public BorderPane delStockDrinkList(final ObservableList<CategoryVO> listCategory)
 	{
 		final BorderPane borderPane = new BorderPane();
 		
@@ -518,7 +518,7 @@ public class IncomingStock
 	 					dataTable.clear();
 	 					dataTable.addAll(dataTable1);
 	 					dataTable.addAll(dataTable2);
-	 					incomingStockService.addIncomingStock("", "", dataTable);
+	 					outgoingStockService.deleteOutgoingStock("", "", dataTable);
 					} 
 	 				catch (Exception e1) 
 					{

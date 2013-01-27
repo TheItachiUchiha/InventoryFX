@@ -4,23 +4,30 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 import org.sqlite.SQLiteConfig;
 
+import com.fnz.VO.ItemTypeVO;
+import com.fnz.VO.ItemVO;
 import com.fnz.common.CommonConstants;
 import com.fnz.common.SQLConstants;
 
 public class IncomingStockDAO 
 {
-	public void addIncomingStock(String invoiceNo, String date, String supplier) throws Exception 
+	public void addIncomingStock(String invoiceNo, String date, ObservableList<ItemVO> listData) throws Exception 
 	{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		SQLiteConfig config = null;
+		java.sql.Statement statement = null;
 		Class.forName(CommonConstants.DRIVERNAME);
 		
 		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
@@ -31,14 +38,25 @@ public class IncomingStockDAO
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			pstmt = conn.prepareStatement(SQLConstants.INSERT_INCOMING_STOCK);
+			statement = conn.createStatement();
 			
 			
-			pstmt.setString(1, invoiceNo);
-			pstmt.setString(2, date);
-			pstmt.setString(3, supplier);
+			for(ItemVO itemVO : listData)
+			{
+				ObservableMap<String, ItemTypeVO> map = FXCollections.observableHashMap();
+				map=itemVO.getListType();
+				Set<String> keySet = map.keySet();
+				for(Iterator<String> iter=keySet.iterator();iter.hasNext();)
+				{
+					ItemTypeVO itemTypeVO = new ItemTypeVO();
+					itemTypeVO = map.get(iter.next());
+					statement.addBatch(SQLConstants.UPDATE_ADD_ITEMS_TYPES_1 + itemTypeVO.getQuantity()*CommonConstants.CASE_SIZE + SQLConstants.UPDATE_ADD_ITEMS_TYPES_2 +
+							itemVO.getItemId() + SQLConstants.UPDATE_ADD_ITEMS_TYPES_3 + itemTypeVO.getTypeId() + SQLConstants.UPDATE_ADD_ITEMS_TYPES_4);
+				}
+			}
 			
-			pstmt.execute();
-			
+			statement.executeBatch();
+			conn.commit();
 		}
 		catch (Exception e) 
 		{
