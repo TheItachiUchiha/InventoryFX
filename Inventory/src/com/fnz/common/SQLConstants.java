@@ -67,4 +67,16 @@ public class SQLConstants
 	
 	public static final String FETCH_ITEMS_FROM_CATEGORY = "SELECT ITEM_ID,ITEM_NAME FROM ITEMS_TABLE WHERE CATEGORY_ID = ?";
 	
+	public static final String UPDATE_ADD_ITEMS_TYPES_1 = "UPDATE ITEMS_TYPES_TABLE SET QUANTITY = QUANTITY + ";
+	public static final String UPDATE_ADD_ITEMS_TYPES_2 = " WHERE ITEM_ID ='";
+	public static final String UPDATE_ADD_ITEMS_TYPES_3 = "' AND TYPE_ID ='";
+	public static final String UPDATE_ADD_ITEMS_TYPES_4 = "';";
+	
+	
+	public static final String UPDATE_DEL_ITEMS_TYPES_1 = "UPDATE ITEMS_TYPES_TABLE SET QUANTITY = QUANTITY - ";
+	public static final String UPDATE_DEL_ITEMS_TYPES_2 = " WHERE ITEM_ID ='";
+	public static final String UPDATE_DEL_ITEMS_TYPES_3 = "' AND TYPE_ID ='";
+	public static final String UPDATE_DEL_ITEMS_TYPES_4 = "';";
+	
+	
 }
