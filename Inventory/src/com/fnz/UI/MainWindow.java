@@ -10,6 +10,7 @@ import com.fnz.dao.DBInteraction;
 import com.fnz.dao.UtiliesDAO;
 import com.fnz.panes.Items;
 import com.fnz.service.UtiliesService;
+import com.sai.javafx.calendar.demo.FXCalendarDemo;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -124,6 +125,7 @@ public class MainWindow extends Application
         border.setBottom(addBBox());
         
         scene = new Scene(border);
+        scene.getStylesheets().add(FXCalendarDemo.class.getResource("/com/fnz/styles/calendar_styles.css").toExternalForm());
         scene.getStylesheets().add(
                 this.getClass().getClassLoader().getResource("com/fnz/styles/Tab.css").toString());
         stage.setX(0);

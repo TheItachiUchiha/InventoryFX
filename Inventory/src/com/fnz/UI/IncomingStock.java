@@ -55,6 +55,7 @@ import com.fnz.VO.ItemVO;
 import com.fnz.dao.UtiliesDAO;
 import com.fnz.service.IncomingStockService;
 import com.fnz.service.StockDetailsService;
+import com.sai.javafx.calendar.FXCalendar;
 
 public class IncomingStock 
 {
@@ -381,7 +382,21 @@ public class IncomingStock
 			label.setAlignment(Pos.CENTER_LEFT);
 		 	//grid.add(label,1,0);
 		 	
-		 	
+			HBox invoiceBox = new HBox();
+			invoiceBox.setPadding(new Insets(0.5, 0, 0.5, 50));
+			invoiceBox.getChildren().add(new Label("Invoice Id : "));
+			
+			final TextField invoiceField = new TextField();
+			invoiceBox.getChildren().add(invoiceField);
+			
+			HBox dateBox = new HBox();
+			dateBox.setPadding(new Insets(0.5, 0, 0.5, 50));
+			dateBox.getChildren().add(new Label("Date : "));
+			
+			final FXCalendar date = new FXCalendar();
+			dateBox.getChildren().add(date);
+			
+			
 		 	TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(true);
 		 	table1.setMaxSize(400, 300);
@@ -518,7 +533,7 @@ public class IncomingStock
 	 					dataTable.clear();
 	 					dataTable.addAll(dataTable1);
 	 					dataTable.addAll(dataTable2);
-	 					incomingStockService.addIncomingStock("", "", dataTable);
+	 					incomingStockService.addIncomingStock(invoiceField.getText(), date.getTextField().getText(), dataTable);
 					} 
 	 				catch (Exception e1) 
 					{
@@ -526,6 +541,11 @@ public class IncomingStock
 					}
 	 			}
 	 		});
+			
+			
+			
+			grid.add(invoiceBox,0,11);
+			grid.add(dateBox, 1, 11);
 			grid.add(table1,0,12);
 			grid.add(table2,1,12);
 			grid.add(button,1,14);
