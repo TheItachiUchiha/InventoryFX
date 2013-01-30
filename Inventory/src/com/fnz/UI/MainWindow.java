@@ -227,27 +227,16 @@ public class MainWindow extends Application
         final Tab tabC = new Tab();
         tabC.setClosable(false);
         tabC.setText("Outgoing Stock");
-      
-        
-        
         tabPane.getTabs().add(tabC);
-        /*Tab tabC = new Tab();
-        tabC.setClosable(false);
-        tabC.setText("Outgoing Stock");
-        BorderPane borderPane3 = new BorderPane();
-        borderPane2.setPadding(new Insets(5,5,5,5));
-        try {
-			borderPane2.setCenter(new Label("Window3"));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        tabB.setContent(borderPane3);
-        tabPane.getTabs().add(tabC);
-    */
+        
+        final Tab tabD = new Tab();
+        tabD.setClosable(false);
+        tabD.setText("History");
+        tabPane.getTabs().add(tabD);
+        
        
         
-      //Create Tabs
+      
         final Tab tabSetting = new Tab();
         tabSetting.setClosable(false);
         tabSetting.setText("Settings");
@@ -349,9 +338,12 @@ public class MainWindow extends Application
   			{
   				tabC.setContent(outgoingStock.delStockDrinkList(categoryList));
   			}
+  			if(newTab.getText().equals(tabD.getText()))
+  			{
+  				tabD.setContent(outgoingStock.delStockDrinkList(categoryList));
+  			}
   		    if(newTab.getText().equals(tabSetting.getText()))
   		    {
-  		    	//borderPane.setCenter(new BorderPane());
   		    	tabSetting.setContent(settings.viewSetting());
   		    }
   		  }

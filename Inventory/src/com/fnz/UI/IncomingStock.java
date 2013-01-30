@@ -74,21 +74,21 @@ public class IncomingStock
 	{
 		final BorderPane borderPane = new BorderPane();
 		
-		 borderPane.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth());
-	        borderPane.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight());
-	        borderPane.setPadding(new Insets(15,0,0,20));
-	        borderPane.setId("borderxx");
+		borderPane.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth());
+	    borderPane.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight());
+	    borderPane.setPadding(new Insets(15,0,0,20));
+	    borderPane.setId("borderxx");
 		GridPane typesOfDrink = new GridPane();
 		
 		typesOfDrink.setVgap(20);
-   	typesOfDrink.setPadding(new Insets(130,0,0,0));
+		typesOfDrink.setPadding(new Insets(130,0,0,0));
 
-   	ToggleGroup groupDrink=new ToggleGroup();
+		ToggleGroup groupDrink=new ToggleGroup();
    	
-   	GridPane typesOfDrink2 = new GridPane();
+		GridPane typesOfDrink2 = new GridPane();
 		
 		typesOfDrink2.setVgap(20);
-   	typesOfDrink2.setPadding(new Insets(130,30,0,0));
+		typesOfDrink2.setPadding(new Insets(130,30,0,0));
 
    	
    	
@@ -104,8 +104,6 @@ public class IncomingStock
 			public void handle(ActionEvent e) 
 			{
 				borderPane.setStyle("-fx-background-image: url('wine.jpeg');");
-				/*borderPane.setCenter(drinks.viewWineStock());
-				chkRect()*/
 				borderPane.setCenter(addStock(listCategory.get(0).getCategotyId(),listCategory.get(0).getCategoryName()));
 				animation.animateLeft(bt1,0,0);
 			}

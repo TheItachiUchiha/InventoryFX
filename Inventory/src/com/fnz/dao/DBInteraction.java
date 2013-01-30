@@ -57,6 +57,7 @@ public class DBInteraction
 			stmt.executeUpdate(SQLConstants.CREATE_ITEM_TYPE_TABLE);
 			stmt.executeUpdate( SQLConstants.CREATE_INCOMING_STOCK );
 			stmt.executeUpdate(SQLConstants.CREATE_INCOMING_STOCK_DETAILS);
+			stmt.executeUpdate(SQLConstants.CREATE_OUTGOING_STOCK_DETAILS);
 		}
 		catch (Exception e) 
 		{

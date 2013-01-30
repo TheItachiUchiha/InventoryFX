@@ -43,7 +43,7 @@ public class StockDetailsDAO
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 		
 			types = UtiliesDAO.getUtiliesDAO().fetchTypes(categoryId);
-			listItemVOs = UtiliesDAO.getUtiliesDAO().fetchTtemsFromCategory(categoryId);
+			listItemVOs = UtiliesDAO.getUtiliesDAO().fetchItemsFromCategory(categoryId);
 			
 			for(ItemVO itemVO : listItemVOs)
 			{

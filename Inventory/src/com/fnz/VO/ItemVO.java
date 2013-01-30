@@ -62,7 +62,10 @@ public class ItemVO
 	}
 	
 	
-	
+	@Override
+    public String toString() {
+        return itemName;
+    }
 	
 	
 }

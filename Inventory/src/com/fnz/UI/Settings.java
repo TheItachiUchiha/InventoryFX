@@ -27,6 +27,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -748,14 +749,14 @@ public class Settings
  			}
  		});
     	
-    	/*final ToggleButton edCategory= new ToggleButton("Edit/Delete Categories");
-    	edCategory.setToggleGroup(settingsGroup);
-    	edCategory.setId("drinkName");
-    	edCategory.setMaxSize(250,250);
-    	gsettings.add(edCategory,0,3);
+    	final ToggleButton bItemTypeDetails = new ToggleButton("Item Type Details");
+    	bCategory.setToggleGroup(settingsGroup);
+    	bCategory.setId("drinkName");
+    	bCategory.setMaxSize(250,250);
+    	gsettings.add(bItemTypeDetails,0,3);
     	
     	
-    	edCategory.setOnAction(new EventHandler<ActionEvent>() {
+    	bItemTypeDetails.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
  			public void handle(ActionEvent e) 
@@ -763,8 +764,9 @@ public class Settings
  				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
  				try
  				{
- 					animation.animateSettings(edCategory, 0, 1);
-					borderPane.setCenter(editDeleteTypeToCategory());
+ 					animation.animateRightSettings(bItemTypeDetails, 0, 1);
+					//borderPane.setCenter(addTypeToCategory());
+ 					borderPane.setCenter(addDetailsToItems());
 				}
  				catch (Exception e1)
  				{
@@ -773,7 +775,6 @@ public class Settings
 				}
  			}
  		});
-    	*/
     	borderPane.setLeft(gsettings);
 		
 		
@@ -957,6 +958,91 @@ public class Settings
 		 			}
 		 		});
 		
+		return gridPane;
+	}
+	
+	public GridPane addDetailsToItems()
+	{
+		final Label msg = new Label();
+		GridPane gridPane = new GridPane();
+		gridPane.setVgap(8);
+		gridPane.setHgap(10);
+		gridPane.setPadding(new Insets(30,0,0,0));
+		//gridPane.setAlignment(Pos.CENTER);
+		
+		final ObservableList<CategoryTypeVO> listTypes = FXCollections.observableArrayList();
+		final ObservableList<ItemVO> listItems = FXCollections.observableArrayList();
+		
+		final ComboBox<CategoryVO> categories = new ComboBox<CategoryVO>(listOfCategories);
+		final ComboBox<CategoryTypeVO> types = new ComboBox<CategoryTypeVO>(listTypes);
+		final ComboBox<ItemVO> items = new ComboBox<ItemVO>(listItems);
+		
+		
+		final TextField dp = new TextField();
+		final TextField mrp = new TextField();
+		final TextField hp = new TextField();
+		Button add = new Button("Add Details");
+		
+		categories.valueProperty().addListener(new ChangeListener<CategoryVO>() {
+
+			@Override
+			public void changed(
+					ObservableValue<? extends CategoryVO> observable,
+					CategoryVO oldValue, CategoryVO newValue) {
+				// TODO Auto-generated method stub
+				listTypes.clear();
+				listItems.clear();
+				try {
+					listTypes.addAll(utiliesService.fetchTypes(newValue.getCategotyId()));
+					listItems.addAll(utiliesService.fetchItemsFromCategory(newValue.getCategotyId()));
+				} catch (Exception e) {
+				
+					// TODO Auto-generated catch block
+					msg.setText("Some error occured..");
+				}
+			}
+		});
+		
+	
+		
+		add.setOnAction(new EventHandler<ActionEvent>() {
+		 			
+		 			@Override
+		 			public void handle(ActionEvent e) 
+		 			{
+		 				try
+		 				{
+		 					ItemTypeVO itemTypeVO = new ItemTypeVO();
+		 					itemTypeVO.setTypeId(types.getValue().getTypeId());
+		 					itemTypeVO.setItemId(items.getValue().getItemId());
+		 					itemTypeVO.setQuantity(CommonConstants.ZERO);
+		 					itemTypeVO.setDp(Integer.parseInt(dp.getText()));
+		 					itemTypeVO.setMrp(Integer.parseInt(mrp.getText()));
+		 					itemTypeVO.setHp(Integer.parseInt(hp.getText()));
+							utiliesService.addItemTypes(itemTypeVO);
+							msg.setText("Type added Successfully to Category");
+						}
+		 				catch (Exception e1) 
+		 				{
+		 					msg.setText("Data Already Exists ! \nPlease select Edit if you want to edit !");
+							e1.printStackTrace();
+						}
+		 			}
+		 		});
+		gridPane.add(new Label("Category"), 0, 0);
+		gridPane.add(categories, 1, 0);
+		gridPane.add(new Label("Item"),0,1);
+		gridPane.add(items,1,1);
+		gridPane.add(new Label("Types"),0,2);
+		gridPane.add(types, 1, 2);
+		gridPane.add(new Label("Depo Price"),0,3);
+		gridPane.add(dp, 1, 3);
+		gridPane.add(new Label("M.R.P."),0,4);
+		gridPane.add(mrp, 1, 4);
+		gridPane.add(new Label("Hotel Price"),0,5);
+		gridPane.add(hp, 1, 5);
+		gridPane.add(add, 1, 6);
+		gridPane.add(msg,1,8);
 		return gridPane;
 	}
 }

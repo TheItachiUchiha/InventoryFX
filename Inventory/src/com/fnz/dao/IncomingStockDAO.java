@@ -14,6 +14,7 @@ import javafx.collections.ObservableMap;
 
 import org.sqlite.SQLiteConfig;
 
+import com.fnz.VO.IncomingStockVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.common.CommonConstants;
@@ -24,7 +25,6 @@ public class IncomingStockDAO
 	public void addIncomingStock(String invoiceNo, String date, ObservableList<ItemVO> listData) throws Exception 
 	{
 		Connection conn = null;
-		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		SQLiteConfig config = null;
 		java.sql.Statement statement = null;
@@ -37,10 +37,10 @@ public class IncomingStockDAO
 			config = new SQLiteConfig();
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.INSERT_INCOMING_STOCK);
 			statement = conn.createStatement();
 			
-			
+			statement.addBatch(SQLConstants.INSERT_INCOMING_STOCK_1+invoiceNo+SQLConstants.INSERT_INCOMING_STOCK_2+date+SQLConstants.INSERT_INCOMING_STOCK_2
+					+""+SQLConstants.INSERT_INCOMING_STOCK_3);
 			for(ItemVO itemVO : listData)
 			{
 				ObservableMap<String, ItemTypeVO> map = FXCollections.observableHashMap();
@@ -52,11 +52,13 @@ public class IncomingStockDAO
 					itemTypeVO = map.get(iter.next());
 					statement.addBatch(SQLConstants.UPDATE_ADD_ITEMS_TYPES_1 + itemTypeVO.getQuantity()*CommonConstants.CASE_SIZE + SQLConstants.UPDATE_ADD_ITEMS_TYPES_2 +
 							itemVO.getItemId() + SQLConstants.UPDATE_ADD_ITEMS_TYPES_3 + itemTypeVO.getTypeId() + SQLConstants.UPDATE_ADD_ITEMS_TYPES_4);
+					statement.addBatch(SQLConstants.INSERT_INCOMING_STOCK_DETAILS_1+invoiceNo+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+
+							itemTypeVO.getItemId()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+itemTypeVO.getTypeId()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_3+
+							itemTypeVO.getQuantity()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_4);
 				}
 			}
 			
 			statement.executeBatch();
-			conn.commit();
 		}
 		catch (Exception e) 
 		{
@@ -68,9 +70,9 @@ public class IncomingStockDAO
 			{
 				conn.close();
 			}
-			if(pstmt != null )
+			if(statement != null )
 			{
-				pstmt.close();
+				statement.close();
 			}
 			if(resultSet != null)
 			{
@@ -79,60 +81,16 @@ public class IncomingStockDAO
 		}
 	}
 	
-	public void addIncomingStockDetails(String invoiceNo, String itemId, Integer quantity) throws Exception 
-	{
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet resultSet = null;
-		SQLiteConfig config = null;
-		Class.forName(CommonConstants.DRIVERNAME);
-		
-		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
-		
-		try 
-		{
-			config = new SQLiteConfig();
-			config.enforceForeignKeys(true);
-			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.INSERT_INCOMING_STOCK_DETAILS);
-			
-			
-			pstmt.setString(1, invoiceNo);
-			pstmt.setString(2, itemId);
-			pstmt.setInt(3, quantity);
-			
-			pstmt.execute();
-			
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			if(conn !=null )
-			{
-				conn.close();
-			}
-			if(pstmt != null )
-			{
-				pstmt.close();
-			}
-			if(resultSet != null)
-			{
-				resultSet.close();
-			}
-		}
-	}
+	
 
 	
-	public ObservableMap<String,String> fetchItemIdNameList(String categoryId) throws Exception 
+	public ObservableList<IncomingStockVO> fetchIncomingStockDetails(String categoryId) throws Exception 
 	{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		SQLiteConfig config = null;
-		ObservableMap<String,String> itemMap = FXCollections.observableHashMap();
+		ObservableList<IncomingStockVO> listIncoming = FXCollections.observableArrayList();
 		
 		
 		Class.forName(CommonConstants.DRIVERNAME);
@@ -144,7 +102,7 @@ public class IncomingStockDAO
 			config = new SQLiteConfig();
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.FETCH_ITEMS_FROM_CATEGORY);
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_INCOMING_DETAILS);
 			
 			
 			pstmt.setString(1, categoryId);
@@ -153,7 +111,13 @@ public class IncomingStockDAO
 			
 			while(resultSet.next())
 			{
-				itemMap.put(resultSet.getString(2), resultSet.getString(1));
+				IncomingStockVO incomingStockVO = new IncomingStockVO();
+				incomingStockVO.setInvoiceId(resultSet.getString(1));
+				incomingStockVO.setDate(resultSet.getString(2));
+				incomingStockVO.setItemName(resultSet.getString(3));
+				incomingStockVO.setTypeName(resultSet.getString(4));
+				incomingStockVO.setQuantity(resultSet.getInt(5));
+				listIncoming.add(incomingStockVO);
 			}
 			
 		}
@@ -176,6 +140,6 @@ public class IncomingStockDAO
 				resultSet.close();
 			}
 		}
-		return itemMap;
+		return listIncoming;
 	}
 }

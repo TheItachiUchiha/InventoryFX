@@ -22,56 +22,9 @@ import com.fnz.common.SQLConstants;
 
 public class OutgoingStockDAO
 {
-
-	public void updateStockDetails(Map<String,Integer> itemQuantityMap, List<String> itemIdList)  throws Exception 
+	public void deleteOutgoingStock(String date, ObservableList<ItemVO> listData) throws Exception 
 	{
 		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet resultSet = null;
-		SQLiteConfig config = null;
-		Class.forName(CommonConstants.DRIVERNAME);
-		
-		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
-
-		
-		try 
-		{
-			config = new SQLiteConfig();
-			config.enforceForeignKeys(true);
-			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.UPDATE_ITEM_QUANTITY);
-			for(int i=0;i<itemIdList.size();i++)
-			{
-				pstmt.setInt(1, itemQuantityMap.get(itemIdList.get(i)));
-				pstmt.setString(2, itemIdList.get(i));
-				pstmt.executeUpdate();
-			}
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			if(conn !=null )
-			{
-				conn.close();
-			}
-			if(pstmt != null )
-			{
-				pstmt.close();
-			}
-			if(resultSet != null)
-			{
-				resultSet.close();
-			}
-		}
-	}
-	
-	public void deleteOutgoingStock(String invoiceNo, String date, ObservableList<ItemVO> listData) throws Exception 
-	{
-		Connection conn = null;
-		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		SQLiteConfig config = null;
 		java.sql.Statement statement = null;
@@ -84,7 +37,6 @@ public class OutgoingStockDAO
 			config = new SQLiteConfig();
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.INSERT_INCOMING_STOCK);
 			statement = conn.createStatement();
 			
 			
@@ -99,11 +51,13 @@ public class OutgoingStockDAO
 					itemTypeVO = map.get(iter.next());
 					statement.addBatch(SQLConstants.UPDATE_DEL_ITEMS_TYPES_1 + itemTypeVO.getQuantity() + SQLConstants.UPDATE_DEL_ITEMS_TYPES_2 +
 							itemVO.getItemId() + SQLConstants.UPDATE_DEL_ITEMS_TYPES_3 + itemTypeVO.getTypeId() + SQLConstants.UPDATE_DEL_ITEMS_TYPES_4);
+					statement.addBatch(SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_1+date+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_2+
+							itemTypeVO.getItemId()+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_2+itemTypeVO.getTypeId()+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_3+
+							itemTypeVO.getQuantity()+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_4);
 				}
 			}
 			
 			statement.executeBatch();
-			conn.commit();
 		}
 		catch (Exception e) 
 		{
@@ -115,9 +69,9 @@ public class OutgoingStockDAO
 			{
 				conn.close();
 			}
-			if(pstmt != null )
+			if(statement != null )
 			{
-				pstmt.close();
+				statement.close();
 			}
 			if(resultSet != null)
 			{

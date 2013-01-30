@@ -25,18 +25,22 @@ public class SQLConstants
 			" PRIMARY KEY(INVOICE_ID,ITEM_ID,TYPE_ID), FOREIGN KEY(TYPE_ID) REFERENCES CATEGORY_TYPES(TYPE_ID)," +
 			" FOREIGN KEY(ITEM_ID) REFERENCES ITEMS_TABLE(ITEM_ID))";
 	
+	public static final String CREATE_OUTGOING_STOCK_DETAILS = "CREATE TABLE if not exists OUTGOING_STOCK_DETAILS (DATE_OF_DELIVERY text, ITEM_ID text, TYPE_ID text, QUANTITY INTEGER," +
+			" FOREIGN KEY(TYPE_ID) REFERENCES CATEGORY_TYPES(TYPE_ID)," +
+			" FOREIGN KEY(ITEM_ID) REFERENCES ITEMS_TABLE(ITEM_ID))";
+	
 	
 	public static final String INSERT_CATEGORY_1 = "INSERT OR IGNORE INTO CATEGORY_TABLE (CATEGORY_ID, CATEGORY_NAME)";
 	
 	public static final String INSERT_ITEM = "INSERT INTO ITEMS_TABLE values (?,?,?)";
 	
 	public static final String INSERT_ITEMS_TYPES = "INSERT INTO ITEMS_TYPES_TABLE values (?,?,?,?,?,?)";
+	
+	public static final String CHECK_ITEMS_TYPES = "SELECT * FROM ITEMS_TYPES_TABLE WHERE ITEM_ID=? AND TYPE_ID=? ";
 
 	public static final String INSERT_INCOMING_STOCK = "INSERT INTO INCOMING_STOCK values (?,?,?)";
 	
 	public static final String INSERT_CATEGORY_TYPES = "INSERT INTO CATEGORY_TYPES values (?,?,?)";
-	
-	public static final String INSERT_INCOMING_STOCK_DETAILS = "INSERT INTO INCOMING_STOCK_DETAILS values (?,?,?)"; 
 	
 	public static final String FETCH_LATEST_CATEGORY = "SELECT max(rowid) as row from CATEGORY_TABLE";
 	
@@ -45,8 +49,6 @@ public class SQLConstants
 	public static final String FETCH_LATEST_CATEGORY_TYPE = "SELECT max(rowid) as row from CATEGORY_TYPES";
 	
 	public static final String FETCH_ITEM_FROM_CATEGORY = "SELECT ITEM_ID, ITEM_NAME from ITEMS_TABLE where CATEGORY_ID =? ";
-	
-	public static final String UPDATE_ITEM_QUANTITY = "UPDATE ITEMS_TABLE SET QUANTITY = ? where ITEM_ID =? ";
 	
 	public static final String FETCH_CATEGORY = "SELECT CATEGORY_ID,CATEGORY_NAME FROM CATEGORY_TABLE";
 	
@@ -80,4 +82,20 @@ public class SQLConstants
 	public static final String UPDATE_DEL_ITEMS_TYPES_4 = "';";
 	
 	
+	public static final String INSERT_INCOMING_STOCK_1 = "INSERT OR IGNORE INTO INCOMING_STOCK values ('";
+	public static final String INSERT_INCOMING_STOCK_2 = "','";
+	public static final String INSERT_INCOMING_STOCK_3 = "');";
+	
+	public static final String INSERT_INCOMING_STOCK_DETAILS_1 = "INSERT INTO INCOMING_STOCK_DETAILS values ('";
+	public static final String INSERT_INCOMING_STOCK_DETAILS_2 = "','";
+	public static final String INSERT_INCOMING_STOCK_DETAILS_3 = "',";
+	public static final String INSERT_INCOMING_STOCK_DETAILS_4 = ");";
+	
+	public static final String INSERT_OUTGOING_STOCK_DETAILS_1 = "INSERT INTO OUTGOING_STOCK_DETAILS values ('";
+	public static final String INSERT_OUTGOING_STOCK_DETAILS_2 = "','";
+	public static final String INSERT_OUTGOING_STOCK_DETAILS_3 = "',";
+	public static final String INSERT_OUTGOING_STOCK_DETAILS_4 = ");";
+	
+	public static final String FETCH_INCOMING_DETAILS = "SELECT ID.INVOICE_ID, I.DATE_OF_DELIVERY, IT.ITEM_NAME, CT.TYPE, ID.QUANTITY FROM INCOMING_STOCK I,"+
+	" INCOMING_STOCK_DETAILS ID, ITEMS_TABLE IT, CATEGORY_TYPES CT WHERE I.INVOICE_ID = ID.INVOICE_ID AND IT.ITEM_ID = ID.ITEM_ID AND CT.TYPE_ID = ID.TYPE_ID WHERE CT.CATEGORY_ID=?";
 }

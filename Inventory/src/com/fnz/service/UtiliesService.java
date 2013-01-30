@@ -6,6 +6,7 @@ import javafx.collections.ObservableMap;
 
 import com.fnz.VO.CategoryTypeVO;
 import com.fnz.VO.CategoryVO;
+import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.dao.UtiliesDAO;
 
@@ -85,5 +86,13 @@ public class UtiliesService
 	public void editCategoryTypes(CategoryTypeVO editCategoryTypes, String newTypeName) throws Exception 
 	{
 		utiliesDAO.editCategoryTypes(editCategoryTypes, newTypeName);
+	}
+	public ObservableList<ItemVO> fetchItemsFromCategory(String categoryId) throws Exception
+	{
+		return utiliesDAO.fetchItemsFromCategory(categoryId);
+	}
+	public void addItemTypes(ItemTypeVO itemTypeVO) throws Exception 
+	{
+		utiliesDAO.addItemTypes(itemTypeVO);
 	}
 }

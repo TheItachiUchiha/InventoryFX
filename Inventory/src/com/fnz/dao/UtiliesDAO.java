@@ -236,16 +236,13 @@ public class UtiliesDAO
 		}
 	}
 	
-	public void addItemTypes(String categoryId,String itemId, ItemTypeVO itemTypeVO) throws Exception 
+	public void addItemTypes(ItemTypeVO itemTypeVO) throws Exception 
 	{
 		SQLiteConfig config = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		PreparedStatement pstmt1 = null;
 		ResultSet resultSet = null;
-		Integer latestRow = 0;
-		
-		String newTypeId = CommonConstants.TYPE_ID;
+
 		
 		Class.forName(CommonConstants.DRIVERNAME);
 		
@@ -256,48 +253,25 @@ public class UtiliesDAO
 			config = new SQLiteConfig();
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			//pstmt = conn.prepareStatement(SQLConstants.CHECK_ITEMS_TYPES);
+			
+	
 			pstmt = conn.prepareStatement(SQLConstants.INSERT_ITEMS_TYPES);
 			
 			
-			pstmt1 = conn.prepareStatement(SQLConstants.FETCH_LATEST_ITEMS_TYPE);
-			
-			
-			resultSet = pstmt1.executeQuery();
-			
-			resultSet.next();
-			
-			latestRow = resultSet.getInt(1)+1;
-			
-			if(latestRow <10)
-			{
-				newTypeId = newTypeId + "00" + latestRow.toString();
-			}
-			else if(latestRow >=10 && latestRow <100)
-			{
-				newTypeId = newTypeId + "0" + latestRow.toString();
-			}
-			else
-			{
-				newTypeId = newTypeId + latestRow.toString();
-			}
-			
-			
-			pstmt.setQueryTimeout(CommonConstants.TIMEOUT);
-			
-			
-			
-			pstmt.setString(1, itemId);
-			pstmt.setString(2, newTypeId);	
+			pstmt.setString(1, itemTypeVO.getItemId());
+			pstmt.setString(2, itemTypeVO.getTypeId());	
 			pstmt.setInt(3, itemTypeVO.getQuantity());
 			pstmt.setInt(4, itemTypeVO.getDp());
 			pstmt.setInt(5, itemTypeVO.getMrp());
 			pstmt.setInt(6, itemTypeVO.getHp());
-			pstmt.executeUpdate();
+			pstmt.execute();
 			
 		}
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+			throw e;
 		}
 		finally
 		{
@@ -308,10 +282,6 @@ public class UtiliesDAO
 			if(pstmt != null )
 			{
 				pstmt.close();
-			}
-			if(pstmt1 != null )
-			{
-				pstmt1.close();
 			}
 			if(resultSet != null)
 			{
@@ -738,7 +708,7 @@ public class UtiliesDAO
 		return typeList;	
 	}
 	
-	public ObservableList<ItemVO> fetchTtemsFromCategory(String categoryId) throws Exception
+	public ObservableList<ItemVO> fetchItemsFromCategory(String categoryId) throws Exception
 	{
 		SQLiteConfig config = null;
 		Connection conn = null;
