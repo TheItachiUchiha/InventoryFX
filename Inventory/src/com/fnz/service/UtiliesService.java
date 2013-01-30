@@ -95,4 +95,12 @@ public class UtiliesService
 	{
 		utiliesDAO.addItemTypes(itemTypeVO);
 	}
+	public ItemTypeVO fetchItemtypeDetails(String itemId, String typeId) throws Exception 
+	{
+		return utiliesDAO.fetchItemtypeDetails(itemId, typeId);
+	}
+	public void updateItemTypes(ItemTypeVO itemTypeVO) throws Exception 
+	{
+		utiliesDAO.updateItemTypes(itemTypeVO);
+	}
 }

@@ -289,6 +289,121 @@ public class UtiliesDAO
 			}
 		}
 	}
+	
+	public ItemTypeVO fetchItemtypeDetails(String itemId, String typeId) throws Exception 
+	{
+		SQLiteConfig config = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		ItemTypeVO itemTypeVO = null;
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.CHECK_ITEMS_TYPES);
+			
+			pstmt.setString(1, itemId);
+			pstmt.setString(2, typeId);
+	
+			resultSet = pstmt.executeQuery();
+			
+			if(resultSet.next())
+			{
+				itemTypeVO = new ItemTypeVO();
+				itemTypeVO.setItemId(itemId);
+				itemTypeVO.setTypeId(typeId);
+				itemTypeVO.setMrp(resultSet.getInt("MRP"));
+				itemTypeVO.setDp(resultSet.getInt("D_PRICE"));
+				itemTypeVO.setHp(resultSet.getInt("H_PRICE"));
+				itemTypeVO.setQuantity(resultSet.getInt("QUANTITY"));
+			}
+			
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw e;
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}
+		return itemTypeVO;
+	}
+	
+	public void updateItemTypes(ItemTypeVO itemTypeVO) throws Exception 
+	{
+		SQLiteConfig config = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			//pstmt = conn.prepareStatement(SQLConstants.CHECK_ITEMS_TYPES);
+			
+	
+			pstmt = conn.prepareStatement(SQLConstants.UPDATE_ITEMS_TYPES);
+			
+			
+			
+			pstmt.setInt(1, itemTypeVO.getDp());
+			pstmt.setInt(2, itemTypeVO.getMrp());
+			pstmt.setInt(3, itemTypeVO.getHp());
+			pstmt.setString(4, itemTypeVO.getItemId());
+			pstmt.setString(5, itemTypeVO.getTypeId());	
+			
+			pstmt.execute();
+			
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw e;
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}
+	}
+	
 	public ObservableMap<String,String> fetchCategoryDetails() throws Exception
 	{
 		SQLiteConfig config = null;

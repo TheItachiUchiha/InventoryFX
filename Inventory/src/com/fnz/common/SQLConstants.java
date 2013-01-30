@@ -37,6 +37,8 @@ public class SQLConstants
 	public static final String INSERT_ITEMS_TYPES = "INSERT INTO ITEMS_TYPES_TABLE values (?,?,?,?,?,?)";
 	
 	public static final String CHECK_ITEMS_TYPES = "SELECT * FROM ITEMS_TYPES_TABLE WHERE ITEM_ID=? AND TYPE_ID=? ";
+	
+	public static final String UPDATE_ITEMS_TYPES = "UPDATE ITEMS_TYPES_TABLE SET D_PRICE = ?, MRP = ?, H_PRICE = ? WHERE ITEM_ID=? AND TYPE_ID=? ";
 
 	public static final String INSERT_INCOMING_STOCK = "INSERT INTO INCOMING_STOCK values (?,?,?)";
 	

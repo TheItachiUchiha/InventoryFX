@@ -55,6 +55,8 @@ public class Settings
 	UtiliesService utiliesService;
 	Animation animation;
 	ObservableList<CategoryVO> listOfCategories;
+	ItemTypeVO itemTypeVO;
+	
 	public Settings()
 	{
 		utiliesService = new UtiliesService();
@@ -62,6 +64,15 @@ public class Settings
 		listOfCategories = UtiliesDAO.getUtiliesDAO().categoryList;
 		
 	}
+
+	public ItemTypeVO getItemTypeVO() {
+		return itemTypeVO;
+	}
+
+	public void setItemTypeVO(ItemTypeVO itemTypeVO) {
+		this.itemTypeVO = itemTypeVO;
+	}
+
 	/*public GridPane addCategory()
 	{
 		GridPane settings = new GridPane();
@@ -750,9 +761,9 @@ public class Settings
  		});
     	
     	final ToggleButton bItemTypeDetails = new ToggleButton("Item Type Details");
-    	bCategory.setToggleGroup(settingsGroup);
-    	bCategory.setId("drinkName");
-    	bCategory.setMaxSize(250,250);
+    	bItemTypeDetails.setToggleGroup(settingsGroup);
+    	bItemTypeDetails.setId("drinkName");
+    	bItemTypeDetails.setMaxSize(250,250);
     	gsettings.add(bItemTypeDetails,0,3);
     	
     	
@@ -775,6 +786,38 @@ public class Settings
 				}
  			}
  		});
+    	
+    	
+    	final ToggleButton bItemTypeDetailsEdit = new ToggleButton("Item Type Details Edit");
+    	bItemTypeDetailsEdit.setToggleGroup(settingsGroup);
+    	bItemTypeDetailsEdit.setId("drinkName");
+    	bItemTypeDetailsEdit.setMaxSize(250,250);
+    	gsettings.add(bItemTypeDetailsEdit,0,4);
+    	
+    	
+    	bItemTypeDetailsEdit.setOnAction(new EventHandler<ActionEvent>() {
+ 			
+ 			@Override
+ 			public void handle(ActionEvent e) 
+ 			{
+ 				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
+ 				try
+ 				{
+ 					animation.animateRightSettings(bItemTypeDetailsEdit, 0, 1);
+					//borderPane.setCenter(addTypeToCategory());
+ 					borderPane.setCenter(updateDetailsToItems());
+				}
+ 				catch (Exception e1)
+ 				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+ 			}
+ 		});
+    	
+    	
+    	
+    	
     	borderPane.setLeft(gsettings);
 		
 		
@@ -990,11 +1033,27 @@ public class Settings
 					ObservableValue<? extends CategoryVO> observable,
 					CategoryVO oldValue, CategoryVO newValue) {
 				// TODO Auto-generated method stub
-				listTypes.clear();
 				listItems.clear();
 				try {
-					listTypes.addAll(utiliesService.fetchTypes(newValue.getCategotyId()));
 					listItems.addAll(utiliesService.fetchItemsFromCategory(newValue.getCategotyId()));
+				} catch (Exception e) {
+				
+					// TODO Auto-generated catch block
+					msg.setText("Some error occured..");
+				}
+			}
+		});
+		
+		items.valueProperty().addListener(new ChangeListener<ItemVO>() {
+
+			@Override
+			public void changed(
+					ObservableValue<? extends ItemVO> observable,
+					ItemVO oldValue, ItemVO newValue) {
+				// TODO Auto-generated method stub
+				listTypes.clear();
+				try {
+					listTypes.addAll(utiliesService.fetchTypes(categories.getValue().getCategotyId()));
 				} catch (Exception e) {
 				
 					// TODO Auto-generated catch block
@@ -1020,7 +1079,128 @@ public class Settings
 		 					itemTypeVO.setMrp(Integer.parseInt(mrp.getText()));
 		 					itemTypeVO.setHp(Integer.parseInt(hp.getText()));
 							utiliesService.addItemTypes(itemTypeVO);
-							msg.setText("Type added Successfully to Category");
+							msg.setText("Details added Successfully to Category");
+						}
+		 				catch (Exception e1) 
+		 				{
+		 					msg.setText("Data Already Exists ! \nPlease select Edit if you want to edit !");
+							e1.printStackTrace();
+						}
+		 			}
+		 		});
+		gridPane.add(new Label("Category"), 0, 0);
+		gridPane.add(categories, 1, 0);
+		gridPane.add(new Label("Item"),0,1);
+		gridPane.add(items,1,1);
+		gridPane.add(new Label("Types"),0,2);
+		gridPane.add(types, 1, 2);
+		gridPane.add(new Label("Depo Price"),0,3);
+		gridPane.add(dp, 1, 3);
+		gridPane.add(new Label("M.R.P."),0,4);
+		gridPane.add(mrp, 1, 4);
+		gridPane.add(new Label("Hotel Price"),0,5);
+		gridPane.add(hp, 1, 5);
+		gridPane.add(add, 1, 6);
+		gridPane.add(msg,1,8);
+		return gridPane;
+	}
+	
+	public GridPane updateDetailsToItems()
+	{
+		final Label msg = new Label();
+		GridPane gridPane = new GridPane();
+		gridPane.setVgap(8);
+		gridPane.setHgap(10);
+		gridPane.setPadding(new Insets(30,0,0,0));
+		//gridPane.setAlignment(Pos.CENTER);
+		
+		
+		
+		
+		final ObservableList<CategoryTypeVO> listTypes = FXCollections.observableArrayList();
+		final ObservableList<ItemVO> listItems = FXCollections.observableArrayList();
+		
+		final ComboBox<CategoryVO> categories = new ComboBox<CategoryVO>(listOfCategories);
+		final ComboBox<CategoryTypeVO> types = new ComboBox<CategoryTypeVO>(listTypes);
+		final ComboBox<ItemVO> items = new ComboBox<ItemVO>(listItems);
+		
+		
+		final TextField dp = new TextField();
+		final TextField mrp = new TextField();
+		final TextField hp = new TextField();
+		Button add = new Button("Add Details");
+		
+		categories.valueProperty().addListener(new ChangeListener<CategoryVO>() {
+
+			@Override
+			public void changed(
+					ObservableValue<? extends CategoryVO> observable,
+					CategoryVO oldValue, CategoryVO newValue) {
+				// TODO Auto-generated method stub
+				listItems.clear();
+				try {
+					listItems.addAll(utiliesService.fetchItemsFromCategory(newValue.getCategotyId()));
+				} catch (Exception e) {
+				
+					// TODO Auto-generated catch block
+					msg.setText("Some error occured..");
+				}
+			}
+		});
+		
+		items.valueProperty().addListener(new ChangeListener<ItemVO>() {
+
+			@Override
+			public void changed(
+					ObservableValue<? extends ItemVO> observable,
+					ItemVO oldValue, ItemVO newValue) {
+				// TODO Auto-generated method stub
+				listTypes.clear();
+				try {
+					listTypes.addAll(utiliesService.fetchTypes(categories.getValue().getCategotyId()));
+				} catch (Exception e) {
+				
+					// TODO Auto-generated catch block
+					msg.setText("Some error occured..");
+				}
+			}
+		});
+		
+		types.valueProperty().addListener(new ChangeListener<CategoryTypeVO>() {
+
+			@Override
+			public void changed(
+					ObservableValue<? extends CategoryTypeVO> observable,
+					CategoryTypeVO oldValue, CategoryTypeVO newValue) {
+				// TODO Auto-generated method stub
+				try {
+					ItemTypeVO itemTypeVO = new ItemTypeVO();
+					itemTypeVO = utiliesService.fetchItemtypeDetails(items.getValue().getItemId(), newValue.getTypeId());
+					mrp.setText(itemTypeVO.getMrp().toString());
+					dp.setText(itemTypeVO.getDp().toString());
+					hp.setText(itemTypeVO.getHp().toString());
+					setItemTypeVO(itemTypeVO);
+				} catch (Exception e) {
+				
+					// TODO Auto-generated catch block
+					msg.setText("Some error occured..");
+				}
+			}
+		});
+		
+		
+		add.setOnAction(new EventHandler<ActionEvent>() {
+		 			
+		 			@Override
+		 			public void handle(ActionEvent e) 
+		 			{
+		 				try
+		 				{
+		 					getItemTypeVO().setDp(Integer.parseInt(dp.getText()));
+		 					getItemTypeVO().setMrp(Integer.parseInt(mrp.getText()));
+		 					getItemTypeVO().setHp(Integer.parseInt(hp.getText()));
+							utiliesService.updateItemTypes(getItemTypeVO());
+							msg.setText("Details Updated Successfully to Category");
 						}
 		 				catch (Exception e1) 
 		 				{
