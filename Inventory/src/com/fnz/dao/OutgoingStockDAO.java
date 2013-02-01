@@ -15,8 +15,10 @@ import javafx.collections.ObservableMap;
 
 import org.sqlite.SQLiteConfig;
 
+import com.fnz.VO.StockVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
+import com.fnz.VO.StockVO;
 import com.fnz.common.CommonConstants;
 import com.fnz.common.SQLConstants;
 
@@ -38,7 +40,8 @@ public class OutgoingStockDAO
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			statement = conn.createStatement();
-			
+			String splitsDate[] = date.split("/");
+			date = splitsDate[2]+"-"+splitsDate[1]+"-"+splitsDate[0];
 			
 			for(ItemVO itemVO : listData)
 			{
@@ -78,5 +81,73 @@ public class OutgoingStockDAO
 				resultSet.close();
 			}
 		}
+	}
+	
+	public ObservableList<StockVO> fetchOutgoingStockDetails(String initialDate, String finalDate) throws Exception 
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		SQLiteConfig config = null;
+		ObservableList<StockVO> listIncoming = FXCollections.observableArrayList();
+		
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_OUTGOING_DETAILS);
+			
+			
+			
+			String splitsInitialDate[] = initialDate.split("/");
+			initialDate = splitsInitialDate[2]+"-"+splitsInitialDate[1]+"-"+splitsInitialDate[0];
+			
+			String splitsFinalDate[] = finalDate.split("/");
+			finalDate = splitsFinalDate[2]+"-"+splitsFinalDate[1]+"-"+splitsFinalDate[0];
+			
+			pstmt.setString(1,  initialDate);
+			pstmt.setString(2, finalDate);
+			
+			
+			resultSet = pstmt.executeQuery();
+			
+			while(resultSet.next())
+			{
+				StockVO StockVO = new StockVO();
+				String splitsDate[] = resultSet.getString(1).split("-");
+				StockVO.setDate(splitsDate[2]+"/"+splitsDate[1]+"/"+splitsDate[0]);
+				StockVO.setItemName(resultSet.getString(2));
+				StockVO.setTypeName(resultSet.getString(3));
+				StockVO.setQuantity(resultSet.getInt(4));
+				listIncoming.add(StockVO);
+			}
+			
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}
+		return listIncoming;
 	}
 }

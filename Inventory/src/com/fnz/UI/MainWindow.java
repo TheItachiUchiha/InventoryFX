@@ -74,6 +74,7 @@ public class MainWindow extends Application
 	public UtiliesService utiliesService;
 	public IncomingStock incomingStock;
 	public OutgoingStock outgoingStock;
+	public TransactionHistory transactionHistory;
 	
 	public ObservableList<CategoryVO> categoryList;
 	public ObservableList<ItemVO> itemList;
@@ -92,6 +93,7 @@ public class MainWindow extends Application
 		utiliesService = new UtiliesService();
 		incomingStock = new IncomingStock();
 		outgoingStock = new OutgoingStock();
+		transactionHistory = new TransactionHistory();
 		categoryList = FXCollections.observableArrayList();
 		itemList =FXCollections.observableArrayList();
 		itemList = UtiliesDAO.getUtiliesDAO().getItemList();
@@ -340,7 +342,7 @@ public class MainWindow extends Application
   			}
   			if(newTab.getText().equals(tabD.getText()))
   			{
-  				tabD.setContent(outgoingStock.delStockDrinkList(categoryList));
+  				tabD.setContent(transactionHistory.viewHistory());
   			}
   		    if(newTab.getText().equals(tabSetting.getText()))
   		    {

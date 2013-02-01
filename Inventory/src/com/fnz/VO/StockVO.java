@@ -1,6 +1,6 @@
 package com.fnz.VO;
 
-public class IncomingStockVO 
+public class StockVO 
 {
 	private String invoiceId;
 	private String date;

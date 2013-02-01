@@ -1,19 +1,12 @@
 package com.fnz.service;
 
-import com.fnz.VO.IncomingStockVO;
+
 import com.fnz.VO.ItemVO;
+import com.fnz.VO.StockVO;
 import com.fnz.dao.IncomingStockDAO;
 
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Screen;
+
 
 public class IncomingStockService
 {
@@ -27,8 +20,8 @@ public class IncomingStockService
 	{
 		incomingStockDAO.addIncomingStock(invoiceNo, date, listData);
 	}
-	public ObservableList<IncomingStockVO> fetchIncomingStockDetails(String categoryId) throws Exception 
+	public ObservableList<StockVO> fetchIncomingStockDetails(String initialDate, String finalDate) throws Exception 
 	{
-		return incomingStockDAO.fetchIncomingStockDetails(categoryId);
+		return incomingStockDAO.fetchIncomingStockDetails(initialDate, finalDate);
 	}
 }

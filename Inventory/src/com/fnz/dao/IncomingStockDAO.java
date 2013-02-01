@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -14,9 +13,9 @@ import javafx.collections.ObservableMap;
 
 import org.sqlite.SQLiteConfig;
 
-import com.fnz.VO.IncomingStockVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
+import com.fnz.VO.StockVO;
 import com.fnz.common.CommonConstants;
 import com.fnz.common.SQLConstants;
 
@@ -38,6 +37,10 @@ public class IncomingStockDAO
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			statement = conn.createStatement();
+			
+			String splitsDate[] = date.split("/");
+			date = splitsDate[2]+"-"+splitsDate[1]+"-"+splitsDate[0];
+			
 			
 			statement.addBatch(SQLConstants.INSERT_INCOMING_STOCK_1+invoiceNo+SQLConstants.INSERT_INCOMING_STOCK_2+date+SQLConstants.INSERT_INCOMING_STOCK_2
 					+""+SQLConstants.INSERT_INCOMING_STOCK_3);
@@ -84,13 +87,13 @@ public class IncomingStockDAO
 	
 
 	
-	public ObservableList<IncomingStockVO> fetchIncomingStockDetails(String categoryId) throws Exception 
+	public ObservableList<StockVO> fetchIncomingStockDetails(String initialDate, String finalDate) throws Exception 
 	{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		SQLiteConfig config = null;
-		ObservableList<IncomingStockVO> listIncoming = FXCollections.observableArrayList();
+		ObservableList<StockVO> listIncoming = FXCollections.observableArrayList();
 		
 		
 		Class.forName(CommonConstants.DRIVERNAME);
@@ -105,15 +108,25 @@ public class IncomingStockDAO
 			pstmt = conn.prepareStatement(SQLConstants.FETCH_INCOMING_DETAILS);
 			
 			
-			pstmt.setString(1, categoryId);
+			
+			String splitsInitialDate[] = initialDate.split("/");
+			initialDate = splitsInitialDate[2]+"-"+splitsInitialDate[1]+"-"+splitsInitialDate[0];
+			
+			String splitsFinalDate[] = finalDate.split("/");
+			finalDate = splitsFinalDate[2]+"-"+splitsFinalDate[1]+"-"+splitsFinalDate[0];
+			
+			pstmt.setString(1,  initialDate);
+			pstmt.setString(2, finalDate);
+			
 			
 			resultSet = pstmt.executeQuery();
 			
 			while(resultSet.next())
 			{
-				IncomingStockVO incomingStockVO = new IncomingStockVO();
+				StockVO incomingStockVO = new StockVO();
 				incomingStockVO.setInvoiceId(resultSet.getString(1));
-				incomingStockVO.setDate(resultSet.getString(2));
+				String splitsDate[] = resultSet.getString(2).split("-");
+				incomingStockVO.setDate(splitsDate[2]+"/"+splitsDate[1]+"/"+splitsDate[0]);
 				incomingStockVO.setItemName(resultSet.getString(3));
 				incomingStockVO.setTypeName(resultSet.getString(4));
 				incomingStockVO.setQuantity(resultSet.getInt(5));
