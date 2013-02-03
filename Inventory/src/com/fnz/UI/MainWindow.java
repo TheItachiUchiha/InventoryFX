@@ -98,7 +98,8 @@ public class MainWindow extends Application
 		itemList =FXCollections.observableArrayList();
 		itemList = UtiliesDAO.getUtiliesDAO().getItemList();
 		
-		categoryList = UtiliesDAO.getUtiliesDAO().categoryList;
+		
+		
 	}
     public static void main(String[] args)
     {
@@ -113,13 +114,7 @@ public class MainWindow extends Application
 // Use a border pane as the root for scene
     		
     	
-    	ObservableList<String> categoryList =FXCollections.observableArrayList();
-    	categoryList.addAll(CommonConstants.CATEGORY_PREMIUM_WHISKY,CommonConstants.CATEGORY_REGULAR_WHISKY,CommonConstants.CATEGORY_PREMIUM_VODKA,CommonConstants.CATEGORY_REGULAR_VODKA,
-    			CommonConstants.CATEGORY_BRANDY,CommonConstants.CATEGORY_GIN,CommonConstants.CATEGORY_PREMIUM_RUM,
-    			CommonConstants.CATEGORY_REGULAR_RUM,CommonConstants.CATEGORY_BEER,CommonConstants.CATEGORY_WINE,
-    			CommonConstants.CATEGORY_PREMIUM_SCOTCH,CommonConstants.CATEGORY_REGULAR_SCOTCH,CommonConstants.CATEGORY_BEVRAGES);
-    	
-        utiliesService.addCategory(categoryList);
+    	categoryList = UtiliesDAO.getUtiliesDAO().categoryList;
     	
         border = new BorderPane();
         border.setTop(upperPart());

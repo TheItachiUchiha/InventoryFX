@@ -8,7 +8,9 @@ public class CommonConstants
 	
 	public static final String sTempDb = "inventory.db";
 	
-	public static final String DB_LOCATION="C:\\Inventory\\";
+	//public static final String DB_LOCATION="C:\\Inventory\\";
+	
+	public static final String DB_LOCATION="Data\\";
 	
 	public static final Integer TIMEOUT = 30;
 	
