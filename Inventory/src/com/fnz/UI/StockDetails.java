@@ -33,6 +33,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.effect.Reflection;
@@ -95,7 +97,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('wine.jpeg');");
+ 				//borderPane.setStyle("-fx-background-image: url('wine.jpeg');");
  				/*borderPane.setCenter(drinks.viewWineStock());
  				chkRect()*/
  				borderPane.setCenter(viewStock(listCategory.get(0).getCategotyId(),listCategory.get(0).getCategoryName()));
@@ -113,7 +115,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('vodka.jpg');");
+ 				//borderPane.setStyle("-fx-background-image: url('vodka.jpg');");
  				//borderPane.setCenter(drinks.viewVodkaStock());
  				borderPane.setCenter(viewStock(listCategory.get(1).getCategotyId(),listCategory.get(1).getCategoryName()));
  				animation.animateRight(bt2,0,0);
@@ -130,7 +132,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('beer2.jpg');");
+ 				//borderPane.setStyle("-fx-background-image: url('beer2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(2).getCategotyId(),listCategory.get(2).getCategoryName()));
  				animation.animateLeft(bt3,0,1);
  			}
@@ -146,7 +148,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('whisky.jpg');");
+ 				//borderPane.setStyle("-fx-background-image: url('whisky.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(3).getCategotyId(),listCategory.get(3).getCategoryName()));
  				animation.animateRight(bt4,0,1);
  			}
@@ -162,7 +164,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('rum2.jpg');");
+ 				//borderPane.setStyle("-fx-background-image: url('rum2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(4).getCategotyId(),listCategory.get(5).getCategoryName()));
  				animation.animateRight(bt5,0,4);
  			}
@@ -178,7 +180,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('Scotch.jpg');");
+ 				//borderPane.setStyle("-fx-background-image: url('Scotch.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(5).getCategotyId(),listCategory.get(5).getCategoryName()));
  				animation.animateRight(bt6,0,5);
  			}
@@ -194,7 +196,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+ 			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(6).getCategotyId(),listCategory.get(6).getCategoryName()));
  				animation.animateLeft(bt7,0,5);
  			}
@@ -210,7 +212,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+ 			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(7).getCategotyId(),listCategory.get(7).getCategoryName()));
  				animation.animateRight(bt8,0,3);
  			}
@@ -226,7 +228,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+ 			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(8).getCategotyId(),listCategory.get(8).getCategoryName()));
  				animation.animateRight(bt9,0,6);
  			}
@@ -242,7 +244,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+ 			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(9).getCategotyId(),listCategory.get(9).getCategoryName()));
  				animation.animateLeft(bt10,0,3);
  			}
@@ -258,7 +260,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+ 			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(10).getCategotyId(),listCategory.get(10).getCategoryName()));
  				animation.animateLeft(bt11,0,2);
  			}
@@ -274,7 +276,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+ 			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(11).getCategotyId(),listCategory.get(11).getCategoryName()));
  				animation.animateRight(bt12,0,2);
  			}
@@ -290,7 +292,7 @@ public class StockDetails
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+ 			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
  				borderPane.setCenter(viewStock(listCategory.get(12).getCategotyId(),listCategory.get(12).getCategoryName()));
  				animation.animateLeft(bt13,0,4);
  			}
@@ -335,6 +337,10 @@ public class StockDetails
 		hlabel.setStyle("-fx-background-color:black;");
 		hlabel.setOpacity(0.3);
 		hlabel.setLayoutX(20);
+		
+	
+        
+        
 		try
 		{
 			typeList =  FXCollections.observableArrayList();
@@ -364,22 +370,23 @@ public class StockDetails
 		 	
 		 	TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(false);
-		 	table1.setMaxSize(400, 300);
+		 	table1.setMaxSize(500, 300);
+		 	
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
 		 	TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(false);
 		 	
-		 	table2.setMaxSize(400, 300);
+		 	table2.setMaxSize(500, 300);
 		 	table2.setStyle("-fx-background-color: transparent;");
 		 	
 		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
-		 	itemName.setMinWidth(200);
+		 	itemName.setMinWidth(300);
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity");
-		 	quantity.setMinWidth(200);
+		 	quantity.setMinWidth(300);
 		 	/*quantity.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, Integer>("quantity"));*/
 		 	
@@ -389,6 +396,8 @@ public class StockDetails
 		 	{
 		 		  TableColumn<ItemVO, Integer> col = new TableColumn<ItemVO, Integer>(type.getTypeName());
 		 		  col.setMinWidth(100);
+		 		  col.setResizable(false);
+		 		  
 		 		  col.setCellValueFactory(new Callback<CellDataFeatures<ItemVO,Integer>, ObservableValue<Integer>>() {
 		 		    @Override
 		 		    public ObservableValue<Integer> call(CellDataFeatures<ItemVO,Integer> item) 

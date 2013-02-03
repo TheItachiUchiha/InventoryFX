@@ -719,7 +719,7 @@ public class Settings
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
+ 				//borderPane.setStyle("-fx-background-image: url('settings.jpg');");
  				try
  				{
  					animation.animateRightSettings(bAddItem, 0, 0);
@@ -745,7 +745,7 @@ public class Settings
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
+ 				//borderPane.setStyle("-fx-background-image: url('settings.jpg');");
  				try
  				{
  					animation.animateRightSettings(bCategory, 0, 1);
@@ -760,7 +760,7 @@ public class Settings
  			}
  		});
     	
-    	final ToggleButton bItemTypeDetails = new ToggleButton("Item Type Details");
+    	final ToggleButton bItemTypeDetails = new ToggleButton("Item Type\nDetails");
     	bItemTypeDetails.setToggleGroup(settingsGroup);
     	bItemTypeDetails.setId("drinkName");
     	bItemTypeDetails.setMaxSize(250,250);
@@ -772,7 +772,7 @@ public class Settings
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
+ 				//borderPane.setStyle("-fx-background-image: url('settings.jpg');");
  				try
  				{
  					animation.animateRightSettings(bItemTypeDetails, 0, 1);
@@ -788,7 +788,7 @@ public class Settings
  		});
     	
     	
-    	final ToggleButton bItemTypeDetailsEdit = new ToggleButton("Item Type Details Edit");
+    	final ToggleButton bItemTypeDetailsEdit = new ToggleButton("Item Type\nDetails Edit");
     	bItemTypeDetailsEdit.setToggleGroup(settingsGroup);
     	bItemTypeDetailsEdit.setId("drinkName");
     	bItemTypeDetailsEdit.setMaxSize(250,250);
@@ -800,7 +800,7 @@ public class Settings
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				borderPane.setStyle("-fx-background-image: url('settings.jpg');");
+ 				//borderPane.setStyle("-fx-background-image: url('settings.jpg');");
  				try
  				{
  					animation.animateRightSettings(bItemTypeDetailsEdit, 0, 1);
