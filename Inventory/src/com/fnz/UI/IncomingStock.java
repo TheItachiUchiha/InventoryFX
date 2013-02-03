@@ -103,7 +103,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('wine.jpeg');");
+				//borderPane.setStyle("-fx-background-image: url('wine.jpeg');");
 				borderPane.setCenter(addStock(listCategory.get(0).getCategotyId(),listCategory.get(0).getCategoryName()));
 				animation.animateLeft(bt1,0,0);
 			}
@@ -119,7 +119,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('vodka.jpg');");
+				//borderPane.setStyle("-fx-background-image: url('vodka.jpg');");
 				//borderPane.setCenter(drinks.viewVodkaStock());
 				borderPane.setCenter(addStock(listCategory.get(1).getCategotyId(),listCategory.get(1).getCategoryName()));
 				animation.animateRight(bt2,0,0);
@@ -136,7 +136,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('beer2.jpg');");
+				//borderPane.setStyle("-fx-background-image: url('beer2.jpg');");
 				borderPane.setCenter(addStock(listCategory.get(2).getCategotyId(),listCategory.get(2).getCategoryName()));
 				animation.animateLeft(bt3,0,1);
 			}
@@ -152,7 +152,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('whisky.jpg');");
+				//borderPane.setStyle("-fx-background-image: url('whisky.jpg');");
 				borderPane.setCenter(addStock(listCategory.get(3).getCategotyId(),listCategory.get(3).getCategoryName()));
 				animation.animateRight(bt4,0,1);
 			}
@@ -168,7 +168,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('rum2.jpg');");
+				//borderPane.setStyle("-fx-background-image: url('rum2.jpg');");
 				borderPane.setCenter(addStock(listCategory.get(4).getCategotyId(),listCategory.get(5).getCategoryName()));
 				animation.animateRight(bt5,0,4);
 			}
@@ -184,7 +184,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('Scotch.jpg');");
+			//	borderPane.setStyle("-fx-background-image: url('Scotch.jpg');");
 				borderPane.setCenter(addStock(listCategory.get(5).getCategotyId(),listCategory.get(5).getCategoryName()));
 				animation.animateRight(bt6,0,5);
 			}
@@ -200,7 +200,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
 				borderPane.setCenter(addStock(listCategory.get(6).getCategotyId(),listCategory.get(6).getCategoryName()));
 				animation.animateLeft(bt7,0,5);
 			}
@@ -216,7 +216,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
 				borderPane.setCenter(addStock(listCategory.get(7).getCategotyId(),listCategory.get(7).getCategoryName()));
 				animation.animateRight(bt8,0,3);
 			}
@@ -232,7 +232,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
 				borderPane.setCenter(addStock(listCategory.get(8).getCategotyId(),listCategory.get(8).getCategoryName()));
 				animation.animateRight(bt9,0,6);
 			}
@@ -248,7 +248,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
 				borderPane.setCenter(addStock(listCategory.get(9).getCategotyId(),listCategory.get(9).getCategoryName()));
 				animation.animateLeft(bt10,0,3);
 			}
@@ -264,7 +264,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
 				borderPane.setCenter(addStock(listCategory.get(10).getCategotyId(),listCategory.get(10).getCategoryName()));
 				animation.animateLeft(bt11,0,2);
 			}
@@ -280,7 +280,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
 				borderPane.setCenter(addStock(listCategory.get(11).getCategotyId(),listCategory.get(11).getCategoryName()));
 				animation.animateRight(bt12,0,2);
 			}
@@ -296,7 +296,7 @@ public class IncomingStock
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
+			//	borderPane.setStyle("-fx-background-image: url('othertype2.jpg');");
 				borderPane.setCenter(addStock(listCategory.get(12).getCategotyId(),listCategory.get(12).getCategoryName()));
 				animation.animateLeft(bt13,0,4);
 			}
@@ -382,14 +382,18 @@ public class IncomingStock
 		 	
 			HBox invoiceBox = new HBox();
 			invoiceBox.setPadding(new Insets(0.5, 0, 0.5, 50));
-			invoiceBox.getChildren().add(new Label("Invoice Id : "));
+			Label l1= new Label("Invoice Id : ");
+			l1.setTextFill(Color.GRAY);
+			invoiceBox.getChildren().add(l1);
 			
 			final TextField invoiceField = new TextField();
 			invoiceBox.getChildren().add(invoiceField);
 			
 			HBox dateBox = new HBox();
 			dateBox.setPadding(new Insets(0.5, 0, 0.5, 50));
-			dateBox.getChildren().add(new Label("Date : "));
+			Label l2=new Label("Date : ");
+			l2.setTextFill(Color.GRAY);
+			dateBox.getChildren().add(l2);
 			
 			final FXCalendar date = new FXCalendar();
 			dateBox.getChildren().add(date);
