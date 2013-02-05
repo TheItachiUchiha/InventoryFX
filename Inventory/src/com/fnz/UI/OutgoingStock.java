@@ -9,8 +9,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.collections.ListChangeListener.Change;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -404,12 +406,12 @@ public class OutgoingStock
 			
 			
 			
-		 	TableView<ItemVO> table1 = new TableView<ItemVO>();
+		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(true);
 		 	table1.setMaxSize(400, 300);
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
-		 	TableView<ItemVO> table2 = new TableView<ItemVO>();
+		 	final TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(true);
 		 	
 		 	table2.setMaxSize(400, 300);
@@ -474,7 +476,21 @@ public class OutgoingStock
 		 		
 		 	
 		 	table1.setItems(dataTable1);
-		 	table1.getColumns().addAll(itemName, quantity);
+		 	final TableColumn[] columns1 = {itemName, quantity};
+		 	table1.getColumns().addAll(columns1);
+		 	table1.getColumns().addListener(new ListChangeListener() {
+		        public boolean suspended;
+
+		        @Override
+		        public void onChanged(Change change) {
+		            change.next();
+		            if (change.wasReplaced() && !suspended) {
+		                this.suspended = true;
+		                table1.getColumns().setAll(columns1);
+		                this.suspended = false;
+		            }
+		        }
+		    });
 		 	
 
 		 	
@@ -527,7 +543,21 @@ public class OutgoingStock
 		 		  quantity2.getColumns().add(col2);
 		 		}
 		 	table2.setItems(dataTable2);
-		 	table2.getColumns().addAll(itemName2, quantity2);
+		 	final TableColumn[] columns2 = {itemName2, quantity2};
+		 	table2.getColumns().addAll(columns2);
+		 	table2.getColumns().addListener(new ListChangeListener() {
+		        public boolean suspended;
+
+		        @Override
+		        public void onChanged(Change change) {
+		            change.next();
+		            if (change.wasReplaced() && !suspended) {
+		                this.suspended = true;
+		                table2.getColumns().setAll(columns2);
+		                this.suspended = false;
+		            }
+		        }
+		    });
 		 	
 			Button button = new Button("Update Stock");
 			button.setOnAction(new EventHandler<ActionEvent>() {

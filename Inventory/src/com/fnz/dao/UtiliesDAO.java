@@ -33,7 +33,7 @@ public class UtiliesDAO
 		itemList =FXCollections.observableArrayList();
 		try 
 		{
-			itemList = fetchItemDetails();
+			//itemList = fetchItemDetails();
 			categoryList = fetchCategory();
 		}
 		catch (Exception e)

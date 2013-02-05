@@ -18,8 +18,10 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.collections.ListChangeListener.Change;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -315,7 +317,9 @@ public class StockDetails
 	
         grid.setVgap(8);
         grid.setPadding(new Insets(30));
-		ObservableList<ItemVO> dataTable;
+		final ObservableList<ItemVO> dataTable;
+		final ObservableList<ItemVO> dataTable1;
+		final ObservableList<ItemVO> dataTable2;
 		ObservableList<CategoryTypeVO> typeList;
 		
 		Rectangle roundRect = RectangleBuilder.create()
@@ -347,7 +351,19 @@ public class StockDetails
 			typeList = UtiliesDAO.getUtiliesDAO().fetchTypes(categoryId);
 			
 			dataTable = FXCollections.observableArrayList();
-			dataTable = stockDetailsService.viewStock(categoryId);
+			dataTable.addAll(stockDetailsService.viewStock(categoryId));
+			
+			dataTable1 = FXCollections.observableArrayList();
+			dataTable2 = FXCollections.observableArrayList();
+			
+			for(int i=0;i<dataTable.size();i++)
+			{
+				dataTable1.add(dataTable.get(i++));
+				if(i<=dataTable.size()-1)
+				{
+					dataTable2.add(dataTable.get(i));
+				}
+			}
 			
 			final Label label = new Label(categoryName + " Stock");
 		
@@ -368,25 +384,21 @@ public class StockDetails
 		 	//grid.add(label,1,0);
 		 	
 		 	
-		 	TableView<ItemVO> table1 = new TableView<ItemVO>();
+		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(false);
-		 	table1.setMaxSize(500, 300);
+		 	table1.setMaxSize(400, 300);
 		 	
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
-		 	TableView<ItemVO> table2 = new TableView<ItemVO>();
-		 	table2.setEditable(false);
 		 	
-		 	table2.setMaxSize(500, 300);
-		 	table2.setStyle("-fx-background-color: transparent;");
 		 	
 		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
-		 	itemName.setMinWidth(300);
+		 	itemName.setMinWidth(200);
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity");
-		 	quantity.setMinWidth(300);
+		 	quantity.setMinWidth(200);
 		 	/*quantity.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, Integer>("quantity"));*/
 		 	
@@ -428,12 +440,90 @@ public class StockDetails
 		 	
 		 	
 		 	
-		 	table1.setItems(dataTable);
-		 	table1.getColumns().addAll(itemName, quantity);
-		 	
+		 	table1.setItems(dataTable1);
+		 	final TableColumn[] columns1 = {itemName, quantity};
+		 	table1.getColumns().addAll(columns1);
+		 	table1.getColumns().addListener(new ListChangeListener() {
+		        public boolean suspended;
 
-		 	table2.setItems(dataTable);
-		 	table2.getColumns().addAll(itemName, quantity);
+		        @Override
+		        public void onChanged(Change change) {
+		            change.next();
+		            if (change.wasReplaced() && !suspended) {
+		                this.suspended = true;
+		                table1.getColumns().setAll(columns1);
+		                this.suspended = false;
+		            }
+		        }
+		    });
+		 	
+		 	final TableView<ItemVO> table2 = new TableView<ItemVO>();
+		 	table2.setEditable(false);
+		 	
+		 	table2.setMaxSize(400, 300);
+		 	table2.setStyle("-fx-background-color: transparent;");
+		 	
+		 	TableColumn<ItemVO,String> itemName2 = new TableColumn<ItemVO,String> ("Item");
+		 	itemName.setMinWidth(200);
+		 	itemName.setCellValueFactory(
+		 			new PropertyValueFactory<ItemVO, String>("itemName"));
+		 	
+		 	TableColumn<ItemVO, Integer>  quantity2 = new TableColumn<ItemVO, Integer> ("Quantity");
+		 	quantity.setMinWidth(200);
+		 	/*quantity.setCellValueFactory(
+		 			new PropertyValueFactory<ItemVO, Integer>("quantity"));*/
+		 	
+		 	
+		 	
+		 	for (final CategoryTypeVO type : typeList)
+		 	{
+		 		  TableColumn<ItemVO, Integer> col2 = new TableColumn<ItemVO, Integer>(type.getTypeName());
+		 		  col2.setMinWidth(200);
+		 		  col2.setResizable(false);
+		 		  
+		 		  col2.setCellValueFactory(new Callback<CellDataFeatures<ItemVO,Integer>, ObservableValue<Integer>>() {
+		 		    @Override
+		 		    public ObservableValue<Integer> call(CellDataFeatures<ItemVO,Integer> item) 
+		 		    {
+		 		    	ItemVO itemVO = item.getValue();
+		 		    	if (itemVO == null) 
+		 		    	{
+		 		    	  return null ;
+		 		    	// or perhaps
+		 		    	// return new ReadOnlyObjectWrapper<Integer>(null);
+		 		    	} 
+		 		    	else
+		 		    	{
+			 		    	ObservableMap<String,ItemTypeVO> itemTypesMap = FXCollections.observableHashMap();
+			 		    	itemTypesMap = item.getValue().getListType();
+			 		    
+			 		    	return new ReadOnlyObjectWrapper<Integer>(itemTypesMap.get(type.getTypeId()).getQuantity());
+			 		    	
+		 		    	}
+
+		 		    }
+
+		 		  });
+		 		  quantity2.getColumns().add(col2);
+		 		}
+		 	
+		 	
+		 	table2.setItems(dataTable2);
+		 	final TableColumn[] columns2 = {itemName2, quantity2};
+		 	table2.getColumns().addAll(columns2);
+		 	table2.getColumns().addListener(new ListChangeListener() {
+		        public boolean suspended;
+
+		        @Override
+		        public void onChanged(Change change) {
+		            change.next();
+		            if (change.wasReplaced() && !suspended) {
+		                this.suspended = true;
+		                table2.getColumns().setAll(columns2);
+		                this.suspended = false;
+		            }
+		        }
+		    });
 		 	
 			
 			grid.add(table1,0,12);
