@@ -383,7 +383,8 @@ public class StockDetails
 			label.setAlignment(Pos.CENTER_LEFT);
 		 	//grid.add(label,1,0);
 		 	
-		 	
+		 	System.out.println(Screen.getPrimary().getVisualBounds().getWidth());
+		 	System.out.println(Screen.getPrimary().getVisualBounds().getHeight());
 		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(false);
 		 	table1.setMaxSize(400, 300);
@@ -464,12 +465,12 @@ public class StockDetails
 		 	table2.setStyle("-fx-background-color: transparent;");
 		 	
 		 	TableColumn<ItemVO,String> itemName2 = new TableColumn<ItemVO,String> ("Item");
-		 	itemName.setMinWidth(200);
-		 	itemName.setCellValueFactory(
+		 	itemName2.setMinWidth(200);
+		 	itemName2.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity2 = new TableColumn<ItemVO, Integer> ("Quantity");
-		 	quantity.setMinWidth(200);
+		 	quantity2.setMinWidth(200);
 		 	/*quantity.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, Integer>("quantity"));*/
 		 	
@@ -478,7 +479,7 @@ public class StockDetails
 		 	for (final CategoryTypeVO type : typeList)
 		 	{
 		 		  TableColumn<ItemVO, Integer> col2 = new TableColumn<ItemVO, Integer>(type.getTypeName());
-		 		  col2.setMinWidth(200);
+		 		  col2.setMinWidth(100);
 		 		  col2.setResizable(false);
 		 		  
 		 		  col2.setCellValueFactory(new Callback<CellDataFeatures<ItemVO,Integer>, ObservableValue<Integer>>() {

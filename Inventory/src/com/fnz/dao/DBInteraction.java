@@ -65,6 +65,10 @@ public class DBInteraction
 			stmt.executeUpdate( SQLConstants.CREATE_INCOMING_STOCK );
 			stmt.executeUpdate(SQLConstants.CREATE_INCOMING_STOCK_DETAILS);
 			stmt.executeUpdate(SQLConstants.CREATE_OUTGOING_STOCK_DETAILS);
+			stmt.execute(SQLConstants.INDEX_CATEGORY_TYPES);
+			stmt.execute(SQLConstants.INDEX_INCOMING_STOCK);
+			stmt.execute(SQLConstants.INDEX_ITEM_TABLE);
+			stmt.execute(SQLConstants.INDEX_OUTGOING_STOCK_DETAILS);
 			
 			ObservableList<String> newCategoryList =FXCollections.observableArrayList();
 	    	newCategoryList.addAll(CommonConstants.CATEGORY_PREMIUM_WHISKY,CommonConstants.CATEGORY_REGULAR_WHISKY,CommonConstants.CATEGORY_PREMIUM_VODKA,CommonConstants.CATEGORY_REGULAR_VODKA,
