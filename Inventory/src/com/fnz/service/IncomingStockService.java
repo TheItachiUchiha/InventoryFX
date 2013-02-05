@@ -16,9 +16,9 @@ public class IncomingStockService
 		incomingStockDAO = new IncomingStockDAO();
 	}
 
-	public void addIncomingStock(String invoiceNo, String date, ObservableList<ItemVO> listData) throws Exception 
+	public String addIncomingStock(String invoiceNo, String date, ObservableList<ItemVO> listData) throws Exception 
 	{
-		incomingStockDAO.addIncomingStock(invoiceNo, date, listData);
+		return incomingStockDAO.addIncomingStock(invoiceNo, date, listData);
 	}
 	public ObservableList<StockVO> fetchIncomingStockDetails(String initialDate, String finalDate) throws Exception 
 	{
