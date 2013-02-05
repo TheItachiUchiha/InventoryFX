@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javafx.collections.FXCollections;
@@ -18,19 +16,19 @@ import org.sqlite.SQLiteConfig;
 import com.fnz.VO.StockVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
-import com.fnz.VO.StockVO;
 import com.fnz.common.CommonConstants;
 import com.fnz.common.SQLConstants;
 
 public class OutgoingStockDAO
 {
-	public void deleteOutgoingStock(String date, ObservableList<ItemVO> listData) throws Exception 
+	public String deleteOutgoingStock(String date, ObservableList<ItemVO> listData) throws Exception 
 	{
 		Connection conn = null;
 		ResultSet resultSet = null;
 		SQLiteConfig config = null;
 		java.sql.Statement statement = null;
 		Class.forName(CommonConstants.DRIVERNAME);
+		String msg = CommonConstants.UPDATE_MSG;
 		
 		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
 		
@@ -64,6 +62,7 @@ public class OutgoingStockDAO
 		}
 		catch (Exception e) 
 		{
+			msg = e.getMessage();
 			e.printStackTrace();
 		}
 		finally
@@ -81,6 +80,8 @@ public class OutgoingStockDAO
 				resultSet.close();
 			}
 		}
+		
+		return msg;
 	}
 	
 	public ObservableList<StockVO> fetchOutgoingStockDetails(String initialDate, String finalDate) throws Exception 

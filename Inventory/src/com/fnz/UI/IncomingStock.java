@@ -537,8 +537,7 @@ public class IncomingStock
 	 					dataTable.clear();
 	 					dataTable.addAll(dataTable1);
 	 					dataTable.addAll(dataTable2);
-	 					incomingStockService.addIncomingStock(invoiceField.getText(), date.getTextField().getText(), dataTable);
-	 					msg.setText(CommonConstants.UPDATE_MSG);
+	 					msg.setText(incomingStockService.addIncomingStock(invoiceField.getText(), date.getTextField().getText(), dataTable));
 					} 
 	 				catch (Exception e1) 
 					{
@@ -554,7 +553,9 @@ public class IncomingStock
 			grid.add(table1,0,12);
 			grid.add(table2,1,12);
 			grid.add(button,1,14);
+			
 			grid.add(msg,1,15);
+			
 			grid.setAlignment(Pos.TOP_CENTER);
 			
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);

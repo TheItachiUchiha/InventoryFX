@@ -21,13 +21,14 @@ import com.fnz.common.SQLConstants;
 
 public class IncomingStockDAO 
 {
-	public void addIncomingStock(String invoiceNo, String date, ObservableList<ItemVO> listData) throws Exception 
+	public String addIncomingStock(String invoiceNo, String date, ObservableList<ItemVO> listData) throws Exception 
 	{
 		Connection conn = null;
 		ResultSet resultSet = null;
 		SQLiteConfig config = null;
 		java.sql.Statement statement = null;
 		Class.forName(CommonConstants.DRIVERNAME);
+		String msg = CommonConstants.UPDATE_MSG;
 		
 		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
 		
@@ -66,6 +67,7 @@ public class IncomingStockDAO
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+			msg = e.getMessage();
 		}
 		finally
 		{
@@ -82,6 +84,8 @@ public class IncomingStockDAO
 				resultSet.close();
 			}
 		}
+		
+		return msg;
 	}
 	
 	
