@@ -52,6 +52,7 @@ import com.fnz.VO.CategoryTypeVO;
 import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
+import com.fnz.common.CommonConstants;
 import com.fnz.dao.UtiliesDAO;
 import com.fnz.service.IncomingStockService;
 import com.fnz.service.StockDetailsService;
@@ -320,6 +321,7 @@ public class IncomingStock
 		final ObservableList<ItemVO> dataTable1;
 		final ObservableList<ItemVO> dataTable2;
 		final ObservableList<CategoryTypeVO> typeList;
+		final Label msg = new Label();
 		
 		Rectangle roundRect = RectangleBuilder.create()
 	    .x(50)
@@ -536,6 +538,7 @@ public class IncomingStock
 	 					dataTable.addAll(dataTable1);
 	 					dataTable.addAll(dataTable2);
 	 					incomingStockService.addIncomingStock(invoiceField.getText(), date.getTextField().getText(), dataTable);
+	 					msg.setText(CommonConstants.UPDATE_MSG);
 					} 
 	 				catch (Exception e1) 
 					{
@@ -551,6 +554,7 @@ public class IncomingStock
 			grid.add(table1,0,12);
 			grid.add(table2,1,12);
 			grid.add(button,1,14);
+			grid.add(msg,1,15);
 			grid.setAlignment(Pos.TOP_CENTER);
 			
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
