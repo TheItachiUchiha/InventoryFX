@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-
+import java.util.Iterator;
 import org.sqlite.SQLiteConfig;
 
 import javafx.collections.FXCollections;
@@ -123,6 +121,7 @@ public class UtiliesDAO
 			
 			
 			
+			
 		}
 		catch (Exception e) 
 		{
@@ -145,6 +144,20 @@ public class UtiliesDAO
 			if(resultSet != null)
 			{
 				resultSet.close();
+			}
+			//Adding Types of the Item to Itemtype Table
+			ObservableList<CategoryTypeVO> categoryTypeVO = fetchTypes(itemVO.getCategoryId());
+			
+			for(Iterator<CategoryTypeVO> iter= categoryTypeVO.iterator();iter.hasNext();)
+			{
+				ItemTypeVO itemTypeVO = new ItemTypeVO();
+				itemTypeVO.setTypeId(iter.next().getTypeId());
+				itemTypeVO.setItemId(newItemId);
+				itemTypeVO.setQuantity(CommonConstants.ZERO);
+				itemTypeVO.setDp(CommonConstants.ZERO);
+				itemTypeVO.setMrp(CommonConstants.ZERO);
+				itemTypeVO.setHp(CommonConstants.ZERO);
+				addItemTypes(itemTypeVO);
 			}
 		}
 	}

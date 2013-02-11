@@ -404,13 +404,13 @@ public class IncomingStock
 			
 		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(true);
-		 	table1.setMaxSize(450, 300);
+		 	table1.setMaxSize(roundRect.getWidth()*0.4291, roundRect.getHeight()*0.519);//400,300
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
 		 	final TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(true);
 		 	
-		 	table2.setMaxSize(450, 300);
+		 	table2.setMaxSize(roundRect.getWidth()*0.4291, roundRect.getHeight()*0.519);//400,300
 		 	table2.setStyle("-fx-background-color: transparent;");
 		 	
 			/*final Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>> cellFactory = new Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>>() {
@@ -421,19 +421,19 @@ public class IncomingStock
 		 	
 		 	
 		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
-		 	itemName.setMinWidth(200);
+		 	itemName.setMinWidth(roundRect.getWidth()*0.214);//200
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity");
-		 	quantity.setMinWidth(200);
+		 	quantity.setMinWidth(roundRect.getWidth()*0.214);//200
 		 	quantity.setEditable(true);
 		 	
 		 	
 		 	for (final CategoryTypeVO type : typeList)
 		 	{
 		 		 TableColumn<ItemVO, Integer> col = new TableColumn<ItemVO, Integer>(type.getTypeName());
-		 		 col.setMinWidth(100);
+		 		 col.setMinWidth(roundRect.getWidth()*0.107);//100
 		 		 col.setEditable(true);
 		 		
 		 		final Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>> cellFactory = new Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>>() {
@@ -490,19 +490,19 @@ public class IncomingStock
 
 		 	
 		 	TableColumn<ItemVO,String> itemName2 = new TableColumn<ItemVO,String> ("Item");
-		 	itemName2.setMinWidth(200);
+		 	itemName2.setMinWidth(roundRect.getWidth()*0.214);//200
 		 	itemName2.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity2 = new TableColumn<ItemVO, Integer> ("Quantity");
-		 	quantity.setMinWidth(200);
+		 	quantity.setMinWidth(roundRect.getWidth()*0.214);//200
 		 	quantity.setEditable(true);
 		 	
 		 	
 		 	for (final CategoryTypeVO type : typeList)
 		 	{
 		 		 TableColumn<ItemVO, Integer> col2 = new TableColumn<ItemVO, Integer>(type.getTypeName());
-		 		 col2.setMinWidth(100);
+		 		 col2.setMinWidth(roundRect.getWidth()*0.107);//100
 		 		 col2.setEditable(true);
 		 		
 		 		final Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>> cellFactory = new Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>>() {
