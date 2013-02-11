@@ -24,7 +24,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.RectangleBuilder;
+import javafx.stage.Screen;
 import javafx.util.Callback;
 
 public class TransactionHistory 
@@ -37,10 +42,39 @@ public class TransactionHistory
 		incomingStockService = new IncomingStockService();
 		outgoingStockService = new OutgoingStockService();
 	}
+	public StackPane viewHistoryStack() 
+	{
+		StackPane stack = new StackPane();
+		
+		 Rectangle roundRect = RectangleBuilder.create()
+				    .x(50)
+				    .y(50)
+				    .width(Screen.getPrimary().getVisualBounds().getWidth()-180)
+				    .height(Screen.getPrimary().getVisualBounds().getHeight()-150)
+				    .arcWidth(30)
+				    .arcHeight(30)
+				    .build();
+					
+					roundRect.setFill(Color.DARKGRAY);
+					roundRect.setOpacity(0.2);
+					roundRect.setStroke(Color.TRANSPARENT);
+					
+					StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
+					
+					stack.getChildren().addAll(roundRect);
+		return stack;
+	}
+	
 	public BorderPane viewHistory()
 	{
 		final BorderPane borderPane = new BorderPane();
-		
+		   borderPane.setId("borderxx");
+		   
+		   
+		  
+					
+					
+					
 		VBox vBox = new VBox(30);
 		
 		ObservableList<String> stockType = FXCollections.observableArrayList();

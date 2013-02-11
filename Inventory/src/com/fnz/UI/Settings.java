@@ -819,7 +819,7 @@ public class Settings
     	
     	
     	borderPane.setLeft(gsettings);
-		
+		bAddItem.fire();
 		
     	return borderPane;
 	}
@@ -861,6 +861,7 @@ public class Settings
 		gridPane.add(type,1,1);
 		gridPane.add(add, 1, 2);
 		gridPane.add(msg, 1, 3);
+		
 		return gridPane;
 	}
 	

@@ -404,13 +404,13 @@ public class IncomingStock
 			
 		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(true);
-		 	table1.setMaxSize(400, 300);
+		 	table1.setMaxSize(450, 300);
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
 		 	final TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(true);
 		 	
-		 	table2.setMaxSize(400, 300);
+		 	table2.setMaxSize(450, 300);
 		 	table2.setStyle("-fx-background-color: transparent;");
 		 	
 			/*final Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>> cellFactory = new Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>>() {
@@ -581,7 +581,10 @@ public class IncomingStock
 			grid.add(dateBox, 1, 11);
 			grid.add(table1,0,12);
 			grid.add(table2,1,12);
-			grid.add(button,1,14);
+			HBox hBut = new HBox();
+			hBut.getChildren().add(button);
+			hBut.setAlignment(Pos.CENTER);
+			grid.add(hBut,0,14,3,14);
 			
 			grid.add(msg,1,15);
 			
@@ -590,6 +593,7 @@ public class IncomingStock
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
 			StackPane.setMargin(text5, new Insets(50,8,8,8));
 			StackPane.setAlignment(text5, Pos.TOP_CENTER);
+			
 			stack.getChildren().addAll(text5,roundRect,grid);
 		}
 		catch (Exception e) 

@@ -122,17 +122,27 @@
     -fx-text-fill: red;
 }
 
+
+.table-row-cell:even {
+    -fx-background-color: #A0522D;
+    -fx-text-fill: red;
+}
+.table-row-cell:odd {
+    -fx-background-color: orange;
+    -fx-text-fill: red;
+}
 .table-row-cell:empty {
     -fx-background-color: transparent;
 }
 
 .table-row-cell .table-cell {
-    -fx-border-width: 0px;
+    -fx-border-width: 1px;
 }
  
 .table-row-cell:empty .table-cell {
     -fx-border-width: 0px;
 }
+
 
 
     
