@@ -18,11 +18,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -42,10 +44,16 @@ public class TransactionHistory
 		incomingStockService = new IncomingStockService();
 		outgoingStockService = new OutgoingStockService();
 	}
+	
+	
 	public StackPane viewHistoryStack() 
 	{
 		StackPane stack = new StackPane();
-		
+		final BorderPane borderPane = new BorderPane();
+		GridPane gMain = new GridPane();
+		gMain.setAlignment(Pos.CENTER);
+		gMain.setHgap(10);
+		gMain.setVgap(10);
 		 Rectangle roundRect = RectangleBuilder.create()
 				    .x(50)
 				    .y(50)
@@ -58,87 +66,100 @@ public class TransactionHistory
 					roundRect.setFill(Color.DARKGRAY);
 					roundRect.setOpacity(0.2);
 					roundRect.setStroke(Color.TRANSPARENT);
+					//VBox vBox = new VBox(30);
 					
+					ObservableList<String> stockType = FXCollections.observableArrayList();
+					stockType.addAll("Purchase","Sales");
+					Label lStockType = new Label("Select Stock type");
+					final ComboBox<String> cStockTypes = new ComboBox<>(stockType);
+					gMain.add(lStockType, 1, 0);
+					
+					/*HBox upperPart = new HBox(10);
+					upperPart.setAlignment(Pos.CENTER);
+					upperPart.setPadding(new Insets(50, 20, 0, 20));*/
+					
+					//upperPart.getChildren().addAll(lStockType,cStockTypes);
+					gMain.add(cStockTypes, 2, 0);
+					
+					/*HBox lowerPart = new HBox(10);
+					lowerPart.setAlignment(Pos.CENTER);
+					lowerPart.setPadding(new Insets(0, 20, 0, 20));*/
+					//upperPart.set
+					
+					final Label sDate = new Label("Start Date");
+					gMain.add(sDate, 0, 1);
+					
+					final Label eDate = new Label("End Date");
+					gMain.add(eDate, 3, 1);
+					
+					final FXCalendar sCalendar = new FXCalendar();
+					gMain.add(sCalendar, 1, 1);
+					
+					final FXCalendar eCalendar = new FXCalendar();
+					gMain.add(eCalendar, 4, 1);
+					
+					Button search = new Button("Search");
+					
+					
+					search.setOnAction(new EventHandler<ActionEvent>() {
+					 			
+					 			@Override
+					 			public void handle(ActionEvent e) 
+					 			{
+					 				try 
+					 				{
+										if(cStockTypes.getValue().equalsIgnoreCase("Purchase"))
+										{
+											borderPane.setBottom(fetchIncomingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+										}
+										else if(cStockTypes.getValue().equalsIgnoreCase("Sales"));
+										{
+											borderPane.setBottom(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+										}
+									} 
+					 				catch (Exception e1) 
+					 				{
+										e1.printStackTrace();
+									}
+					 				
+					 			}
+					 		});
+					
+				
+					
+					/*lowerPart.getChildren().addAll(sDate,sCalendar,eDate,eCalendar,search);*/
+					
+					
+					/*vBox.getChildren().addAll(upperPart,lowerPart);
+					borderPane.setTop(vBox);*/
+					StackPane.setMargin(roundRect, new Insets(20,8,8,8));
 					StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
+					StackPane.setMargin(gMain, new Insets(20,8,8,8));
+					StackPane.setAlignment(gMain, Pos.CENTER);
 					
-					stack.getChildren().addAll(roundRect);
+					stack.getChildren().addAll(roundRect,gMain);
+					
+					
+					
 		return stack;
 	}
 	
 	public BorderPane viewHistory()
 	{
 		final BorderPane borderPane = new BorderPane();
-		   borderPane.setId("borderxx");
+		 borderPane.setId("borderxx");
 		   
-		   
+		   borderPane.setCenter(viewHistoryStack());
 		  
 					
 					
 					
-		VBox vBox = new VBox(30);
 		
-		ObservableList<String> stockType = FXCollections.observableArrayList();
-		stockType.addAll("Purchase","Sales");
-		Label lStockType = new Label("Select Stock type");
-		final ComboBox<String> cStockTypes = new ComboBox<>(stockType);
-		
-		HBox upperPart = new HBox(10);
-		upperPart.setAlignment(Pos.CENTER);
-		upperPart.setPadding(new Insets(50, 20, 0, 20));
-		
-		upperPart.getChildren().addAll(lStockType,cStockTypes);
-		
-		
-		HBox lowerPart = new HBox(10);
-		lowerPart.setAlignment(Pos.CENTER);
-		lowerPart.setPadding(new Insets(0, 20, 0, 20));
-		//upperPart.set
-		
-		final Label sDate = new Label("Start Date");
-		final Label eDate = new Label("End Date");
-		
-		final FXCalendar sCalendar = new FXCalendar();
-		final FXCalendar eCalendar = new FXCalendar();
-		
-		Button search = new Button("Search");
-		
-		
-		search.setOnAction(new EventHandler<ActionEvent>() {
-		 			
-		 			@Override
-		 			public void handle(ActionEvent e) 
-		 			{
-		 				try 
-		 				{
-							if(cStockTypes.getValue().equalsIgnoreCase("Purchase"))
-							{
-								borderPane.setBottom(fetchIncomingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
-							}
-							else if(cStockTypes.getValue().equalsIgnoreCase("Sales"));
-							{
-								borderPane.setBottom(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
-							}
-						} 
-		 				catch (Exception e1) 
-		 				{
-							e1.printStackTrace();
-						}
-		 				
-		 			}
-		 		});
-		
-	
-		
-		lowerPart.getChildren().addAll(sDate,sCalendar,eDate,eCalendar,search);
-		
-		
-		vBox.getChildren().addAll(upperPart,lowerPart);
-		borderPane.setTop(vBox);
 		
 		return borderPane;
 	}
 	
-	public HBox fetchIncomingHistoryTable(String initialDate, String finalDate) throws Exception
+	public TableView fetchIncomingHistoryTable(String initialDate, String finalDate) throws Exception
 	{
 		HBox hBox = new HBox();
 		hBox.setAlignment(Pos.CENTER);
@@ -180,8 +201,8 @@ public class TransactionHistory
 	 	table.setItems(data);
 	 	
 		table.getColumns().addAll(date, invoiceId, itemName, typeName, quantity);
-		hBox.getChildren().addAll(table);
-		return hBox;
+		//hBox.getChildren().addAll(table);
+		return table;
 	}
 	
 	public HBox fetchOutgoingHistoryTable(String initialDate, String finalDate) throws Exception
