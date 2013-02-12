@@ -148,7 +148,7 @@ public class MainWindow extends Application
        // hbox.setStyle("-fx-background-color: #336699;");
     	border.getStyleClass().add("lowerHBox");
         
-        Text text = new Text("© Vikrity Technologies Limited");
+        Text text = new Text("© Kryptcode Technologies Limited");
         text.setFill(Color.WHITE);
         
         Label lName=new Label(text.getText());
