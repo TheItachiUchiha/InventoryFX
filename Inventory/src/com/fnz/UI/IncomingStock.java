@@ -1,6 +1,8 @@
 package com.fnz.UI;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import javafx.application.Platform;
@@ -351,10 +353,11 @@ public class IncomingStock
 			typeList.addAll(UtiliesDAO.getUtiliesDAO().fetchTypes(categoryId));
 			
 			dataTable = FXCollections.observableArrayList();
-			dataTable.addAll(stockDetailsService.viewStock(categoryId));
+			dataTable.addAll(stockDetailsService.viewItemForPurchaseSales(categoryId));
 			
 			dataTable1 = FXCollections.observableArrayList();
 			dataTable2 = FXCollections.observableArrayList();
+			
 			
 			for(int i=0;i<dataTable.size();i++)
 			{
@@ -584,8 +587,43 @@ public class IncomingStock
 	 					msg.setTextFill(Color.DARKGRAY);
 	 					
 	 					dataTable.clear();
-	 					dataTable.addAll(dataTable1);
-	 					dataTable.addAll(dataTable2);
+	 					for(ItemVO itemVO : dataTable1)
+	 					{
+	 						int flagUpdated = 0;
+	 						Collection<ItemTypeVO> coll = itemVO.getListType().values();
+	 						for(Iterator<ItemTypeVO> iter = coll.iterator();iter.hasNext();)
+	 						{
+	 							ItemTypeVO itemTypeVO = iter.next();
+	 							if(itemTypeVO.getQuantity()>0)
+	 							{
+	 								flagUpdated = 1;
+	 								break;
+	 							}
+	 						}
+	 							if(flagUpdated == 1)
+	 							{
+	 								dataTable.add(itemVO);
+	 							}
+	 					}
+	 					
+	 					for(ItemVO itemVO : dataTable2)
+	 					{
+	 						int flagUpdated = 0;
+	 						Collection<ItemTypeVO> coll = itemVO.getListType().values();
+	 						for(Iterator<ItemTypeVO> iter = coll.iterator();iter.hasNext();)
+	 						{
+	 							ItemTypeVO itemTypeVO = iter.next();
+	 							if(itemTypeVO.getQuantity()>0)
+	 							{
+	 								flagUpdated = 1;
+	 								break;
+	 							}
+	 						}
+	 							if(flagUpdated == 1)
+	 							{
+	 								dataTable.add(itemVO);
+	 							}
+	 					}
 	 					msg.setText(incomingStockService.addIncomingStock(invoiceField.getText(), date.getTextField().getText(), dataTable));
 	 					invoiceField.clear();
 	 					date.getTextField().clear();
