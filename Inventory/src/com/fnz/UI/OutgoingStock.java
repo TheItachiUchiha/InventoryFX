@@ -58,6 +58,7 @@ import com.fnz.dao.UtiliesDAO;
 import com.fnz.service.OutgoingStockService;
 import com.fnz.service.StockDetailsService;
 import com.sai.javafx.calendar.FXCalendar;
+import com.fnz.Validation.*;
 
 public class OutgoingStock 
 {
@@ -387,13 +388,13 @@ public class OutgoingStock
 		 	
 			HBox invoiceBox = new HBox();
 			invoiceBox.setPadding(new Insets(0.5, 0, 0.5, 50));
-			Label l1= new Label("Invoice Id : ");
+			/*Label l1= new Label("Invoice Id : ");
 			l1.setTextFill(Color.GRAY);
 			invoiceBox.getChildren().add(l1);
 			
 			
 			final TextField invoiceField = new TextField();
-			invoiceBox.getChildren().add(invoiceField);
+			invoiceBox.getChildren().add(invoiceField);*/
 			
 			HBox dateBox = new HBox();
 			dateBox.setPadding(new Insets(0.5, 0, 0.5, 50));
@@ -409,13 +410,13 @@ public class OutgoingStock
 			
 		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(true);
-		 	table1.setMaxSize(roundRect.getWidth()*0.4291, roundRect.getHeight()*0.519);//400,300
+		 	table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
 		 	final TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(true);
 		 	
-		 	table2.setMaxSize(roundRect.getWidth()*0.4291, roundRect.getHeight()*0.519);//400,300
+		 	table2.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
 		 	table2.setStyle("-fx-background-color: transparent;");
 		 	
 			/*final Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>> cellFactory = new Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>>() {
@@ -501,8 +502,8 @@ public class OutgoingStock
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity2 = new TableColumn<ItemVO, Integer> ("Quantity");
-		 	quantity.setMinWidth(roundRect.getWidth()*0.214);//200
-		 	quantity.setEditable(true);
+		 	quantity2.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	quantity2.setEditable(true);
 		 	
 		 	
 		 	for (final CategoryTypeVO type : typeList)
@@ -562,21 +563,35 @@ public class OutgoingStock
 		 	
 			Button button = new Button("Update Stock");
 			button.setOnAction(new EventHandler<ActionEvent>() {
-	 			
+	 		Validation validate= new Validation();	
 	 			@Override
 	 			public void handle(ActionEvent e) 
 	 			{
+	 				if (validate.isEmpty(date.getTextField().getText())){
+	 					msg.setTextFill(Color.MAROON);
+	 					
+	 					date.getTextField().getStyleClass().add("error");
+	 					
+	 					msg.setText("*Can't be empty");
+	 				}
+	 				else{
+	 					
+	 				
 	 				try 
 	 				{
+	 					date.getTextField().getStyleClass().remove("error");
+	 					msg.setTextFill(Color.DARKGRAY);
 	 					dataTable.clear();
 	 					dataTable.addAll(dataTable1);
 	 					dataTable.addAll(dataTable2);
-	 					msg.setText(outgoingStockService.deleteOutgoingStock(invoiceField.getText(),date.getTextField().getText(), dataTable));
-					} 
+	 					msg.setText(outgoingStockService.deleteOutgoingStock(date.getTextField().getText(), dataTable));
+	 					date.getTextField().clear();
+	 				} 
 	 				catch (Exception e1) 
 					{
 						e1.printStackTrace();
 					}
+	 			}
 	 			}
 	 		});
 			
@@ -589,12 +604,20 @@ public class OutgoingStock
 			grid.add(table1,0,12);
 			grid.add(table2,1,12);
 			HBox hBut = new HBox();
+			hBut.setMaxHeight(5);
 			hBut.getChildren().add(button);
 			hBut.setAlignment(Pos.CENTER);
 			grid.add(hBut,0,14,3,14);
 			
 			//grid.add(button,1,14);
-			grid.add(msg, 1, 15);
+			HBox hMsg = new HBox();
+			hMsg.setMaxHeight(5);
+			hMsg.getChildren().add(msg);
+			//hMsg.setStyle("-fx-background-color: red");
+			hMsg.setAlignment(Pos.CENTER);
+			grid.add(hMsg,0,17,3,17);
+			
+			
 			grid.setAlignment(Pos.TOP_CENTER);
 			
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);

@@ -13,7 +13,7 @@ public class OutgoingStockService
 		{
 			outgoingStockDAO = new OutgoingStockDAO();
 		}
-		public String deleteOutgoingStock(String invoiceNo, String date, ObservableList<ItemVO> listData) throws Exception 
+		public String deleteOutgoingStock(String date, ObservableList<ItemVO> listData) throws Exception 
 		{
 			return outgoingStockDAO.deleteOutgoingStock(date, listData);
 		}

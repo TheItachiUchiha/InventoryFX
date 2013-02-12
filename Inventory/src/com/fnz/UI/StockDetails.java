@@ -387,7 +387,7 @@ public class StockDetails
 		 	System.out.println(Screen.getPrimary().getVisualBounds().getHeight());
 		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(false);
-		 	table1.setMaxSize(roundRect.getWidth()*0.4291, roundRect.getHeight()*0.519);//400,300
+		 	table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
 		 	
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
@@ -461,7 +461,7 @@ public class StockDetails
 		 	final TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(false);
 		 	
-		 	table2.setMaxSize(roundRect.getWidth()*0.4291, roundRect.getHeight()*0.519);//400,300
+		 	table2.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
 		 	table2.setStyle("-fx-background-color: transparent;");
 		 	
 		 	TableColumn<ItemVO,String> itemName2 = new TableColumn<ItemVO,String> ("Item");
