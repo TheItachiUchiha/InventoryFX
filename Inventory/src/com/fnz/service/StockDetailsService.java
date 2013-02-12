@@ -24,4 +24,15 @@ public class StockDetailsService
 			throw e;
 		}
 	}
+	public ObservableList<ItemVO> viewItemForPurchaseSales(String categoryId) throws Exception 
+	{
+		try
+		{
+			return stockDetailsDAO.viewItemForPurchaseSales(categoryId);
+		}
+		catch (Exception e) 
+		{
+			throw e;
+		}
+	}
 }
