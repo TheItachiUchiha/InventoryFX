@@ -10,10 +10,11 @@
         linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
 }
 #MyTabPane .tab:selected {
-     -fx-background-color: 
+    -fx-background-color: 
+       
         linear-gradient(#bdbfc1 0%, #9a9c9f 14%, #888b90 15%, #838686 100%),
-        linear-gradient(#fef7d5 0%, #fae5a8 14%, #ffd048 15%, #ffe59f 78%, 
-        #ffe498 79%, #fff9cc 100%), 
+        linear-gradient(#fbdbb5 0%, #fec778 14%, #ffa636 15%, #fdeb9f 78%, 
+        #dfcd82 79%, #f0e7bf 100%),
         linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
 }
 #MyTabPane .tab:hover {
