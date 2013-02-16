@@ -181,7 +181,7 @@ public class Settings
 		Rectangle roundRect = RectangleBuilder.create()
 	    .x(50)
 	    .y(50)
-	    .width(Screen.getPrimary().getVisualBounds().getWidth()-180)
+	    .width(Screen.getPrimary().getVisualBounds().getWidth()-428)
 	    .height(Screen.getPrimary().getVisualBounds().getHeight()-150)
 	    .arcWidth(30)
 	    .arcHeight(30)
@@ -198,31 +198,6 @@ public class Settings
 		hlabel.setOpacity(0.3);
 		hlabel.setLayoutX(20);*/
 		
-		Rectangle roundRectsub1 = RectangleBuilder.create()
-			    .x(50)
-			    .y(50)
-			    .width(Screen.getPrimary().getVisualBounds().getWidth()-875)
-			    .height(Screen.getPrimary().getVisualBounds().getHeight()-550)
-			    .arcWidth(30)
-			    .arcHeight(30)
-			    .build();
-				
-		roundRectsub1.setFill(Color.BLACK);
-		roundRectsub1.setOpacity(0.2);
-		roundRectsub1.setStroke(Color.TRANSPARENT);
-		
-		Rectangle roundRectsub2 = RectangleBuilder.create()
-			    .x(50)
-			    .y(50)
-			    .width(Screen.getPrimary().getVisualBounds().getWidth()-875)
-			    .height(Screen.getPrimary().getVisualBounds().getHeight()-550)
-			    .arcWidth(30)
-			    .arcHeight(30)
-			    .build();
-				
-		roundRectsub2.setFill(Color.BLACK);
-		roundRectsub2.setOpacity(0.2);
-		roundRectsub2.setStroke(Color.TRANSPARENT);
 		
 		try
 		{
@@ -265,11 +240,7 @@ public class Settings
 		     
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
 			
-			StackPane.setAlignment(roundRectsub1, Pos.CENTER_LEFT);
-			StackPane.setMargin(roundRectsub1, new Insets(00,200,200,100));
-			
-			StackPane.setAlignment(roundRectsub2, Pos.CENTER_RIGHT);
-			StackPane.setMargin(roundRectsub2, new Insets(0,100,200,60));
+		
 			
 			StackPane.setMargin(text5, new Insets(50,8,8,8));
 			StackPane.setAlignment(text5, Pos.TOP_CENTER);
@@ -288,7 +259,7 @@ public class Settings
 			StackPane.setAlignment(grid2, Pos.CENTER_RIGHT);
 			StackPane.setMargin(grid2, new Insets(225,0,100,800));
 			
-			stack.getChildren().addAll(roundRectsub1,roundRectsub2,textAdd,textDelete,text5,roundRect,grid,grid2);
+			stack.getChildren().addAll(textAdd,textDelete,text5,roundRect,grid,grid2);
 		}
 		catch (Exception e) 
 		{
@@ -321,7 +292,7 @@ public class Settings
 		Rectangle roundRect = RectangleBuilder.create()
 	    .x(50)
 	    .y(50)
-	    .width(Screen.getPrimary().getVisualBounds().getWidth()-180)
+	    .width(Screen.getPrimary().getVisualBounds().getWidth()-428)
 	    .height(Screen.getPrimary().getVisualBounds().getHeight()-150)
 	    .arcWidth(30)
 	    .arcHeight(30)
@@ -338,31 +309,7 @@ public class Settings
 		hlabel.setOpacity(0.3);
 		hlabel.setLayoutX(20);*/
 		
-		Rectangle roundRectsub1 = RectangleBuilder.create()
-			    .x(50)
-			    .y(50)
-			    .width(Screen.getPrimary().getVisualBounds().getWidth()-875)
-			    .height(Screen.getPrimary().getVisualBounds().getHeight()-550)
-			    .arcWidth(30)
-			    .arcHeight(30)
-			    .build();
-				
-		roundRectsub1.setFill(Color.BLACK);
-		roundRectsub1.setOpacity(0.2);
-		roundRectsub1.setStroke(Color.TRANSPARENT);
 		
-		Rectangle roundRectsub2 = RectangleBuilder.create()
-			    .x(50)
-			    .y(50)
-			    .width(Screen.getPrimary().getVisualBounds().getWidth()-875)
-			    .height(Screen.getPrimary().getVisualBounds().getHeight()-550)
-			    .arcWidth(30)
-			    .arcHeight(30)
-			    .build();
-				
-		roundRectsub2.setFill(Color.BLACK);
-		roundRectsub2.setOpacity(0.2);
-		roundRectsub2.setStroke(Color.TRANSPARENT);
 		
 		try
 		{
@@ -404,12 +351,7 @@ public class Settings
 			grid.setAlignment(Pos.TOP_CENTER);*/
 		     
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
-			
-			StackPane.setAlignment(roundRectsub1, Pos.CENTER_LEFT);
-			StackPane.setMargin(roundRectsub1, new Insets(00,200,200,100));
-			
-			StackPane.setAlignment(roundRectsub2, Pos.CENTER_RIGHT);
-			StackPane.setMargin(roundRectsub2, new Insets(0,100,200,60));
+			StackPane.setMargin(roundRect, new Insets(0,8,8,8));
 			
 			StackPane.setMargin(text5, new Insets(50,8,8,8));
 			StackPane.setAlignment(text5, Pos.TOP_CENTER);
@@ -428,7 +370,7 @@ public class Settings
 			StackPane.setAlignment(grid2, Pos.CENTER_RIGHT);
 			StackPane.setMargin(grid2, new Insets(225,0,100,800));
 			
-			stack.getChildren().addAll(roundRectsub1,roundRectsub2,textAdd,textDelete,text5,roundRect,grid,grid2);
+			stack.getChildren().addAll(textAdd,textDelete,text5,roundRect,grid,grid2);
 		}
 		catch (Exception e) 
 		{
@@ -455,7 +397,7 @@ public class Settings
 		final TextField itemName = new TextField();
 		Button add = new Button("Add Item");
 		Label lCategoryName = new Label("Select Category");
-		final ChoiceBox<CategoryVO> cbcategory = new  ChoiceBox<CategoryVO>(listOfCategories);
+		final ComboBox<CategoryVO> cbcategory = new  ComboBox<CategoryVO>(listOfCategories);
 
 		
 		final Label lmsg = new Label();
@@ -660,7 +602,7 @@ public class Settings
 		//mapItem.putAll(utiliesService.fetchItemDetails());
 		
  		Label lAddItem = new Label("Select Item");
- 		final ChoiceBox<String> cbItem = new  ChoiceBox<String>(listOfItems);
+ 		final ComboBox<String> cbItem = new  ComboBox<String>(listOfItems);
  		Button delete = new Button("Delete Item");
 		final Label lmsg = new Label();
 		delete.setOnAction(new EventHandler<ActionEvent>() {
@@ -777,7 +719,7 @@ public class Settings
  				{
  					animation.animateRightSettings(bItemTypeDetails, 0, 1);
 					//borderPane.setCenter(addTypeToCategory());
- 					borderPane.setCenter(addDetailsToItems());
+ 					borderPane.setCenter(stackaddDetailsToItems());
 				}
  				catch (Exception e1)
  				{
@@ -1003,6 +945,33 @@ public class Settings
 		 		});
 		
 		return gridPane;
+	}
+	
+	public StackPane stackaddDetailsToItems(){
+		StackPane stackAddDetailsItems = new StackPane();
+		
+		Rectangle roundRect = RectangleBuilder.create()
+			    .x(50)
+			    .y(50)
+			    .width(Screen.getPrimary().getVisualBounds().getWidth()-180)
+			    .height(Screen.getPrimary().getVisualBounds().getHeight()-150)
+			    .arcWidth(30)
+			    .arcHeight(30)
+			    .build();
+				
+				roundRect.setFill(Color.DARKGRAY);
+				roundRect.setOpacity(0.2);
+				roundRect.setStroke(Color.TRANSPARENT);
+				
+		GridPane gItemDetails=new GridPane();
+		gItemDetails=addDetailsToItems();
+		StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
+		StackPane.setMargin(roundRect,  new Insets(50,8,8,8));
+		stackAddDetailsItems.getChildren().addAll(roundRect);
+		
+		
+		
+		return stackAddDetailsItems;
 	}
 	
 	public GridPane addDetailsToItems()

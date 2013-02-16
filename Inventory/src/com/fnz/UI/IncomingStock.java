@@ -572,6 +572,8 @@ public class IncomingStock
 	 					
 	 					System.out.println("Empty field");
 	 				}
+	 				
+	 				
 	 				else{
 	 					if (validate.isEmpty(date.getTextField().getText())){
 	 						msg.setTextFill(Color.MAROON);
@@ -582,6 +584,15 @@ public class IncomingStock
 	 					else{
 	 				try 
 	 				{
+	 					//System.out.println(validate.isInvalidDate(date.getTextField().getText()));
+	 					if (validate.isInvalidDate(date.getTextField().getText())){
+	 						//System.out.println("Date is invalid");
+	 						msg.setTextFill(Color.MAROON);
+	 						invoiceField.getStyleClass().remove("error");
+		 					date.getTextField().getStyleClass().add("error");
+		 					msg.setText("*Wrong Date format. Please enter in dd-MM-yyyy");
+	 					}
+	 					else{
 	 					invoiceField.getStyleClass().remove("error");
 	 					date.getTextField().getStyleClass().remove("error");
 	 					msg.setTextFill(Color.DARKGRAY);
@@ -627,6 +638,7 @@ public class IncomingStock
 	 					msg.setText(incomingStockService.addIncomingStock(invoiceField.getText(), date.getTextField().getText(), dataTable));
 	 					invoiceField.clear();
 	 					date.getTextField().clear();
+	 					}
 	 				} 
 	 				catch (Exception e1) 
 					{
@@ -641,6 +653,7 @@ public class IncomingStock
 			
 			grid.add(invoiceBox,0,11);
 			grid.add(dateBox, 1, 11);
+			
 			grid.add(table1,0,12);
 			grid.add(table2,1,12);
 			HBox hBut = new HBox();

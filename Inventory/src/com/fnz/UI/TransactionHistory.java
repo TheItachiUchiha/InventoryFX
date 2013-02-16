@@ -5,6 +5,7 @@ import java.util.Date;
 import com.fnz.UI.IncomingStock.EditingCell;
 import com.fnz.VO.ItemVO;
 import com.fnz.VO.StockVO;
+import com.fnz.common.CommonConstants;
 import com.fnz.service.IncomingStockService;
 import com.fnz.service.OutgoingStockService;
 import com.sai.javafx.calendar.FXCalendar;
@@ -91,6 +92,7 @@ public class TransactionHistory
 					Label lStockType = new Label("Select Stock type");
 					lStockType.setTextFill(Color.DARKGOLDENROD);
 					final ComboBox<String> cStockTypes = new ComboBox<>(stockType);
+					cStockTypes.setValue(stockType.get(CommonConstants.ZERO));
 					gMain.add(lStockType, 0, 0);
 					
 					/*HBox upperPart = new HBox(10);
