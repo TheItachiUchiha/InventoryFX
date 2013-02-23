@@ -141,12 +141,13 @@ public class TransactionHistory
 										if(cStockTypes.getValue().equalsIgnoreCase("Purchase"))
 										{
 											hTableResult.getChildren().clear();
-											hTableResult.getChildren().add(fetchIncomingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+											hTableResult.getChildren().addAll(fetchIncomingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+											
 										}
-										else if(cStockTypes.getValue().equalsIgnoreCase("Sales"));
+										else if(cStockTypes.getValue().equalsIgnoreCase("Sales"))
 										{
 											hTableResult.getChildren().clear();
-											hTableResult.getChildren().add(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+											hTableResult.getChildren().addAll(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
 										}
 									} 
 					 				catch (Exception e1) 
@@ -173,8 +174,15 @@ public class TransactionHistory
 					StackPane.setMargin(text5, new Insets(50,8,8,8));
 					StackPane.setAlignment(text5, Pos.TOP_CENTER);
 					
+					if(cStockTypes.getValue().equalsIgnoreCase("Purchase")){
+						StackPane.setMargin(hTableResult, new Insets(85,0,0,Screen.getPrimary().getVisualBounds().getWidth()/4.5));
+						StackPane.setAlignment(hTableResult, Pos.CENTER);
+					}
+					else
+					{
 					StackPane.setMargin(hTableResult, new Insets(85,0,0,Screen.getPrimary().getVisualBounds().getWidth()/3.75));
 					StackPane.setAlignment(hTableResult, Pos.CENTER);
+					}
 					
 					stack.getChildren().addAll(text5,roundRect,gMain,hTableResult);
 					
@@ -230,7 +238,7 @@ public class TransactionHistory
 		
 		TableView<StockVO> table = new TableView<StockVO>();
 	 	table.setEditable(false);
-	 	table.setMinSize(450, 500);
+	 	table.setMinSize(600, 300);
 	 	table.setStyle("-fx-background-color: transparent;");
 	 	
 	 	TableColumn date = new TableColumn("Date");
@@ -261,7 +269,7 @@ public class TransactionHistory
 	 	table.setItems(data);
 	 	
 		table.getColumns().addAll(date, invoiceId, itemName, typeName, quantity);
-		//hBox.getChildren().addAll(table);
+		hBox.getChildren().addAll(table);
 		return hBox;
 	}
 	
