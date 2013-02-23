@@ -30,6 +30,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -434,6 +435,30 @@ public class StockDetails
 		 		    }
 
 		 		  });
+		 		  col.setCellFactory(new Callback<TableColumn<ItemVO,Integer>, TableCell<ItemVO,Integer>>() {
+					
+					@Override
+					public TableCell<ItemVO, Integer> call(TableColumn<ItemVO, Integer> paramP) {
+						// TODO Auto-generated method stub
+						return new TableCell<ItemVO, Integer>(){
+							@Override
+							public void updateItem(Integer item, boolean empty)
+							{
+								super.updateItem(item, empty);
+								if(!isEmpty())
+								{
+									setText(item.toString());
+									if(item<=5)
+									{
+										setTextFill(Color.CORNFLOWERBLUE);
+									}
+								}
+									
+							}
+						};
+
+					}
+				});
 		 		  quantity.getColumns().add(col);
 		 		}
 
@@ -505,6 +530,30 @@ public class StockDetails
 		 		    }
 
 		 		  });
+		 		 col2.setCellFactory(new Callback<TableColumn<ItemVO,Integer>, TableCell<ItemVO,Integer>>() {
+						
+						@Override
+						public TableCell<ItemVO, Integer> call(TableColumn<ItemVO, Integer> paramP) {
+							// TODO Auto-generated method stub
+							return new TableCell<ItemVO, Integer>(){
+								@Override
+								public void updateItem(Integer item, boolean empty)
+								{
+									super.updateItem(item, empty);
+									if(item!=null)
+									{
+										setText(item.toString());
+										if(item<=5)
+										{
+											setTextFill(Color.CORNFLOWERBLUE);
+										}
+									}
+										
+								}
+							};
+
+						}
+					});
 		 		  quantity2.getColumns().add(col2);
 		 		}
 		 	
