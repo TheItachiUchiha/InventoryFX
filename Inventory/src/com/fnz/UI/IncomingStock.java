@@ -389,7 +389,7 @@ public class IncomingStock
 		 	
 			final HBox invoiceBox = new HBox();
 			invoiceBox.setPadding(new Insets(0.5, 0, 0.5, 50));
-			Label l1= new Label("Invoice Id : ");
+			Label l1= new Label("Invoice No : ");
 			l1.setTextFill(Color.GRAY);
 			invoiceBox.getChildren().add(l1);
 			
@@ -560,6 +560,7 @@ public class IncomingStock
 		    });
 		 	
 			Button button = new Button("Update Stock");
+			button.setId("buttonall");
 			button.setOnAction(new EventHandler<ActionEvent>() {
 	 		Validation validate = new Validation();	
 	 			@Override

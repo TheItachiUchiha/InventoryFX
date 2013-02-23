@@ -457,7 +457,8 @@ public class Settings
 		
  		Label lAddItem = new Label("Name Of The Item");
 		final TextField itemName = new TextField();
-		Button add = new Button("Add Item");
+		Button add = new Button("Add");
+		add.setId("buttonall");
 		Label lCategoryName = new Label("Select Category");
 		final ComboBox<CategoryVO> cbcategory = new  ComboBox<CategoryVO>(listOfCategories);
 
@@ -665,7 +666,8 @@ public class Settings
 		
  		Label lAddItem = new Label("Select Item");
  		final ComboBox<String> cbItem = new  ComboBox<String>(listOfItems);
- 		Button delete = new Button("Delete Item");
+ 		Button delete = new Button("Delete");
+ 		delete.setId("buttonall");
 		final Label lmsg = new Label();
 		delete.setOnAction(new EventHandler<ActionEvent>() {
  			
@@ -838,6 +840,7 @@ public class Settings
 		//gridPane.setAlignment(Pos.CENTER);
 		
 		final ComboBox<CategoryVO> categories = new ComboBox<CategoryVO>(listOfCategories);
+		
 		final TextField type = new TextField();
 		Button add = new Button("Add Type");
 		final Label msg = new Label();

@@ -564,6 +564,7 @@ public class OutgoingStock
 		    });
 		 	
 			Button button = new Button("Update Stock");
+			button.setId("buttonall");
 			button.setOnAction(new EventHandler<ActionEvent>() {
 	 		Validation validate= new Validation();	
 	 			@Override

@@ -38,9 +38,23 @@ public class Validation
 	}
 	
 	public static boolean isInvalidDate(String text) {
-		if (text == null || !text.matches("\\[0-3]\\d-[01]\\d-\\d{4}"))
-	        return true;
-	    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		String strdate= new String();
+		int tempdate;
+		if (text == null || !text.matches("^[0-3][0-9]/[01][0-2]/[0-9]{4}$")){
+		
+		
+			return true;
+			
+		}
+		else{
+			strdate=text.substring(0,2);
+			tempdate = Integer.parseInt(strdate);
+			if (tempdate>31)
+					return true;
+					
+		}
+	       
+	    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 	    df.setLenient(false);
 	    try {
 	        df.parse(text);

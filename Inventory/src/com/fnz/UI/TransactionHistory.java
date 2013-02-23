@@ -92,6 +92,7 @@ public class TransactionHistory
 					Label lStockType = new Label("Select Stock type");
 					lStockType.setTextFill(Color.DARKGOLDENROD);
 					final ComboBox<String> cStockTypes = new ComboBox<>(stockType);
+					cStockTypes.setId("test");
 					cStockTypes.setValue(stockType.get(CommonConstants.ZERO));
 					gMain.add(lStockType, 0, 0);
 					
@@ -123,6 +124,7 @@ public class TransactionHistory
 					
 					
 					Button search = new Button("Search");
+					search.setId("buttonall");
 					HBox hSearch=new HBox();
 					hSearch.setAlignment(Pos.CENTER);
 					hSearch.setMaxHeight(10);
