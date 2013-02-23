@@ -162,7 +162,7 @@ public class TransactionHistory
 					
 					/*vBox.getChildren().addAll(upperPart,lowerPart);
 					borderPane.setTop(vBox);*/
-					StackPane.setMargin(roundRect, new Insets(20,8,8,8));
+					StackPane.setMargin(roundRect, new Insets(15,10,8,8));
 					StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
 					
 					StackPane.setMargin(gMain, new Insets(120,0,0,Screen.getPrimary().getVisualBounds().getWidth()/3));

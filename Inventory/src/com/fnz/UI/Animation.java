@@ -94,7 +94,7 @@ public class Animation
 	                new KeyValue(obj.translateXProperty(), x),
 	                new KeyValue(obj.translateYProperty(), y)),
 	                new KeyFrame(new Duration(100), // set end position at 10s
-	                new KeyValue(obj.translateXProperty(),x+25),
+	                new KeyValue(obj.translateXProperty(),x+68),
 	                new KeyValue(obj.translateYProperty(), y)));
 	    	
 	    	if (listBtn==null){
