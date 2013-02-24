@@ -9,6 +9,7 @@ import com.fnz.VO.CategoryTypeVO;
 import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
+import com.fnz.Validation.Validation;
 import com.fnz.common.CommonConstants;
 import com.fnz.dao.UtiliesDAO;
 import com.fnz.service.UtiliesService;
@@ -58,7 +59,7 @@ public class Settings
 	Animation animation;
 	ObservableList<CategoryVO> listOfCategories;
 	ItemTypeVO itemTypeVO;
-	
+	Validation validate=new Validation();
 	public Settings()
 	{
 		utiliesService = new UtiliesService();
@@ -456,10 +457,12 @@ public class Settings
 		//final ObservableList<ItemTypeVO> listItemTypes  = FXCollections.observableArrayList();
 		
  		Label lAddItem = new Label("Name Of The Item");
+ 		lAddItem.setTextFill(Color.DARKGOLDENROD);
 		final TextField itemName = new TextField();
 		Button add = new Button("Add");
 		add.setId("buttonall");
-		Label lCategoryName = new Label("Select Category");
+		final Label lCategoryName = new Label("Select Category");
+		lCategoryName.setTextFill(Color.DARKGOLDENROD);
 		final ComboBox<CategoryVO> cbcategory = new  ComboBox<CategoryVO>(listOfCategories);
 
 		
@@ -488,14 +491,35 @@ public class Settings
  			{
  				try 
  				{
+ 					if (validate.isEmpty(itemName.getText())){
+ 						lmsg.setTextFill(Color.MAROON);
+ 						itemName.getStyleClass().add("error");
+ 						lmsg.setText(CommonConstants.EMPTY_MSG);
+ 					}
+ 					else if((cbcategory.getValue()) == null){
+ 						lmsg.setTextFill(Color.MAROON);
+ 						itemName.getStyleClass().remove("error");
+ 						//cbcategory.getStyleClass().add("error");
+ 						lmsg.setText(CommonConstants.COMBO_MSG);
+ 						
+ 						
+ 					}
+ 					else{
+ 						
  					itemVO.setItemName(itemName.getText());
  					itemVO.setCategoryId(cbcategory.getValue().getCategotyId());
-
+ 					//
+ 					
+ 					itemName.getStyleClass().remove("error");
 					utiliesService.addItem(itemVO);
-					lmsg.setText("Item added successfully");
+					lmsg.setTextFill(Color.GREENYELLOW);
+					lmsg.setText(CommonConstants.ITEMADD_MSG);
+ 					}
 				} 
  				catch (Exception e1) 
 				{
+ 					
+ 					lmsg.setTextFill(Color.MAROON);
 					lmsg.setText("Some Error Occured !!");
 					e1.printStackTrace();
 				}
@@ -665,6 +689,7 @@ public class Settings
 		//mapItem.putAll(utiliesService.fetchItemDetails());
 		
  		Label lAddItem = new Label("Select Item");
+ 		lAddItem.setTextFill(Color.DARKGOLDENROD);
  		final ComboBox<String> cbItem = new  ComboBox<String>(listOfItems);
  		Button delete = new Button("Delete");
  		delete.setId("buttonall");
@@ -676,10 +701,15 @@ public class Settings
  			{
  				try 
  				{
-					utiliesService.deleteItem(mapItem.get(cbItem.getValue()));
-					lmsg.setText("Item Deleted successfully");
-					listOfItems.clear();
-					listOfItems.addAll(utiliesService.fetchItem());
+					
+					
+						utiliesService.deleteItem(mapItem.get(cbItem.getValue()));
+						lmsg.setTextFill(Color.GREENYELLOW);
+						lmsg.setText(CommonConstants.DEL_MSG);
+						listOfItems.clear();
+						listOfItems.addAll(utiliesService.fetchItem());
+					
+					
 				} catch (Exception e1) 
 				{
 					lmsg.setText("Some Error Occured !!");
@@ -842,7 +872,8 @@ public class Settings
 		final ComboBox<CategoryVO> categories = new ComboBox<CategoryVO>(listOfCategories);
 		
 		final TextField type = new TextField();
-		Button add = new Button("Add Type");
+		Button add = new Button("Add");
+		add.setId("buttonall");
 		final Label msg = new Label();
 		
 		
@@ -862,9 +893,13 @@ public class Settings
 						}
 		 			}
 		 		});
-		gridPane.add(new Label("Category"), 0, 0);
+		Label cat=new Label("Category");
+		cat.setTextFill(Color.DARKGOLDENROD);
+		gridPane.add(cat, 0, 0);
 		gridPane.add(categories, 1, 0);
-		gridPane.add(new Label("Type"),0,1);
+		Label typ=new Label("Type");
+		typ.setTextFill(Color.DARKGOLDENROD);
+		gridPane.add(typ,0,1);
 		gridPane.add(type,1,1);
 		gridPane.add(add, 1, 2);
 		gridPane.add(msg, 1, 3);
@@ -925,9 +960,12 @@ public class Settings
 		final ComboBox<CategoryVO> category = new ComboBox<CategoryVO>(listOfCategories);
 		final ComboBox<CategoryTypeVO> type = new ComboBox<CategoryTypeVO>(listTypes);
 		final TextField typeName = new TextField();
-		final Button edit = new Button("Edit Type");
-		final Button editFinal = new Button("Edit Type");
-		final Button delete = new Button("Delete Type");
+		final Button edit = new Button("Edit");
+		edit.setId("buttonall");
+		final Button editFinal = new Button("Edit");
+		editFinal.setId("buttonall");
+		final Button delete = new Button("Delete");
+		delete.setId("buttonall");
 		final Label msg = new Label();
 		
 		
@@ -966,9 +1004,13 @@ public class Settings
 						}
 		 			}
 		 		});
-		gridPane.add(new Label("Category"), 0, 0);
+		Label cat=new Label("Category");
+		cat.setTextFill(Color.DARKGOLDENROD);
+		gridPane.add(cat, 0, 0);
 		gridPane.add(category, 1, 0);
-		gridPane.add(new Label("Type"),0,1);
+		Label typ=new Label("Category");
+		typ.setTextFill(Color.DARKGOLDENROD);
+		gridPane.add(typ,0,1);
 		gridPane.add(type,1,1);
 		HBox htemp=new HBox();
 			htemp.getChildren().addAll(edit,delete);
@@ -985,7 +1027,9 @@ public class Settings
  			{
  				try
  				{
- 					gridPane.add(new Label("New Type Name"), 0, 2);
+ 					Label lTypeName = new Label("New Type Name");
+ 					lTypeName.setTextFill(Color.DARKGOLDENROD);
+ 					gridPane.add(lTypeName, 0, 2);
  					gridPane.add(typeName, 1, 2);
  					gridPane.add(editFinal, 0, 3);
  					edit.setVisible(false);
@@ -1178,8 +1222,8 @@ StackPane stack = new StackPane();
 		final TextField dp = new TextField();
 		final TextField mrp = new TextField();
 		final TextField hp = new TextField();
-		Button add = new Button("Add Details");
-		
+		Button add = new Button("Add");
+		add.setId("buttonall");
 		categories.valueProperty().addListener(new ChangeListener<CategoryVO>() {
 
 			@Override
@@ -1193,6 +1237,7 @@ StackPane stack = new StackPane();
 				} catch (Exception e) {
 				
 					// TODO Auto-generated catch block
+					
 					msg.setText("Some error occured..");
 				}
 			}
@@ -1282,7 +1327,8 @@ StackPane stack = new StackPane();
 		final TextField dp = new TextField();
 		final TextField mrp = new TextField();
 		final TextField hp = new TextField();
-		Button add = new Button("Edit Details");
+		Button add = new Button("Edit");
+		add.setId("buttonall");
 		
 		categories.valueProperty().addListener(new ChangeListener<CategoryVO>() {
 

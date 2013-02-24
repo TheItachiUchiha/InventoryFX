@@ -60,7 +60,9 @@ public class CommonConstants
 	public static final String PINT= "PINT";
 	public static final String QUAD= "QUAD";
 	public static final String UPDATE_MSG= "Updated Successfully";
-	
-	
-
+	public static final String EMPTY_MSG = "*Can't be empty";
+	public static final String ITEMADD_MSG = "Item added successfully";
+	public static final String CAT_MSG = "Category added successfully";
+	public static final String COMBO_MSG = "*Please select atleast one value";
+	public static final String DEL_MSG = "Deleted Successfully";
 }

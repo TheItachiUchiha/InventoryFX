@@ -401,7 +401,7 @@ public class OutgoingStock
 			HBox dateBox = new HBox();
 			dateBox.setPadding(new Insets(0.5, 0, 0.5, 50));
 			Label l2=new Label("Date : ");
-			l2.setTextFill(Color.GRAY);
+			l2.setTextFill(Color.DARKGOLDENROD);
 			dateBox.getChildren().add(l2);
 			
 			final FXCalendar date = new FXCalendar();

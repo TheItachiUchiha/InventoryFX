@@ -215,7 +215,7 @@ public class MainWindow extends Application
        
         final Tab tabB = new Tab();
         tabB.setClosable(false);
-        tabB.setText("Incoming Stock");
+        tabB.setText("Purchase");
       
         
         
@@ -223,7 +223,7 @@ public class MainWindow extends Application
         
         final Tab tabC = new Tab();
         tabC.setClosable(false);
-        tabC.setText("Outgoing Stock");
+        tabC.setText("Sales");
         tabPane.getTabs().add(tabC);
         
         final Tab tabD = new Tab();
