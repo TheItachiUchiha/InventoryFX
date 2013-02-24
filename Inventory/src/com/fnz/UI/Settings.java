@@ -65,7 +65,6 @@ public class Settings
 		utiliesService = new UtiliesService();
 		animation = new Animation();
 		listOfCategories = UtiliesDAO.getUtiliesDAO().categoryList;
-		
 	}
 
 	public ItemTypeVO getItemTypeVO() {
@@ -449,8 +448,8 @@ public class Settings
 		
 		final ItemVO itemVO = new ItemVO();
 		
-		//ObservableList<String> listOfTypes = FXCollections.observableArrayList();
-		//listOfTypes = utiliesService.fetchTypes();
+		final ObservableList<CategoryTypeVO> listOfTypes = FXCollections.observableArrayList();
+		
 		final ObservableMap<String, String> mapCategories = FXCollections.observableHashMap();
 		mapCategories.putAll(utiliesService.fetchCategoryDetails());
 		
@@ -459,7 +458,7 @@ public class Settings
  		Label lAddItem = new Label("Name Of The Item");
  		lAddItem.setTextFill(Color.DARKGOLDENROD);
 		final TextField itemName = new TextField();
-		Button add = new Button("Add");
+		final Button add = new Button("Add");
 		add.setId("buttonall");
 		final Label lCategoryName = new Label("Select Category");
 		lCategoryName.setTextFill(Color.DARKGOLDENROD);
@@ -475,14 +474,45 @@ public class Settings
 		//settings.setAlignment(Pos.CENTER);
 		settings.setVgap(8);
 		settings.setHgap(10);
-		settings.add(lAddItem, 1, 1);
-		settings.add(itemName, 2, 1);
-		settings.add(lCategoryName, 1, 2);
-		settings.add(cbcategory,2,2);
+		settings.add(lAddItem, 1, 2);
+		settings.add(itemName, 2, 2);
+		settings.add(lCategoryName, 1, 1);
+		settings.add(cbcategory,2,1);
 			
 		
 		settings.add(add,2,4);
 		settings.add(lmsg,2,5);
+		
+		
+		cbcategory.valueProperty().addListener(new ChangeListener<CategoryVO>() {
+
+			@Override
+			public void changed(ObservableValue<? extends CategoryVO> observable,
+					CategoryVO oldValue, CategoryVO newValue) 
+			{
+				listOfTypes.clear();
+				try
+				{
+					listOfTypes.addAll(UtiliesDAO.getUtiliesDAO().fetchTypes(newValue.getCategotyId()));
+					if(listOfTypes.size()==0)
+					{
+						lmsg.setText("Please set a Type \nFor The Category");
+						add.setDisable(true);
+						itemName.setDisable(true);
+					}
+					else
+					{
+						lmsg.setText("");
+						add.setDisable(false);
+						itemName.setDisable(false);
+					}
+				} 
+				catch (Exception e) 
+				{
+					e.printStackTrace();
+				}
+			}
+			});
 		
 		add.setOnAction(new EventHandler<ActionEvent>() {
  			
