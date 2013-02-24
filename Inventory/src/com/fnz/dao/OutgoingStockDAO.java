@@ -102,7 +102,7 @@ public class OutgoingStockDAO
 			config = new SQLiteConfig();
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.FETCH_OUTGOING_DETAILS);
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_OUTGOING_DETAILS_BY_DATE);
 			
 			
 			
@@ -114,6 +114,67 @@ public class OutgoingStockDAO
 			
 			pstmt.setString(1,  initialDate);
 			pstmt.setString(2, finalDate);
+			
+			
+			resultSet = pstmt.executeQuery();
+			
+			while(resultSet.next())
+			{
+				StockVO StockVO = new StockVO();
+				String splitsDate[] = resultSet.getString(1).split("-");
+				StockVO.setDate(splitsDate[2]+"/"+splitsDate[1]+"/"+splitsDate[0]);
+				StockVO.setItemName(resultSet.getString(2));
+				StockVO.setTypeName(resultSet.getString(3));
+				StockVO.setQuantity(resultSet.getInt(4));
+				listIncoming.add(StockVO);
+			}
+			
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}
+		return listIncoming;
+	}
+	
+	public ObservableList<StockVO> fetchOutgoingStockDetails(String invoiceId) throws Exception 
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		SQLiteConfig config = null;
+		ObservableList<StockVO> listIncoming = FXCollections.observableArrayList();
+		
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_OUTGOING_DETAILS_BY_INVOICE);
+			
+		
+			
+			pstmt.setString(1,  invoiceId);
 			
 			
 			resultSet = pstmt.executeQuery();

@@ -109,7 +109,7 @@ public class IncomingStockDAO
 			config = new SQLiteConfig();
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.FETCH_INCOMING_DETAILS);
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_INCOMING_DETAILS_BY_DATE);
 			
 			
 			
@@ -121,6 +121,67 @@ public class IncomingStockDAO
 			
 			pstmt.setString(1,  initialDate);
 			pstmt.setString(2, finalDate);
+			
+			
+			resultSet = pstmt.executeQuery();
+			
+			while(resultSet.next())
+			{
+				StockVO incomingStockVO = new StockVO();
+				incomingStockVO.setInvoiceId(resultSet.getString(1));
+				String splitsDate[] = resultSet.getString(2).split("-");
+				incomingStockVO.setDate(splitsDate[2]+"/"+splitsDate[1]+"/"+splitsDate[0]);
+				incomingStockVO.setItemName(resultSet.getString(3));
+				incomingStockVO.setTypeName(resultSet.getString(4));
+				incomingStockVO.setQuantity(resultSet.getInt(5));
+				listIncoming.add(incomingStockVO);
+			}
+			
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}
+		return listIncoming;
+	}
+	
+	public ObservableList<StockVO> fetchIncomingStockDetails(String invoiceId) throws Exception 
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		SQLiteConfig config = null;
+		ObservableList<StockVO> listIncoming = FXCollections.observableArrayList();
+		
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.FETCH_INCOMING_DETAILS_BY_INVOICE);
+			
+			
+			pstmt.setString(1,  invoiceId);
 			
 			
 			resultSet = pstmt.executeQuery();

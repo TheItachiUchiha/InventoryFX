@@ -24,4 +24,8 @@ public class IncomingStockService
 	{
 		return incomingStockDAO.fetchIncomingStockDetails(initialDate, finalDate);
 	}
+	public ObservableList<StockVO> fetchIncomingStockDetails(String invoiceId) throws Exception 
+	{
+		return incomingStockDAO.fetchIncomingStockDetails(invoiceId);
+	}
 }
