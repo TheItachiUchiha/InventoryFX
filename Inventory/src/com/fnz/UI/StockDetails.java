@@ -390,6 +390,8 @@ public class StockDetails
 		 	table1.setEditable(false);
 		 	table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
 		 	
+		 	table1.getSelectionModel().setCellSelectionEnabled(false);
+		 	
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
 		 	
@@ -450,7 +452,7 @@ public class StockDetails
 									setText(item.toString());
 									if(item<=5)
 									{
-										setTextFill(Color.CORNFLOWERBLUE);
+										setTextFill(Color.MAROON);
 									}
 								}
 									
@@ -545,7 +547,7 @@ public class StockDetails
 										setText(item.toString());
 										if(item<=5)
 										{
-											setTextFill(Color.CORNFLOWERBLUE);
+											setTextFill(Color.MAROON);
 										}
 									}
 										
