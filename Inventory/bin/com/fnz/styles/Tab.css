@@ -10,6 +10,11 @@
         linear-gradient(#ffea6a, #efaa22),
         linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
         linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+     -fx-text-fill: #654b00;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 2 20 2 20;
+    
 }
 #MyTabPane .tab:selected {
     -fx-background-color: 
@@ -47,8 +52,8 @@
     /*-fx-background-radius: 30;*/
     -fx-background-insets: 0,1,1;
    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
-        
-      -fx-border-color: transparent;
+     -fx-border-color: transparent;
+    
 }
 
 .menu-item .label {
