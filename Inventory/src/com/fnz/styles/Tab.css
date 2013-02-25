@@ -229,6 +229,28 @@
 -fx-background-color: transparent, derive(-fx-base,20%);
 -fx-background-insets: 0, 0 1 0 1;
 }
-    
 
+.text-field:focused {
+   -fx-background-color: #FF8C00, -fx-text-box-border, -fx-control-inner-background;
+    -fx-background-insets: -0.4, 1, 2;
+    -fx-background-radius: 3.4, 2, 2;
+}
+
+.button:focused {
+    -fx-color: -fx-focused-base;
+    -fx-background-color: #FF8C00, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: -1.4, 0, 1, 2;
+    -fx-background-radius:  6.4, 5, 4, 3;
+}
+    
+.combo-box:focused {
+   
+    -fx-background-color: #FF8C00, -fx-outer-border, -fx-inner-border, -fx-body-color;
+ 
+}  
+.Label:focused {
+   
+    -fx-background-color: #FF8C00, -fx-outer-border, -fx-inner-border, -fx-body-color;
+ 
+}  
 
