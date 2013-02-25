@@ -201,13 +201,13 @@ public class MainWindow extends Application
     	TabPane tabPane = new TabPane();
     	tabPane.setId(("MyTabPane"));
     	
-    	
       
         
         
         final Tab tabA = new Tab();
         tabA.setClosable(false);
         tabA.setText("View Stock");
+      
         
 
         tabA.setContent(stockDetails.viewStockDrinkList(categoryList));
