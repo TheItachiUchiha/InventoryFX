@@ -555,13 +555,13 @@ public class UtiliesDAO
 	}
 	
 	
-	public ObservableList<String> fetchItem() throws Exception
+	public ObservableList<ItemVO> fetchItem() throws Exception
 	{
 		SQLiteConfig config = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
-		ObservableList<String> itemList = FXCollections.observableArrayList();
+		ObservableList<ItemVO> itemList = FXCollections.observableArrayList();
 		
 		
 		Class.forName(CommonConstants.DRIVERNAME);
@@ -579,7 +579,11 @@ public class UtiliesDAO
 			
 			while(resultSet.next())
 			{
-				itemList.add(resultSet.getString(2));
+				ItemVO itemVO = new ItemVO();
+				itemVO.setItemId(resultSet.getString(1));
+				itemVO.setItemName(resultSet.getString(2));
+				itemVO.setCategoryId(resultSet.getString(3));
+				itemList.add(itemVO);
 			}
 		}
 		catch(Exception e)
@@ -672,6 +676,54 @@ public class UtiliesDAO
 			pstmt = conn.prepareStatement(SQLConstants.DELETE_ITEMS);
 			
 			pstmt.setString(1, itemId);
+			pstmt.execute();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(conn !=null )
+			{
+				conn.close();
+			}
+			if(pstmt != null )
+			{
+				pstmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}		
+	}
+	
+	public void editItem(String itemId, String newItemName) throws Exception
+	{
+		SQLiteConfig config = null;
+		
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		
+		
+		Class.forName(CommonConstants.DRIVERNAME);
+		
+		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+		
+		try 
+		{
+			
+			config = new SQLiteConfig();
+			config.enforceForeignKeys(true);
+
+			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+			pstmt = conn.prepareStatement(SQLConstants.EDIT_ITEMS);
+			
+			pstmt.setString(1, newItemName);
+			pstmt.setString(2, itemId);
 			pstmt.execute();
 		}
 		catch(Exception e)
@@ -862,6 +914,7 @@ public class UtiliesDAO
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+			throw e;
 		}
 		finally
 		{

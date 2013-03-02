@@ -65,4 +65,7 @@ public class CommonConstants
 	public static final String CAT_MSG = "Category added successfully";
 	public static final String COMBO_MSG = "*Please select atleast one value";
 	public static final String DEL_MSG = "Deleted Successfully";
+	public static final String EDIT_MSG = "Edited Successfully";
+	public static final String ALREADY_EXISTS = "Already Exists !";
+	
 }

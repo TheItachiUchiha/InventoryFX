@@ -166,10 +166,10 @@ public class Settings
 			if (buttonClicked.equalsIgnoreCase("add"))
 			{
 				grid=addItem();
-				grid2=deleteItem();
+				grid2=editDeleteItem();
 			}
 			else if(buttonClicked.equalsIgnoreCase("delete")){
-				grid=deleteItem();
+				grid=editDeleteItem();
 			}
 		}
 		catch (Exception e) 
@@ -550,7 +550,7 @@ public class Settings
 				{
  					
  					lmsg.setTextFill(Color.MAROON);
-					lmsg.setText("Some Error Occured !!");
+					lmsg.setText(CommonConstants.ALREADY_EXISTS);
 					e1.printStackTrace();
 				}
  			}
@@ -709,21 +709,76 @@ public class Settings
 	}*/
 	
 	
-	public GridPane deleteItem() throws Exception
+	public GridPane editDeleteItem() throws Exception
 	{
-		GridPane settings = new GridPane();
+		final GridPane settings = new GridPane();
 		//list Creation
-		final ObservableList<String> listOfItems = FXCollections.observableArrayList();
+		final ObservableList<ItemVO> listOfItems = FXCollections.observableArrayList();
 		listOfItems.addAll(utiliesService.fetchItem());
-		final ObservableMap<String, String> mapItem = FXCollections.observableHashMap();
-		//mapItem.putAll(utiliesService.fetchItemDetails());
 		
  		Label lAddItem = new Label("Select Item");
  		lAddItem.setTextFill(Color.DARKGOLDENROD);
- 		final ComboBox<String> cbItem = new  ComboBox<String>(listOfItems);
+ 		final ComboBox<ItemVO> cbItem = new  ComboBox<ItemVO>(listOfItems);
+ 		Button edit = new Button("Edit");
+ 		edit.setId("buttonall");
  		Button delete = new Button("Delete");
  		delete.setId("buttonall");
 		final Label lmsg = new Label();
+		
+		final HBox box = new HBox();
+		box.setAlignment(Pos.TOP_LEFT);
+		box.setSpacing(10);
+		box.getChildren().addAll(edit, delete);
+		
+		final Label editLabel = new Label("New Item Name");
+		editLabel.setTextFill(Color.DARKGOLDENROD);
+		final TextField editText = new TextField();
+		final Button editFinal =new Button("Edit");
+		
+		edit.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent e)
+			{
+				try 
+ 				{
+					settings.add(editLabel, 1, 3);
+					settings.add(editText, 2, 3);
+					settings.add(editFinal,2,4);
+					box.setVisible(false);
+ 				}
+				catch (Exception e1) 
+				{
+					lmsg.setText("Some Error Occured !!");
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		
+		editFinal.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent e)
+			{
+				try 
+ 				{
+					utiliesService.editItem(cbItem.getValue().getItemId(),editText.getText());
+					lmsg.setTextFill(Color.GREENYELLOW);
+					lmsg.setText(CommonConstants.EDIT_MSG);
+					settings.add(lmsg, 2, 5);
+					listOfItems.clear();
+					listOfItems.addAll(utiliesService.fetchItem());
+ 				}
+				catch (Exception e1) 
+				{
+					lmsg.setText("Some Error Occured !!");
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		
 		delete.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -731,12 +786,11 @@ public class Settings
  			{
  				try 
  				{
-					
-					
-						utiliesService.deleteItem(mapItem.get(cbItem.getValue()));
+						utiliesService.deleteItem(cbItem.getValue().getItemId());
 						lmsg.setTextFill(Color.GREENYELLOW);
 						lmsg.setText(CommonConstants.DEL_MSG);
 						listOfItems.clear();
+						settings.add(lmsg, 2, 4);
 						listOfItems.addAll(utiliesService.fetchItem());
 					
 					
@@ -753,8 +807,7 @@ public class Settings
 		settings.setHgap(10);
 		settings.add(lAddItem, 1, 1);
 		settings.add(cbItem, 2, 1);
-		settings.add(delete,2,3);
-		settings.add(lmsg, 2, 4);
+		settings.add(box, 2, 3);
 		return settings;
 	}
 	
@@ -919,6 +972,8 @@ public class Settings
 						}
 		 				catch (Exception e1) 
 		 				{
+		 					msg.setTextFill(Color.MAROON);
+							msg.setText(CommonConstants.ALREADY_EXISTS);
 							e1.printStackTrace();
 						}
 		 			}

@@ -45,7 +45,7 @@ public class UtiliesService
 		return utiliesDAO.fetchItemDetails();
 	}
 	
-	public ObservableList<String> fetchItem() throws Exception
+	public ObservableList<ItemVO> fetchItem() throws Exception
 	{
 		return utiliesDAO.fetchItem();
 	}
@@ -53,6 +53,10 @@ public class UtiliesService
 	public void deleteItem(String itemId) throws Exception
 	{
 		utiliesDAO.deleteItem(itemId);
+	}
+	public void editItem(String itemId, String newItemName) throws Exception
+	{
+		utiliesDAO.editItem(itemId,newItemName);
 	}
 	public void deleteCategory(String categoryId) throws Exception
 	{
