@@ -56,6 +56,7 @@ import com.fnz.VO.CategoryTypeVO;
 import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
+import com.fnz.common.CommonConstants;
 import com.fnz.dao.UtiliesDAO;
 import com.fnz.service.OutgoingStockService;
 import com.fnz.service.StockDetailsService;
@@ -400,9 +401,13 @@ public class OutgoingStock
 			
 			HBox dateBox = new HBox();
 			dateBox.setPadding(new Insets(0.5, 0, 0.5, 50));
-			Label l2=new Label("Date : ");
+			Text star1=new Text("*  ");
+			star1.setFill(Color.MAROON);  
+		     star1.setFont(Font.font ("calibri", 15));
+		     
+			Label l2=new Label("Date");
 			l2.setTextFill(Color.DARKGOLDENROD);
-			dateBox.getChildren().add(l2);
+			dateBox.getChildren().addAll(l2,star1);
 			
 			final FXCalendar date = new FXCalendar();
 			dateBox.getChildren().add(date);
@@ -579,7 +584,14 @@ public class OutgoingStock
 	 				}
 	 				else{
 	 					
-	 				
+	 					if (validate.isInvalidDate(date.getTextField().getText())){
+	 						//System.out.println("Date is invalid");
+	 						msg.setTextFill(Color.MAROON);
+	 						
+		 					date.getTextField().getStyleClass().add("error");
+		 					msg.setText(CommonConstants.WRONG_DATE);
+	 					}
+	 					else{
 	 				try 
 	 				{
 	 					date.getTextField().getStyleClass().remove("error");
@@ -631,6 +643,7 @@ public class OutgoingStock
 					}
 	 			}
 	 			}
+	 			}
 	 		});
 			
 			
@@ -654,14 +667,19 @@ public class OutgoingStock
 			//hMsg.setStyle("-fx-background-color: red");
 			hMsg.setAlignment(Pos.CENTER);
 			grid.add(hMsg,0,17,3,17);
-			
-			
 			grid.setAlignment(Pos.TOP_CENTER);
+			
+			Text man_text=new Text(CommonConstants.STAR_MSG);
+			man_text.setFill(Color.MAROON);  
+			man_text.setFont(Font.font ("Arial", 12));
 			
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
 			StackPane.setMargin(text5, new Insets(50,8,8,8));
 			StackPane.setAlignment(text5, Pos.TOP_CENTER);
-			stack.getChildren().addAll(text5,roundRect,grid);
+			
+			StackPane.setMargin(man_text, new Insets(210,18,20,80));
+			StackPane.setAlignment(man_text, Pos.BASELINE_LEFT);
+			stack.getChildren().addAll(text5,roundRect,grid,man_text);
 		}
 		catch (Exception e) 
 		{

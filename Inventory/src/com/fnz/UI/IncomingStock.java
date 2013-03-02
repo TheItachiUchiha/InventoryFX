@@ -386,21 +386,27 @@ public class IncomingStock
 			
 			label.setAlignment(Pos.CENTER_LEFT);
 		 	//grid.add(label,1,0);
-		 	
+			Text star1=new Text("*  ");
+			star1.setFill(Color.MAROON);  
+		     star1.setFont(Font.font ("calibri", 15));
+		     
 			final HBox invoiceBox = new HBox();
 			invoiceBox.setPadding(new Insets(0.5, 0, 0.5, 50));
-			Label l1= new Label("Invoice No : ");
+			Label l1= new Label("Invoice No");
 			l1.setTextFill(Color.DARKGOLDENROD);
-			invoiceBox.getChildren().add(l1);
+			invoiceBox.getChildren().addAll(l1,star1);
 			
 			final TextField invoiceField = new TextField();
 			invoiceBox.getChildren().add(invoiceField);
 			
+			Text star2=new Text("*  ");
+			star2.setFill(Color.MAROON);  
+		     star2.setFont(Font.font ("calibri", 15));
 			HBox dateBox = new HBox();
 			dateBox.setPadding(new Insets(0.5, 0, 0.5, 50));
-			Label l2=new Label("Date : ");
+			Label l2=new Label("Date");
 			l2.setTextFill(Color.DARKGOLDENROD);
-			dateBox.getChildren().add(l2);
+			dateBox.getChildren().addAll(l2,star2);
 			
 			final FXCalendar date = new FXCalendar();
 			dateBox.getChildren().add(date);
@@ -567,9 +573,10 @@ public class IncomingStock
 	 			public void handle(ActionEvent e) 
 	 			{
 	 				if (validate.isEmpty(invoiceField.getText())){
+	 					
 	 					msg.setTextFill(Color.MAROON);
 	 					invoiceField.getStyleClass().add("error");
-	 					msg.setText("*Can't be empty");
+	 					msg.setText(CommonConstants.EMPTY_MSG);
 	 					
 	 					System.out.println("Empty field");
 	 				}
@@ -580,7 +587,7 @@ public class IncomingStock
 	 						msg.setTextFill(Color.MAROON);
 	 						invoiceField.getStyleClass().remove("error");
 		 					date.getTextField().getStyleClass().add("error");
-		 					msg.setText("*Can't be empty");
+		 					msg.setText(CommonConstants.EMPTY_MSG);
 	 					}
 	 					else{
 	 				try 
@@ -591,7 +598,7 @@ public class IncomingStock
 	 						msg.setTextFill(Color.MAROON);
 	 						invoiceField.getStyleClass().remove("error");
 		 					date.getTextField().getStyleClass().add("error");
-		 					msg.setText("*Wrong Date format. Please enter in dd-MM-yyyy");
+		 					msg.setText(CommonConstants.WRONG_DATE);
 	 					}
 	 					else{
 	 					invoiceField.getStyleClass().remove("error");
@@ -672,11 +679,20 @@ public class IncomingStock
 			
 			grid.setAlignment(Pos.TOP_CENTER);
 			
+			
+			Text man_text=new Text(CommonConstants.STAR_MSG);
+			man_text.setFill(Color.MAROON);  
+			man_text.setFont(Font.font ("Arial", 12));
+		     
+		     
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
 			StackPane.setMargin(text5, new Insets(50,8,8,8));
+			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
 			StackPane.setAlignment(text5, Pos.TOP_CENTER);
+			StackPane.setMargin(man_text, new Insets(210,18,20,80));
+			StackPane.setAlignment(man_text, Pos.BASELINE_LEFT);
 			
-			stack.getChildren().addAll(text5,roundRect,grid);
+			stack.getChildren().addAll(text5,roundRect,grid,man_text);
 		}
 		catch (Exception e) 
 		{

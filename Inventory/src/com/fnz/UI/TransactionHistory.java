@@ -150,12 +150,16 @@ public class TransactionHistory
 					gMain.add(hSearchBy, 1,1);
 					
 					//gMain.add(searchByDate, 4,1);
-					
+					final Text star1=new Text("*");
+					star1.setFill(Color.MAROON);  
+				     star1.setFont(Font.font ("calibri", 15));
 					
 					final Label sDate = new Label("Start Date");
 					sDate.setTextFill(Color.DARKGOLDENROD);
 					
-					
+					final Text star2=new Text("*");
+					star2.setFill(Color.MAROON);  
+				     star2.setFont(Font.font ("calibri", 15));
 					final Label eDate = new Label("End Date");
 					eDate.setTextFill(Color.DARKGOLDENROD);
 					
@@ -169,7 +173,7 @@ public class TransactionHistory
 					hDate.setAlignment(Pos.TOP_LEFT);
 					hDate.setMaxHeight(25);
 					hDate.setSpacing(25);
-					hDate.setPadding(new Insets(1, 0, 0, 0));
+				//	hDate.setPadding(new Insets(1, 0, 0, 0));
 					hDate.getChildren().addAll(sDate,sCalendar,eDate,eCalendar);
 					
 					Button search = new Button("Search");
@@ -227,6 +231,7 @@ public class TransactionHistory
 							searchByDate.setSelected(true);
 							if(newValue.equalsIgnoreCase("purchase"))
 							{
+								
 								hSearchBy.getChildren().removeAll(searchByInvoice,searchByDate);
 								hSearchBy.getChildren().addAll(searchByInvoice,searchByDate);
 								if(group.getSelectedToggle().getUserData().toString().equals("date"))
@@ -266,12 +271,14 @@ public class TransactionHistory
 							        	gMain.getChildren().removeAll(hDate,hInvoice,hSearch);
 							        	gMain.add(hDate, 0,2,4,2);
 							        	gMain.add(hSearch, 0, 3, 6, 3);
+							        	star2.setVisible(true);
 							        }
 							        else if(new_toggle.getUserData().toString().equals("invoice"))
 							        {
 							        	gMain.getChildren().removeAll(hDate,hInvoice,hSearch);
 							        	gMain.add(hInvoice, 0, 2,4,2);
 							        	gMain.add(hSearch, 0, 3, 6, 3);
+							        	star2.setVisible(false);
 							        }
 							    }
 							}
@@ -331,6 +338,13 @@ public class TransactionHistory
 					
 					/*vBox.getChildren().addAll(upperPart,lowerPart);
 					borderPane.setTop(vBox);*/
+					
+					Text man_text=new Text(CommonConstants.STAR_MSG);
+					man_text.setFill(Color.MAROON);  
+					man_text.setFont(Font.font ("Arial", 12));
+					StackPane.setMargin(man_text, new Insets(253,18,20,243));
+					StackPane.setAlignment(man_text, Pos.BASELINE_LEFT);
+					
 					StackPane.setMargin(roundRect, new Insets(15,10,8,8));
 					StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
 					
@@ -344,14 +358,19 @@ public class TransactionHistory
 					{
 						StackPane.setMargin(hTableResult, new Insets(165,0,0,Screen.getPrimary().getVisualBounds().getWidth()/4.5));
 						StackPane.setAlignment(hTableResult, Pos.CENTER);
+						
 					}
 					else
 					{
 						StackPane.setMargin(hTableResult, new Insets(85,0,0,Screen.getPrimary().getVisualBounds().getWidth()/3.75));
 						StackPane.setAlignment(hTableResult, Pos.CENTER);
+						
 					}
-					
-					stack.getChildren().addAll(text5,roundRect,gMain,hTableResult);
+					StackPane.setMargin(star1, new Insets(190,320,8,0));
+					StackPane.setAlignment(star1, Pos.TOP_CENTER);
+					StackPane.setMargin(star2, new Insets(190,20,8,95));
+					StackPane.setAlignment(star2, Pos.TOP_CENTER);
+					stack.getChildren().addAll(text5,roundRect,gMain,hTableResult,man_text, star1,star2);
 					
 		return stack;
 	}

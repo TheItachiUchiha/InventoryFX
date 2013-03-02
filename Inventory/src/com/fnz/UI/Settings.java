@@ -265,6 +265,12 @@ public class Settings
 			/*grid.add(table1,0,12);
 			grid.add(table2,1,12);
 			grid.setAlignment(Pos.TOP_CENTER);*/
+		  	Text man_text=new Text(CommonConstants.STAR_MSG);
+			man_text.setFill(Color.MAROON);  
+			man_text.setFont(Font.font ("Arial", 12));
+			StackPane.setMargin(man_text, new Insets(210,18,20,120));
+			StackPane.setAlignment(man_text, Pos.BASELINE_LEFT);
+			
 		  	StackPane.setMargin(roundRect, new Insets(0,0,0,69)); 
 			StackPane.setAlignment(roundRect, Pos.TOP_LEFT);
 			
@@ -291,7 +297,7 @@ public class Settings
 			StackPane.setAlignment(grid2, Pos.CENTER_RIGHT);
 			StackPane.setMargin(grid2, new Insets(230,0,100,roundRect2.getWidth()/0.60));
 			
-			stack.getChildren().addAll(textAdd,textDelete,text5,roundRect,roundRect1,roundRect2,grid,grid2);
+			stack.getChildren().addAll(textAdd,textDelete,text5,roundRect,roundRect1,roundRect2,grid,grid2,man_text);
 		}
 		catch (Exception e) 
 		{
