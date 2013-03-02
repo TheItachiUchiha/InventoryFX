@@ -388,7 +388,8 @@ public class StockDetails
 		 	System.out.println(Screen.getPrimary().getVisualBounds().getHeight());
 		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(false);
-		 	table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
+		 //	table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
+		 	table1.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);//400,300
 		 	
 		 	table1.getSelectionModel().setCellSelectionEnabled(false);
 		 	
@@ -397,7 +398,7 @@ public class StockDetails
 		 	
 		 	
 		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
-		 	itemName.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	itemName.setMinWidth(roundRect.getWidth()*0.3);//200
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
@@ -488,11 +489,12 @@ public class StockDetails
 		 	final TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(false);
 		 	
-		 	table2.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
+		 //	table2.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
+		 	table2.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);//400,300
 		 	table2.setStyle("-fx-background-color: transparent;");
 		 	
 		 	TableColumn<ItemVO,String> itemName2 = new TableColumn<ItemVO,String> ("Item");
-		 	itemName2.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	itemName2.setMinWidth(roundRect.getWidth()*0.3);//200
 		 	itemName2.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
@@ -581,6 +583,7 @@ public class StockDetails
 			grid.add(table1,0,12);
 			grid.add(table2,1,12);
 			grid.setAlignment(Pos.TOP_CENTER);
+			StackPane.setMargin(grid, new Insets(35,0,0,0));
 			
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
 			StackPane.setMargin(text5, new Insets(50,8,8,8));

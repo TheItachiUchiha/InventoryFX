@@ -415,12 +415,14 @@ public class IncomingStock
 		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(true);
 		 	table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
+		 	table1.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);//400,300
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
 		 	final TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(true);
 		 	
 		 	table2.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
+			table2.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);//400,300
 		 	table2.setStyle("-fx-background-color: transparent;");
 		 	
 			/*final Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>> cellFactory = new Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>>() {
@@ -431,7 +433,7 @@ public class IncomingStock
 		 	
 		 	
 		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
-		 	itemName.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	itemName.setMinWidth(roundRect.getWidth()*0.3);//200
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
@@ -500,7 +502,7 @@ public class IncomingStock
 
 		 	
 		 	TableColumn<ItemVO,String> itemName2 = new TableColumn<ItemVO,String> ("Item");
-		 	itemName2.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	itemName2.setMinWidth(roundRect.getWidth()*0.3);//200
 		 	itemName2.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
@@ -575,9 +577,10 @@ public class IncomingStock
 	 				if (validate.isEmpty(invoiceField.getText())){
 	 					
 	 					msg.setTextFill(Color.MAROON);
-	 					invoiceField.getStyleClass().add("error");
-	 					msg.setText(CommonConstants.EMPTY_MSG);
 	 					
+	 					msg.setText(CommonConstants.EMPTY_MSG);
+	 					invoiceField.requestFocus();
+	 					invoiceField.getStyleClass().add("error");
 	 					System.out.println("Empty field");
 	 				}
 	 				
@@ -662,13 +665,13 @@ public class IncomingStock
 			grid.add(invoiceBox,0,11);
 			grid.add(dateBox, 1, 11);
 			
-			grid.add(table1,0,12);
-			grid.add(table2,1,12);
+			grid.add(table1,0,13);
+			grid.add(table2,1,13);
 			HBox hBut = new HBox();
 			hBut.setMaxHeight(5);
 			hBut.getChildren().addAll(button);
 			hBut.setAlignment(Pos.CENTER);
-			grid.add(hBut,0,14,3,14);
+			grid.add(hBut,0,15,3,15);
 			
 			HBox hMsg = new HBox();
 			hMsg.setMaxHeight(5);
@@ -678,7 +681,7 @@ public class IncomingStock
 			grid.add(hMsg,0,17,3,17);
 			
 			grid.setAlignment(Pos.TOP_CENTER);
-			
+			StackPane.setMargin(grid, new Insets(11,0,0,0));
 			
 			Text man_text=new Text(CommonConstants.STAR_MSG);
 			man_text.setFill(Color.MAROON);  

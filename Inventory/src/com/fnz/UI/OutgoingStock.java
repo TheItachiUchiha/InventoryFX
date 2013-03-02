@@ -418,12 +418,14 @@ public class OutgoingStock
 		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(true);
 		 	table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
+		 	table1.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
 		 	final TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(true);
 		 	
 		 	table2.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
+		 	table2.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);
 		 	table2.setStyle("-fx-background-color: transparent;");
 		 	
 			/*final Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>> cellFactory = new Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>>() {
@@ -434,12 +436,12 @@ public class OutgoingStock
 		 	
 		 	
 		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
-		 	itemName.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	itemName.setMinWidth(roundRect.getWidth()*0.3);//200
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity");
-		 	quantity.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	quantity.setMinWidth(roundRect.getWidth()*0.3);//200
 		 	quantity.setEditable(true);
 		 	
 		 	
@@ -504,7 +506,7 @@ public class OutgoingStock
 
 		 	
 		 	TableColumn<ItemVO,String> itemName2 = new TableColumn<ItemVO,String> ("Item");
-		 	itemName2.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	itemName2.setMinWidth(roundRect.getWidth()*0.3);//200
 		 	itemName2.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
@@ -652,13 +654,13 @@ public class OutgoingStock
 			
 			grid.add(invoiceBox,0,11);
 			grid.add(dateBox, 1, 11);
-			grid.add(table1,0,12);
-			grid.add(table2,1,12);
+			grid.add(table1,0,13);
+			grid.add(table2,1,13);
 			HBox hBut = new HBox();
 			hBut.setMaxHeight(5);
 			hBut.getChildren().add(button);
 			hBut.setAlignment(Pos.CENTER);
-			grid.add(hBut,0,14,3,14);
+			grid.add(hBut,0,15,3,15);
 			
 			//grid.add(button,1,14);
 			HBox hMsg = new HBox();
@@ -668,6 +670,7 @@ public class OutgoingStock
 			hMsg.setAlignment(Pos.CENTER);
 			grid.add(hMsg,0,17,3,17);
 			grid.setAlignment(Pos.TOP_CENTER);
+			StackPane.setMargin(grid, new Insets(11,0,0,0));
 			
 			Text man_text=new Text(CommonConstants.STAR_MSG);
 			man_text.setFill(Color.MAROON);  
