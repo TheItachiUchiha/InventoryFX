@@ -56,8 +56,34 @@ public class Validation
 			return false;
 			}
 		}
-	
-	public static boolean isInvalidDate(String text) {
+	public boolean isInvalidDate(TextField textField) {
+		String strdate= new String();
+		String text=textField.getText();
+		int tempdate;
+		if (text == null || !text.matches("^[0-3][0-9]/[0-1]?[0-9]/[0-9]{4}$")){
+		
+			textField.requestFocus();
+			return true;
+			
+		}
+		else{
+			strdate=text.substring(0,2);
+			tempdate = Integer.parseInt(strdate);
+			if (tempdate>31)
+					return true;
+					
+		}
+	       
+	    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+	    df.setLenient(false);
+	    try {
+	        df.parse(text);
+	        return false;
+	    } catch (Exception ex) {
+	        return true;
+	    }
+	}
+	public boolean isInvalidDate(String text) {
 		String strdate= new String();
 		int tempdate;
 		if (text == null || !text.matches("^[0-3][0-9]/[0-1]?[0-9]/[0-9]{4}$")){

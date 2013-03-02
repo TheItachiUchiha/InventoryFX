@@ -502,7 +502,7 @@ public class StockDetails
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity2 = new TableColumn<ItemVO, Integer> ("Quantity");
-		 	quantity2.setMinWidth(roundRect.getWidth()/9.345);//200
+		 	quantity2.setMinWidth(roundRect.getWidth()*0.107);//200
 		 	/*quantity.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, Integer>("quantity"));*/
 		 	

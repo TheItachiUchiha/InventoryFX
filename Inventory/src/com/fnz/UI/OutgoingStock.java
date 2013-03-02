@@ -584,11 +584,11 @@ public class OutgoingStock
 	 					
 	 					date.getTextField().getStyleClass().add("error");
 	 					
-	 					msg.setText("*Can't be empty");
+	 					msg.setText(CommonConstants.EMPTY_MSG);
 	 				}
 	 				else{
 	 					
-	 					if (validate.isInvalidDate(date.getTextField().getText())){
+	 					if (validate.isInvalidDate(date.getTextField())){
 	 						//System.out.println("Date is invalid");
 	 						msg.setTextFill(Color.MAROON);
 	 						
@@ -599,7 +599,7 @@ public class OutgoingStock
 	 				try 
 	 				{
 	 					date.getTextField().getStyleClass().remove("error");
-	 					msg.setTextFill(Color.DARKGRAY);
+	 					msg.setTextFill(Color.GREENYELLOW);
 	 					dataTable.clear();
 	 					for(ItemVO itemVO : dataTable1)
 	 					{

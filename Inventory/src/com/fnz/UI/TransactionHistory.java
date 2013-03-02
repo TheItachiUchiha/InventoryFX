@@ -68,6 +68,9 @@ public class TransactionHistory
 		final BorderPane borderPane = new BorderPane();
 		final HBox hTableResult=new HBox();
 		hTableResult.setMaxHeight(300);
+		final Text lMsg=new Text();
+		lMsg.setFill(Color.MAROON);  
+		lMsg.setFont(Font.font ("Arial", 12));
 		
 		final GridPane gMain = new GridPane();
 		//gMain.setAlignment(Pos.CENTER);
@@ -172,12 +175,19 @@ public class TransactionHistory
 					
 					final FXCalendar eCalendar = new FXCalendar();
 					
+					
+					HBox sHBox = new HBox();
+					sHBox.getChildren().addAll(sDate,star1);
+					
+					HBox eHBox = new HBox();
+					eHBox.getChildren().addAll(eDate,star2);
+					
 					final HBox hDate=new HBox();
 					hDate.setAlignment(Pos.TOP_LEFT);
 					hDate.setMaxHeight(25);
 					hDate.setSpacing(25);
 				//	hDate.setPadding(new Insets(1, 0, 0, 0));
-					hDate.getChildren().addAll(sDate,sCalendar,eDate,eCalendar);
+					hDate.getChildren().addAll(sHBox,sCalendar,eHBox,eCalendar);
 					
 					Button search = new Button("Search");
 					search.setId("buttonall");
@@ -296,18 +306,45 @@ public class TransactionHistory
 					 			@Override
 					 			public void handle(ActionEvent e) 
 					 			{
+					 				
+					 			
 					 				try 
 					 				{
+					 					lMsg.setText("");
 										if(cStockTypes.getValue().equalsIgnoreCase("Purchase"))
 										{
 											hTableResult.getChildren().clear();
 											if(group.getSelectedToggle().getUserData().equals("date"))
 											{
-												hTableResult.getChildren().addAll(fetchIncomingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+												
+												
+												if (!validation.isEmpty(sCalendar.getTextField()) && !validation.isEmpty(eCalendar.getTextField()))
+												{
+								 					if (!validation.isInvalidDate(sCalendar.getTextField()) && !validation.isInvalidDate(eCalendar.getTextField()) )
+								 					{
+								 						hTableResult.getChildren().addAll(fetchIncomingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+								 					}
+								 					else
+								 					{
+								 						lMsg.setText(CommonConstants.WRONG_DATE);
+								 					}
+												}
+												else
+												{
+													lMsg.setText(CommonConstants.EMPTY_MSG);
+												}
 											}
 											else if(group.getSelectedToggle().getUserData().equals("invoice"))
 											{
-												hTableResult.getChildren().addAll(fetchIncomingHistoryTable(textInvoice.getText()));
+												if (!validation.isEmpty(textInvoice))
+												{
+													hTableResult.getChildren().addAll(fetchIncomingHistoryTable(textInvoice.getText()));
+												}
+												else
+												{
+													lMsg.setText(CommonConstants.EMPTY_MSG);
+												}
+												
 											}
 										}
 										else if(cStockTypes.getValue().equalsIgnoreCase("Sales"))
@@ -315,7 +352,21 @@ public class TransactionHistory
 											hTableResult.getChildren().clear();
 											if(group.getSelectedToggle().getUserData().equals("date"))
 											{
-												hTableResult.getChildren().addAll(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+												if (!validation.isEmpty(sCalendar.getTextField()) && !validation.isEmpty(eCalendar.getTextField()))
+												{
+								 					if (!validation.isInvalidDate(sCalendar.getTextField()) && !validation.isInvalidDate(eCalendar.getTextField()) )
+								 					{
+								 						hTableResult.getChildren().addAll(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+								 					}
+								 					else
+								 					{
+								 						lMsg.setText(CommonConstants.WRONG_DATE);
+								 					}
+												}
+												else
+												{
+													lMsg.setText(CommonConstants.EMPTY_MSG);
+												}
 												
 											}
 											//Not required For current Client
@@ -325,11 +376,14 @@ public class TransactionHistory
 											}*/
 											
 										}
-									} 
+										
+					 				}
+									
 					 				catch (Exception e1) 
 					 				{
 										e1.printStackTrace();
 									}
+					 				
 					 				
 					 			}
 					 		});
@@ -345,8 +399,14 @@ public class TransactionHistory
 					Text man_text=new Text(CommonConstants.STAR_MSG);
 					man_text.setFill(Color.MAROON);  
 					man_text.setFont(Font.font ("Arial", 12));
+					
+					
+					
 					StackPane.setMargin(man_text, new Insets(253,18,20,243));
 					StackPane.setAlignment(man_text, Pos.BASELINE_LEFT);
+					
+					StackPane.setMargin(lMsg, new Insets(253,0,0,0));
+					StackPane.setAlignment(lMsg, Pos.BASELINE_CENTER);
 					
 					StackPane.setMargin(roundRect, new Insets(15,10,8,8));
 					StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
@@ -369,11 +429,10 @@ public class TransactionHistory
 						StackPane.setAlignment(hTableResult, Pos.CENTER);
 						
 					}
-					StackPane.setMargin(star1, new Insets(190,320,8,0));
-					StackPane.setAlignment(star1, Pos.TOP_CENTER);
+					
 					StackPane.setMargin(star2, new Insets(190,20,8,95));
 					StackPane.setAlignment(star2, Pos.TOP_CENTER);
-					stack.getChildren().addAll(text5,roundRect,gMain,hTableResult,man_text, star1,star2);
+					stack.getChildren().addAll(text5,roundRect,gMain,hTableResult,man_text,lMsg);
 					
 		return stack;
 	}

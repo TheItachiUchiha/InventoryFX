@@ -598,7 +598,7 @@ public class IncomingStock
 	 				try 
 	 				{
 	 					//System.out.println(validate.isInvalidDate(date.getTextField().getText()));
-	 					if (validate.isInvalidDate(date.getTextField().getText())){
+	 					if (validate.isInvalidDate(date.getTextField())){
 	 						//System.out.println("Date is invalid");
 	 						msg.setTextFill(Color.MAROON);
 	 						invoiceField.getStyleClass().remove("error");
@@ -608,7 +608,7 @@ public class IncomingStock
 	 					else{
 	 					invoiceField.getStyleClass().remove("error");
 	 					date.getTextField().getStyleClass().remove("error");
-	 					msg.setTextFill(Color.DARKGRAY);
+	 					msg.setTextFill(Color.GREENYELLOW);
 	 					
 	 					dataTable.clear();
 	 					for(ItemVO itemVO : dataTable1)
