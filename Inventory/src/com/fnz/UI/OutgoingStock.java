@@ -69,12 +69,14 @@ public class OutgoingStock
 	StockDetailsService stockDetailsService;
 	Animation animation;
 	StackPane stack;
+	Validation validate;	
 	
 	public OutgoingStock() 
 	{
 		stockDetailsService= new StockDetailsService();
 		outgoingStockService = new OutgoingStockService();
 		animation = new Animation();
+		validate = new Validation();
 	}
 	public BorderPane delStockDrinkList(final ObservableList<CategoryVO> listCategory)
 	{
@@ -573,7 +575,7 @@ public class OutgoingStock
 			Button button = new Button("Update Stock");
 			button.setId("buttonall");
 			button.setOnAction(new EventHandler<ActionEvent>() {
-	 		Validation validate= new Validation();	
+	 		
 	 			@Override
 	 			public void handle(ActionEvent e) 
 	 			{
@@ -748,11 +750,12 @@ public class OutgoingStock
 	
 	      private void createTextField() {
 	          textField = new TextField();
+	          validate.allowDigit(textField);
 	          //textField.setText(getString());
-	          textField.setText("0");
+	          //textField.setText("0");
 	          textField.setMinWidth(this.getWidth() - this.getGraphicTextGap()*2);
 	          
-	          textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	         /* textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 
 	        	    @Override
 	        	    public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
@@ -760,17 +763,25 @@ public class OutgoingStock
 	        	            commitEdit(Integer.parseInt(textField.getText()));
 	        	        }
 	        	    }
-	        	});
+	        	});*/
 	          
 	          textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
 		            @Override
 		            public void handle(KeyEvent t) {
 		                if (t.getCode() == KeyCode.ENTER) {
+		                	//For not allowing to commit when Enter is pressed with empty Textfield
+		                	if (!validate.isEmpty(textField)){
+			                	if (!validate.isWord(textField.getText())){
 		                    commitEdit(Integer.parseInt(textField.getText()));
+			                	}}
 		                } else if (t.getCode() == KeyCode.ESCAPE) {
 		                    cancelEdit();
 		                } else if (t.getCode() == KeyCode.TAB) {
+		                	//For not allowing to commit when TAB is pressed with empty Textfield
+		                	if (!validate.isEmpty(textField)){
+			                	if (!validate.isWord(textField.getText())){
 		                    commitEdit(Integer.parseInt(textField.getText()));
+			                	}}
 		                    TableColumn nextColumn = getNextColumn(!t.isShiftDown());
 		                    if (nextColumn != null) {
 		                        getTableView().edit(getTableRow().getIndex(), nextColumn);
@@ -782,7 +793,14 @@ public class OutgoingStock
 		            @Override
 		            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 		                if (!newValue && textField != null) {
-		                    commitEdit(Integer.parseInt(textField.getText()));
+		                	//For not allowing to commit when mouse is pressed with empty Textfield
+		                	if (!validate.isEmpty(textField)){
+		                	if (!validate.isWord(textField.getText())){
+		                		  commitEdit(Integer.parseInt(textField.getText()));
+		                	}
+		                	}
+		                	
+		                			                  
 		                }
 		            }
 		        });

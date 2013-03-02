@@ -117,6 +117,8 @@ public void allowDigit(final TextField fieldName){
 		
 	});
 }
+
+
 public void allowAsEmail(final TextField fieldName){
 	
 	fieldName.lengthProperty().addListener(new ChangeListener<Number>(){

@@ -388,7 +388,7 @@ public class StockDetails
 		 	System.out.println(Screen.getPrimary().getVisualBounds().getHeight());
 		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(false);
-		 //	table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
+			table1.setMaxSize(roundRect.getWidth()*0.41, roundRect.getHeight()*0.519);//400,300
 		 	table1.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);//400,300
 		 	
 		 	table1.getSelectionModel().setCellSelectionEnabled(false);
@@ -398,12 +398,14 @@ public class StockDetails
 		 	
 		 	
 		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
+		 	itemName.setMaxWidth(roundRect.getWidth()*0.3);
 		 	itemName.setMinWidth(roundRect.getWidth()*0.3);//200
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity");
-		 	quantity.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	quantity.setMinWidth(roundRect.getWidth()*0.107);//200
+		 
 		 	/*quantity.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, Integer>("quantity"));*/
 		 	
@@ -489,17 +491,18 @@ public class StockDetails
 		 	final TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(false);
 		 	
-		 //	table2.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
+		 	table2.setMaxSize(roundRect.getWidth()*0.41, roundRect.getHeight()*0.519);
 		 	table2.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);//400,300
 		 	table2.setStyle("-fx-background-color: transparent;");
 		 	
 		 	TableColumn<ItemVO,String> itemName2 = new TableColumn<ItemVO,String> ("Item");
 		 	itemName2.setMinWidth(roundRect.getWidth()*0.3);//200
+		 	
 		 	itemName2.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity2 = new TableColumn<ItemVO, Integer> ("Quantity");
-		 	quantity2.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	quantity2.setMinWidth(roundRect.getWidth()/9.345);//200
 		 	/*quantity.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, Integer>("quantity"));*/
 		 	
