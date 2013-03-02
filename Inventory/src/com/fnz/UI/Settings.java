@@ -60,6 +60,8 @@ public class Settings
 	ObservableList<CategoryVO> listOfCategories;
 	ItemTypeVO itemTypeVO;
 	Validation validate=new Validation();
+	final ObservableList<ItemVO> listOfItems = FXCollections.observableArrayList();
+	
 	public Settings()
 	{
 		utiliesService = new UtiliesService();
@@ -497,6 +499,7 @@ public class Settings
 					CategoryVO oldValue, CategoryVO newValue) 
 			{
 				listOfTypes.clear();
+				itemName.clear();
 				try
 				{
 					listOfTypes.addAll(UtiliesDAO.getUtiliesDAO().fetchTypes(newValue.getCategotyId()));
@@ -520,6 +523,7 @@ public class Settings
 			}
 			});
 		
+		
 		add.setOnAction(new EventHandler<ActionEvent>() {
  			
  			@Override
@@ -527,7 +531,7 @@ public class Settings
  			{
  				try 
  				{
- 					if (validate.isEmpty(itemName.getText())){
+ 					if (validate.isEmpty(itemName)){
  						lmsg.setTextFill(Color.MAROON);
  						itemName.getStyleClass().add("error");
  						lmsg.setText(CommonConstants.EMPTY_MSG);
@@ -550,6 +554,11 @@ public class Settings
 					utiliesService.addItem(itemVO);
 					lmsg.setTextFill(Color.GREENYELLOW);
 					lmsg.setText(CommonConstants.ITEMADD_MSG);
+					
+					validate.removeMessageOnTextFieldClick(itemName, lmsg);
+					validate.removeMessageOnComboBoxClick(cbcategory, lmsg);
+					listOfItems.clear();
+					listOfItems.addAll(utiliesService.fetchItem());
  					}
 				} 
  				catch (Exception e1) 
@@ -564,162 +573,12 @@ public class Settings
 		return settings;
 	}
 	
-/*	public GridPane EditItem() throws Exception
-	{
-		final GridPane settings = new GridPane();
-		//list Creation
-		
-		final ItemVO itemVO = new ItemVO();
-	
-	
-		final ObservableMap<String, String> mapItem = FXCollections.observableHashMap();
-		//mapItem.putAll(utiliesService.fetchItemDetails());
-		ObservableList<String> listOfTypes = FXCollections.observableArrayList();
-		//listOfTypes = utiliesService.fetchTypes();
-		final ObservableMap<String, String> mapCategories = FXCollections.observableHashMap();
-		mapCategories.putAll(utiliesService.fetchCategoryDetails());
-		
-		final ObservableList<ItemTypeVO> listItemTypes  = FXCollections.observableArrayList();
-		
- 		Label lAddItem = new Label("Name Of The Item");
-		final TextField itemName = new TextField();
-		Button add = new Button("Add Item");
-		Label lCategoryName = new Label("Select Category");
-		final ChoiceBox<CategoryVO> cbcategory = new  ChoiceBox<CategoryVO>(listOfCategories);
-		final Label ldp = new Label("Distributor Price");
-		
-		final Label lmrp = new Label("MRP");
-		
-		final Label lhp = new Label("Hotel Price");
-		
-		
-		
-		final Label lTypes = new Label("Types");
-		
-		final AutoCompleteTextField<String> type1 = new AutoCompleteTextField<String>();
-		type1.setItems(listOfTypes);
-		final AutoCompleteTextField<String> type2 = new AutoCompleteTextField<String>();
-		type2.setItems(listOfTypes);
-		final AutoCompleteTextField<String> type3 = new AutoCompleteTextField<String>();
-		type3.setItems(listOfTypes);
-		
-		final TextField tdp1 = new TextField();
-		final TextField tdp2 = new TextField();
-		final TextField tdp3 = new TextField();
-		final TextField tmrp1 = new TextField();
-		final TextField tmrp2 = new TextField();
-		final TextField tmrp3 = new TextField();
-		final TextField thp1 = new TextField();
-		final TextField thp2 = new TextField();
-		final TextField thp3 = new TextField();
-		
-		final Label lmsg = new Label();
-		
-		
-		
-		
-		
-		//settings.setAlignment(Pos.CENTER);
-		settings.setVgap(8);
-		settings.setHgap(10);
-		settings.add(lAddItem, 1, 1);
-		settings.add(itemName, 2, 1);
-		settings.add(lCategoryName, 1, 2);
-		settings.add(cbcategory,2,2);
-		
-		settings.add(lTypes,1,3);
-		settings.add(type1,2,3);	
-		settings.add(type2,3,3);	
-		settings.add(type3,4,3);
-		
-		settings.add(ldp,1,4);
-		settings.add(lmrp,1,5);	
-		settings.add(lhp,1,6);
-		
-		settings.add(tdp1,2,4);
-		settings.add(tdp2,3,4);
-		settings.add(tdp3,4,4);
-		
-		settings.add(tmrp1,2,5);
-		settings.add(tmrp2,3,5);
-		settings.add(tmrp3,4,5);
-		
-		settings.add(thp1,2,6);
-		settings.add(thp2,3,6);
-		settings.add(thp3,4,6);
-		
-				
-		
-		settings.add(add,2,7);
-		settings.add(lmsg,2,8);
-		
-		add.setOnAction(new EventHandler<ActionEvent>() {
- 			
- 			@Override
- 			public void handle(ActionEvent e) 
- 			{
- 				try 
- 				{
- 					ItemTypeVO itemTypeVO;
- 					if(!type1.getText().equals(""))
- 					{
- 						itemTypeVO = new ItemTypeVO();
- 						
- 						itemTypeVO.setType(type1.getText());
- 						itemTypeVO.setQuantity(CommonConstants.ZERO);
- 						itemTypeVO.setDp(Integer.parseInt(tdp1.getText()));
- 						itemTypeVO.setMrp(Integer.parseInt(tmrp1.getText()));
- 						itemTypeVO.setHp(Integer.parseInt(thp1.getText()));
- 						
- 						listItemTypes.add(itemTypeVO);
- 					}
- 					if(!type2.getText().equals(""))
- 					{
- 						itemTypeVO = new ItemTypeVO();
- 						
- 						itemTypeVO.setType(type2.getText());
- 						itemTypeVO.setQuantity(CommonConstants.ZERO);
- 						itemTypeVO.setDp(Integer.parseInt(tdp2.getText()));
- 						itemTypeVO.setMrp(Integer.parseInt(tmrp2.getText()));
- 						itemTypeVO.setHp(Integer.parseInt(thp2.getText()));
- 						
- 						listItemTypes.add(itemTypeVO);
- 					}
- 					if(!type3.getText().equals(""))
- 					{
- 						itemTypeVO = new ItemTypeVO();
- 						
- 						itemTypeVO.setType(type3.getText());
- 						itemTypeVO.setQuantity(CommonConstants.ZERO);
- 						itemTypeVO.setDp(Integer.parseInt(tdp3.getText()));
- 						itemTypeVO.setMrp(Integer.parseInt(tmrp3.getText()));
- 						itemTypeVO.setHp(Integer.parseInt(thp3.getText()));
- 						
- 						listItemTypes.add(itemTypeVO);
- 					}
-
- 					itemVO.setItemName(itemName.getText());
- 					itemVO.setCategoryId(mapCategories.get(cbcategory.getValue()));
- 					itemVO.setListType(listItemTypes);
-
-					utiliesService.addItem(itemVO);
-					lmsg.setText("Item added successfully");
-				} catch (Exception e1) 
-				{
-					lmsg.setText("Some Error Occured !!");
-					e1.printStackTrace();
-				}
- 			}
- 		});
-		return settings;
-	}*/
-	
 	
 	public GridPane editDeleteItem() throws Exception
 	{
 		final GridPane settings = new GridPane();
 		//list Creation
-		final ObservableList<ItemVO> listOfItems = FXCollections.observableArrayList();
+		listOfItems.clear();
 		listOfItems.addAll(utiliesService.fetchItem());
 		
  		Label lAddItem = new Label("Select Item");
@@ -752,6 +611,7 @@ public class Settings
 					settings.add(editText, 2, 3);
 					settings.add(editFinal,2,4);
 					box.setVisible(false);
+					lmsg.setText("");
  				}
 				catch (Exception e1) 
 				{
@@ -775,6 +635,7 @@ public class Settings
 					settings.add(lmsg, 2, 5);
 					listOfItems.clear();
 					listOfItems.addAll(utiliesService.fetchItem());
+					validate.removeMessageOnComboBoxClick(cbItem, lmsg);
  				}
 				catch (Exception e1) 
 				{
@@ -792,14 +653,14 @@ public class Settings
  			{
  				try 
  				{
+ 						settings.getChildren().remove(lmsg);
 						utiliesService.deleteItem(cbItem.getValue().getItemId());
 						lmsg.setTextFill(Color.GREENYELLOW);
-						lmsg.setText(CommonConstants.DEL_MSG);
-						listOfItems.clear();
+						lmsg.setText("\"" +cbItem.getValue().getItemName()+"\""+" "+CommonConstants.DEL_MSG);
 						settings.add(lmsg, 2, 4);
+						listOfItems.clear();
 						listOfItems.addAll(utiliesService.fetchItem());
-					
-					
+						validate.removeMessageOnComboBoxClick(cbItem, lmsg);
 				} catch (Exception e1) 
 				{
 					lmsg.setText("Some Error Occured !!");
@@ -975,6 +836,7 @@ public class Settings
 		 				{
 							utiliesService.addTypes(categories.getValue(), type.getText());
 							msg.setText("Type added Successfully to Category");
+							validate.removeMessageOnTextFieldClick(type, msg);
 						}
 		 				catch (Exception e1) 
 		 				{

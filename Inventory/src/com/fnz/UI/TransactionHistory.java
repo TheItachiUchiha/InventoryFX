@@ -6,6 +6,7 @@ import com.fnz.UI.IncomingStock.EditingCell;
 import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.VO.StockVO;
+import com.fnz.Validation.Validation;
 import com.fnz.common.CommonConstants;
 import com.fnz.service.IncomingStockService;
 import com.fnz.service.OutgoingStockService;
@@ -52,10 +53,12 @@ public class TransactionHistory
 	IncomingStockService incomingStockService;
 	OutgoingStockService outgoingStockService;
 	Animation animation;
+	Validation validation;
 	public TransactionHistory()
 	{
 		incomingStockService = new IncomingStockService();
 		outgoingStockService = new OutgoingStockService();
+		validation = new Validation();
 	}
 	
 	

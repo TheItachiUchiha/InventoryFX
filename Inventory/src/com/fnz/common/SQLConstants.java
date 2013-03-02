@@ -75,6 +75,8 @@ public class SQLConstants
 	
 	public static final String DELETE_ITEMS = "DELETE FROM ITEMS_TABLE where ITEM_ID = ?";
 	
+	public static final String DELETE_ITEM_TYPE_TABLE = "DELETE FROM ITEMS_TYPES_TABLE where ITEM_ID = ?";
+	
 	public static final String EDIT_ITEMS = "UPDATE ITEMS_TABLE SET ITEM_NAME = ? where ITEM_ID = ?";
 	
 	public static final String DELETE_CATEGORY = "DELETE FROM CATEGORY_TABLE where CATEGORY_ID = ?";

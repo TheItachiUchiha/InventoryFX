@@ -11,6 +11,8 @@ import com.mytdev.javafx.scene.control.AutoCompleteTextField;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
@@ -36,6 +38,24 @@ public class Validation
 		return false;
 		}
 	}
+	
+	public boolean isEmpty(TextField textField){
+		Pattern p =Pattern.compile(" ");
+		 Matcher m = p.matcher(textField.getText());
+		 String temp=textField.getText();
+		 temp=m.replaceAll("");
+		
+			if ((temp==null)||("".equals(temp))){
+				textField.requestFocus();
+				return true;
+			}
+			
+			else{
+				
+			
+			return false;
+			}
+		}
 	
 	public static boolean isInvalidDate(String text) {
 		String strdate= new String();
@@ -228,6 +248,30 @@ public void allowAsAmount(final TextField fieldName){
 			}
 		}
 		
+	});
+}
+
+public void removeMessageOnTextFieldClick(TextField textField, final Label msg)
+{
+	textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	    @Override
+	    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+	        if(!oldValue) {
+	            msg.setText("");
+	        }
+	    }
+	});
+}
+
+public void removeMessageOnComboBoxClick(ComboBox comboBox, final Label msg)
+{
+	comboBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	    @Override
+	    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+	        if(!oldValue) {
+	            msg.setText("");
+	        }
+	    }
 	});
 }
 

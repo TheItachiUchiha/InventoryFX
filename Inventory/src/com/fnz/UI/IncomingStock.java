@@ -574,7 +574,7 @@ public class IncomingStock
 	 			@Override
 	 			public void handle(ActionEvent e) 
 	 			{
-	 				if (validate.isEmpty(invoiceField.getText())){
+	 				if (validate.isEmpty(invoiceField)){
 	 					
 	 					msg.setTextFill(Color.MAROON);
 	 					
@@ -586,7 +586,7 @@ public class IncomingStock
 	 				
 	 				
 	 				else{
-	 					if (validate.isEmpty(date.getTextField().getText())){
+	 					if (validate.isEmpty(date.getTextField())){
 	 						msg.setTextFill(Color.MAROON);
 	 						invoiceField.getStyleClass().remove("error");
 		 					date.getTextField().getStyleClass().add("error");

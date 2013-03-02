@@ -673,10 +673,15 @@ public class UtiliesDAO
 			config.enforceForeignKeys(true);
 
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.DELETE_ITEMS);
+			pstmt = conn.prepareStatement(SQLConstants.DELETE_ITEM_TYPE_TABLE);
 			
 			pstmt.setString(1, itemId);
 			pstmt.execute();
+			
+			pstmt = conn.prepareStatement(SQLConstants.DELETE_ITEMS);
+			pstmt.setString(1, itemId);
+			pstmt.execute();
+			
 		}
 		catch(Exception e)
 		{
