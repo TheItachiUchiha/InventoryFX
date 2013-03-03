@@ -21,7 +21,7 @@ import com.fnz.common.SQLConstants;
 
 public class OutgoingStockDAO
 {
-	public String deleteOutgoingStock(String date, ObservableList<ItemVO> listData) throws Exception 
+	public String deleteOutgoingStock(String date, ObservableList<ItemVO> listData, String categoryId) throws Exception 
 	{
 		Connection conn = null;
 		ResultSet resultSet = null;
@@ -29,6 +29,8 @@ public class OutgoingStockDAO
 		java.sql.Statement statement = null;
 		Class.forName(CommonConstants.DRIVERNAME);
 		String msg = CommonConstants.UPDATE_MSG;
+		ObservableList<ItemVO> itemList = FXCollections.observableArrayList();
+		itemList = new StockDetailsDAO().viewStock(categoryId);
 		
 		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
 		
@@ -43,20 +45,38 @@ public class OutgoingStockDAO
 			
 			for(ItemVO itemVO : listData)
 			{
-				ObservableMap<String, ItemTypeVO> map = FXCollections.observableHashMap();
-				map=itemVO.getListType();
-				Set<String> keySet = map.keySet();
-				for(Iterator<String> iter=keySet.iterator();iter.hasNext();)
+				for(ItemVO tempVO : itemList)
 				{
-					ItemTypeVO itemTypeVO = new ItemTypeVO();
-					itemTypeVO = map.get(iter.next());
-					statement.addBatch(SQLConstants.UPDATE_DEL_ITEMS_TYPES_1 + itemTypeVO.getQuantity() + SQLConstants.UPDATE_DEL_ITEMS_TYPES_2 +
-							itemVO.getItemId() + SQLConstants.UPDATE_DEL_ITEMS_TYPES_3 + itemTypeVO.getTypeId() + SQLConstants.UPDATE_DEL_ITEMS_TYPES_4);
-					statement.addBatch(SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_1+date+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_2+
-							itemTypeVO.getItemId()+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_2+itemTypeVO.getTypeId()+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_3+
-							itemTypeVO.getQuantity()+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_4);
+					if(itemVO.getItemId().equals(tempVO.getItemId()))
+					{
+						ObservableMap<String, ItemTypeVO> map = FXCollections.observableHashMap();
+						map=itemVO.getListType();
+						Set<String> keySet = map.keySet();
+						for(Iterator<String> iter=keySet.iterator();iter.hasNext();)
+						{
+							ItemTypeVO itemTypeVO = new ItemTypeVO();
+							itemTypeVO = map.get(iter.next());
+							Integer tempQuantity = tempVO.getListType().get(itemTypeVO.getTypeId()).getQuantity();
+							if(tempQuantity>=itemTypeVO.getQuantity())
+							{
+								if(itemTypeVO.getQuantity()>0)
+								{
+									statement.addBatch(SQLConstants.UPDATE_DEL_ITEMS_TYPES_1 + itemTypeVO.getQuantity() + SQLConstants.UPDATE_DEL_ITEMS_TYPES_2 +
+											itemVO.getItemId() + SQLConstants.UPDATE_DEL_ITEMS_TYPES_3 + itemTypeVO.getTypeId() + SQLConstants.UPDATE_DEL_ITEMS_TYPES_4);
+									statement.addBatch(SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_1+date+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_2+
+											itemTypeVO.getItemId()+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_2+itemTypeVO.getTypeId()+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_3+
+											itemTypeVO.getQuantity()+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_4);
+								}
+							}
+							else
+							{
+								return itemVO.getItemName()+"*&^"+itemTypeVO.getTypeId();
+							}
+						}
+					}
 				}
 			}
+				
 			
 			statement.executeBatch();
 		}

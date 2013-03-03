@@ -318,7 +318,7 @@ public class OutgoingStock
    	return borderPane;
 	}	
 	
-	public StackPane addStock(String categoryId, String categoryName)
+	public StackPane addStock(final String categoryId, String categoryName)
 	{
 		stack = new StackPane();
 		
@@ -638,7 +638,26 @@ public class OutgoingStock
 	 								dataTable.add(itemVO);
 	 						}
 	 					}
-	 					msg.setText(outgoingStockService.deleteOutgoingStock(date.getTextField().getText(), dataTable));
+	 					String tempMsg = outgoingStockService.deleteOutgoingStock(date.getTextField().getText(), dataTable, categoryId);
+						if(tempMsg.contains("*&^"))
+						{
+							String tempTypeName = "";
+							String tempItemName = tempMsg.substring(0, tempMsg.indexOf("*&^"));
+					     	String tempTypeId = tempMsg.substring(tempMsg.indexOf("*&^")+3,tempMsg.length());
+							for(CategoryTypeVO tempVO : typeList)
+							{
+								if(tempVO.getTypeId().equals(tempTypeId))
+								{
+									tempTypeName = tempVO.getTypeName();
+									break;
+								}
+							}
+							msg.setText(tempItemName +"'s" + " " + tempTypeName + CommonConstants.LOW_STOCK_MSG);
+							msg.setTextFill(Color.MAROON);						}
+						else
+						{
+							msg.setText(tempMsg);
+						}
 	 					date.getTextField().clear();
 	 				} 
 	 				catch (Exception e1) 
@@ -851,5 +870,4 @@ public class OutgoingStock
 		        }
 	      	}
 	  }
-		
 }

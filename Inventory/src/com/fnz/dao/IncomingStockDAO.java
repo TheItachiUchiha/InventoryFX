@@ -54,11 +54,14 @@ public class IncomingStockDAO
 				{
 					ItemTypeVO itemTypeVO = new ItemTypeVO();
 					itemTypeVO = map.get(iter.next());
-					statement.addBatch(SQLConstants.UPDATE_ADD_ITEMS_TYPES_1 + itemTypeVO.getQuantity()*CommonConstants.CASE_SIZE + SQLConstants.UPDATE_ADD_ITEMS_TYPES_2 +
-							itemVO.getItemId() + SQLConstants.UPDATE_ADD_ITEMS_TYPES_3 + itemTypeVO.getTypeId() + SQLConstants.UPDATE_ADD_ITEMS_TYPES_4);
-					statement.addBatch(SQLConstants.INSERT_INCOMING_STOCK_DETAILS_1+invoiceNo+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+
-							itemTypeVO.getItemId()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+itemTypeVO.getTypeId()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_3+
-							itemTypeVO.getQuantity()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_4);
+					if(itemTypeVO.getQuantity()>0)
+					{
+						statement.addBatch(SQLConstants.UPDATE_ADD_ITEMS_TYPES_1 + itemTypeVO.getQuantity()*CommonConstants.CASE_SIZE + SQLConstants.UPDATE_ADD_ITEMS_TYPES_2 +
+								itemVO.getItemId() + SQLConstants.UPDATE_ADD_ITEMS_TYPES_3 + itemTypeVO.getTypeId() + SQLConstants.UPDATE_ADD_ITEMS_TYPES_4);
+						statement.addBatch(SQLConstants.INSERT_INCOMING_STOCK_DETAILS_1+invoiceNo+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+
+								itemTypeVO.getItemId()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+itemTypeVO.getTypeId()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_3+
+								itemTypeVO.getQuantity()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_4);
+					}
 				}
 			}
 			

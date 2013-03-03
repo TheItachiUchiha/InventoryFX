@@ -583,7 +583,6 @@ public class IncomingStock
 	 					msg.setText(CommonConstants.EMPTY_MSG);
 	 					invoiceField.requestFocus();
 	 					invoiceField.getStyleClass().add("error");
-	 					System.out.println("Empty field");
 	 				}
 	 				
 	 				
