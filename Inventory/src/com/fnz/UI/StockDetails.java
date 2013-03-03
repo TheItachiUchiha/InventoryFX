@@ -455,6 +455,7 @@ public class StockDetails
 									setText(item.toString());
 									if(item<=5)
 									{
+										this.getStyleClass().add("celllow");
 										setTextFill(Color.MAROON);
 									}
 								}
@@ -552,6 +553,7 @@ public class StockDetails
 										setText(item.toString());
 										if(item<=5)
 										{
+											this.getStyleClass().add("celllow");
 											setTextFill(Color.MAROON);
 										}
 									}

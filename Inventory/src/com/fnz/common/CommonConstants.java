@@ -69,9 +69,9 @@ public class CommonConstants
 	public static final String ALREADY_EXISTS = "Already Exists !";
 	public static final String WRONG_DATE = "*Wrong Date format. Please enter in dd/MM/yyyy";
 	public static final String STAR_MSG = "*Mandatory Fields";
-	public static final String SELECT_ITEM_MSG = "Select Item";
-	public static final String SELECT_CATEGORY = "Select Category";
-	public static final String SELECT_TYPE = "Select Type";
+	public static final String SELECT_ITEM_MSG = "*Please Select atleast one item";
+	public static final String SELECT_CATEGORY = "*Please Select atleast one category";
+	public static final String SELECT_TYPE = "*Please Select atleast one type";
 	public static final String EDIT_TYPE_MSG = "Type Name Edited";
 	
 }
