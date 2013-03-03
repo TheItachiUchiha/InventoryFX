@@ -13,7 +13,6 @@ import com.fnz.Validation.Validation;
 import com.fnz.common.CommonConstants;
 import com.fnz.dao.UtiliesDAO;
 import com.fnz.service.UtiliesService;
-import com.mytdev.javafx.scene.control.AutoCompleteTextField;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -600,6 +599,18 @@ public class Settings
 		final TextField editText = new TextField();
 		final Button editFinal =new Button("Edit");
 		
+		
+		cbItem.valueProperty().addListener(new ChangeListener<ItemVO>() {
+
+			@Override
+			public void changed(ObservableValue<? extends ItemVO> observable,
+					ItemVO oldValue, ItemVO newValue) 
+			{
+					lmsg.setText("");
+					settings.getChildren().removeAll(editLabel,editText,editFinal);
+					box.setVisible(true);
+			}
+			});
 		edit.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -607,11 +618,21 @@ public class Settings
 			{
 				try 
  				{
-					settings.add(editLabel, 1, 3);
-					settings.add(editText, 2, 3);
-					settings.add(editFinal,2,4);
-					box.setVisible(false);
-					lmsg.setText("");
+					if(cbItem.getValue() != null)
+					{
+						settings.add(editLabel, 1, 3);
+						settings.add(editText, 2, 3);
+						settings.add(editFinal,2,4);
+						box.setVisible(false);
+						lmsg.setText("");
+					}
+					else
+					{
+						settings.getChildren().remove(lmsg);
+						settings.add(lmsg, 2, 4);
+						lmsg.setText(CommonConstants.SELECT_ITEM_MSG);
+						lmsg.setTextFill(Color.MAROON);
+					}
  				}
 				catch (Exception e1) 
 				{
@@ -629,17 +650,29 @@ public class Settings
 			{
 				try 
  				{
-					utiliesService.editItem(cbItem.getValue().getItemId(),editText.getText());
-					lmsg.setTextFill(Color.GREENYELLOW);
-					lmsg.setText(CommonConstants.EDIT_MSG);
-					settings.add(lmsg, 2, 5);
-					listOfItems.clear();
-					listOfItems.addAll(utiliesService.fetchItem());
-					validate.removeMessageOnComboBoxClick(cbItem, lmsg);
+					if(validate.isEmpty(editText))
+					{
+						settings.getChildren().remove(lmsg);
+						lmsg.setTextFill(Color.MAROON);
+						lmsg.setText(CommonConstants.EMPTY_MSG);
+						settings.add(lmsg, 2, 5);
+					}
+					else
+					{
+						settings.getChildren().remove(lmsg);
+						utiliesService.editItem(cbItem.getValue().getItemId(),editText.getText());
+						lmsg.setTextFill(Color.GREENYELLOW);
+						lmsg.setText(CommonConstants.EDIT_MSG);
+						settings.add(lmsg, 2, 5);
+						listOfItems.clear();
+						listOfItems.addAll(utiliesService.fetchItem());
+						validate.removeMessageOnComboBoxClick(cbItem, lmsg);
+					}
  				}
 				catch (Exception e1) 
 				{
 					lmsg.setText("Some Error Occured !!");
+					lmsg.setTextFill(Color.MAROON);
 					e1.printStackTrace();
 				}
 			}
@@ -920,6 +953,12 @@ public class Settings
 		final Button delete = new Button("Delete");
 		delete.setId("buttonall");
 		final Label msg = new Label();
+		Label cat=new Label("Category");
+		Label typ=new Label("Type");
+		final HBox htemp=new HBox();
+		htemp.getChildren().addAll(edit,delete);
+		htemp.setSpacing(2);
+		final Label lTypeName = new Label("New Type Name");
 		
 		
 		category.valueProperty().addListener(new ChangeListener<CategoryVO>() {
@@ -930,13 +969,30 @@ public class Settings
 					CategoryVO oldValue, CategoryVO newValue) {
 				// TODO Auto-generated method stub
 				listTypes.clear();
-				try {
+				gridPane.getChildren().removeAll(lTypeName,typeName,editFinal);
+				htemp.setVisible(true);
+				try 
+				{
 					listTypes.addAll(utiliesService.fetchTypes(newValue.getCategotyId()));
+					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					
 					msg.setText("Some error occured..");
 				}
+			}
+		});
+		
+		type.valueProperty().addListener(new ChangeListener<CategoryTypeVO>() {
+
+			@Override
+			public void changed(
+					ObservableValue<? extends CategoryTypeVO> observable,
+					CategoryTypeVO oldValue, CategoryTypeVO newValue) {
+				// TODO Auto-generated method stub
+				
+				gridPane.getChildren().removeAll(lTypeName,typeName,editFinal);
+				htemp.setVisible(true);
 			}
 		});
 		
@@ -947,8 +1003,11 @@ public class Settings
 		 			{
 		 				try
 		 				{
+		 					gridPane.getChildren().remove(msg);
 							utiliesService.deleteCategoryTypes(type.getValue());
-							msg.setText("Type deleted Successfully from Category");
+							msg.setText("\""+type.getValue().getTypeName()+"\" "+ CommonConstants.DEL_MSG);
+							msg.setTextFill(Color.MAROON);
+							gridPane.add(msg,1,7);
 						}
 		 				catch (Exception e1) 
 		 				{
@@ -957,21 +1016,21 @@ public class Settings
 						}
 		 			}
 		 		});
-		Label cat=new Label("Category");
-		cat.setTextFill(Color.DARKGOLDENROD);
+		
+		
+		
+		
 		gridPane.add(cat, 0, 0);
 		gridPane.add(category, 1, 0);
-		Label typ=new Label("Category");
-		typ.setTextFill(Color.DARKGOLDENROD);
 		gridPane.add(typ,0,1);
 		gridPane.add(type,1,1);
-		HBox htemp=new HBox();
-			htemp.getChildren().addAll(edit,delete);
-			htemp.setSpacing(2);
-		gridPane.add(htemp, 1, 3,2,3);
+		gridPane.add(htemp,0,2);
+
+
 		//gridPane.add(edit, 0, 3);
 		//gridPane.add(delete, 1, 3);
-		gridPane.add(msg,1,4);
+		cat.setTextFill(Color.DARKGOLDENROD);
+		typ.setTextFill(Color.DARKGOLDENROD);
 		
 		edit.setOnAction(new EventHandler<ActionEvent>() {
  			
@@ -980,13 +1039,28 @@ public class Settings
  			{
  				try
  				{
- 					Label lTypeName = new Label("New Type Name");
- 					lTypeName.setTextFill(Color.DARKGOLDENROD);
- 					gridPane.add(lTypeName, 0, 2);
- 					gridPane.add(typeName, 1, 2);
- 					gridPane.add(editFinal, 0, 3);
- 					edit.setVisible(false);
- 					delete.setVisible(false);
+ 					gridPane.getChildren().remove(msg);
+ 					if(category.getValue() == null)
+ 					{
+ 						gridPane.add(msg,1,5);
+ 						msg.setText(CommonConstants.SELECT_CATEGORY);
+ 						msg.setTextFill(Color.MAROON);
+ 					}
+ 					else if(type.getValue() == null)
+ 					{
+ 						gridPane.add(msg,1,5);
+ 						msg.setText(CommonConstants.SELECT_TYPE);
+ 						msg.setTextFill(Color.MAROON);
+ 					}
+ 					else
+ 					{
+ 	 					lTypeName.setTextFill(Color.DARKGOLDENROD);
+ 	 					gridPane.add(lTypeName, 0, 2);
+ 	 					gridPane.add(typeName, 1, 2);
+ 	 					gridPane.add(editFinal, 0, 3);
+ 	 					htemp.setVisible(false);
+ 					}
+ 					
 				}
  				catch (Exception e1) 
  				{
@@ -1003,8 +1077,11 @@ public class Settings
 		 			{
 		 				try
 		 				{
+		 					gridPane.getChildren().remove(msg);
 		 					utiliesService.editCategoryTypes(type.getValue(),typeName.getText());
-		 					msg.setText("New Type Name saved Successfully");
+		 					msg.setText(CommonConstants.EDIT_TYPE_MSG);
+		 					msg.setTextFill(Color.GREENYELLOW);
+		 					gridPane.add(msg,1,3);
 						}
 		 				catch (Exception e1) 
 		 				{
@@ -1016,8 +1093,8 @@ public class Settings
 		return gridPane;
 	}
 	
-	public StackPane stackaddDetailsToItems(){
-StackPane stack = new StackPane();
+		public StackPane stackaddDetailsToItems(){
+		StackPane stack = new StackPane();
 		
 		GridPane grid = new GridPane();
 		GridPane grid2 = new GridPane();

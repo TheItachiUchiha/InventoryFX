@@ -60,7 +60,7 @@ public class CommonConstants
 	public static final String PINT= "PINT";
 	public static final String QUAD= "QUAD";
 	public static final String UPDATE_MSG= "Updated Successfully";
-	public static final String EMPTY_MSG = "*Mandatory field cannot be left empty";
+	public static final String EMPTY_MSG = "*Mandatory field can't be empty";
 	public static final String ITEMADD_MSG = "Item added successfully";
 	public static final String CAT_MSG = "Category added successfully";
 	public static final String COMBO_MSG = "*Please select atleast one value";
@@ -69,5 +69,9 @@ public class CommonConstants
 	public static final String ALREADY_EXISTS = "Already Exists !";
 	public static final String WRONG_DATE = "*Wrong Date format. Please enter in dd/MM/yyyy";
 	public static final String STAR_MSG = "*Mandatory Fields";
+	public static final String SELECT_ITEM_MSG = "Select Item";
+	public static final String SELECT_CATEGORY = "Select Category";
+	public static final String SELECT_TYPE = "Select Type";
+	public static final String EDIT_TYPE_MSG = "Type Name Edited";
 	
 }

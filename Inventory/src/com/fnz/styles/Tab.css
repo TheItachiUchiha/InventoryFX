@@ -257,3 +257,10 @@
  
 }  
 
+.autofill-text{
+    -fx-skin:"np.com.ngopal.control.AutoFillTextBoxSkin";
+}
+
+root { 
+    display: block;
+}

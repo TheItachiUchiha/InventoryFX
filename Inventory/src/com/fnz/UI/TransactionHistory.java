@@ -8,8 +8,10 @@ import com.fnz.VO.ItemVO;
 import com.fnz.VO.StockVO;
 import com.fnz.Validation.Validation;
 import com.fnz.common.CommonConstants;
+import com.fnz.dao.UtiliesDAO;
 import com.fnz.service.IncomingStockService;
 import com.fnz.service.OutgoingStockService;
+import com.mytdev.javafx.scene.control.AutoCompleteTextField;
 import com.sai.javafx.calendar.FXCalendar;
 
 import javafx.beans.value.ChangeListener;
@@ -89,6 +91,8 @@ public class TransactionHistory
 					roundRect.setOpacity(0.2);
 					roundRect.setStroke(Color.TRANSPARENT);
 					//VBox vBox = new VBox(30);
+					
+					final ObservableList<String> listOfInvoice = FXCollections.observableArrayList();
 					
 					final Text text5 = new Text(25, 175, "Search in History");  
 				      text5.setFill(Color.DARKORANGE);  
@@ -199,7 +203,8 @@ public class TransactionHistory
 					
 					final Label invoiceId = new Label("Invoice Id");
 					invoiceId.setTextFill(Color.DARKGOLDENROD);
-					final TextField textInvoice = new TextField();		
+					final AutoCompleteTextField<String> textInvoice = new AutoCompleteTextField<String>();		
+					textInvoice.setItems(listOfInvoice);
 					final HBox hInvoice=new HBox();
 					hInvoice.setAlignment(Pos.TOP_LEFT);
 					hInvoice.setMaxHeight(25);
@@ -209,6 +214,13 @@ public class TransactionHistory
 					
 					if(cStockTypes.getValue().equalsIgnoreCase("purchase"))
 					{
+						listOfInvoice.clear();
+						try {
+							listOfInvoice.addAll(UtiliesDAO.getUtiliesDAO().fetchInvoiceId(cStockTypes.getValue()));
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						gMain.getChildren().removeAll(hDate,hInvoice,hSearch);
 						searchByInvoice.setSelected(false);
 						searchByDate.setSelected(true);
@@ -236,36 +248,45 @@ public class TransactionHistory
 						public void changed(ObservableValue<? extends String> observable,
 								String oldValue, String newValue) 
 						{
-							sCalendar.getTextField().clear();
-							eCalendar.getTextField().clear();
-							hTableResult.getChildren().clear();
-							gMain.getChildren().removeAll(hDate,hInvoice,hSearch);
-							searchByInvoice.setSelected(false);
-							searchByDate.setSelected(true);
-							if(newValue.equalsIgnoreCase("purchase"))
+							try
 							{
-								
-								hSearchBy.getChildren().removeAll(searchByInvoice,searchByDate);
-								hSearchBy.getChildren().addAll(searchByInvoice,searchByDate);
-								if(group.getSelectedToggle().getUserData().toString().equals("date"))
-						        {
-						        	gMain.getChildren().removeAll(hDate,hInvoice,hSearch);
-						        	gMain.add(hDate, 0,2,4,2);
-						        	gMain.add(hSearch, 0, 3, 6, 3);
-						        }
+								sCalendar.getTextField().clear();
+								eCalendar.getTextField().clear();
+								hTableResult.getChildren().clear();
+								gMain.getChildren().removeAll(hDate,hInvoice,hSearch);
+								searchByInvoice.setSelected(false);
+								searchByDate.setSelected(true);
+								if(newValue.equalsIgnoreCase("purchase"))
+								{
+									listOfInvoice.clear();
+									listOfInvoice.addAll(UtiliesDAO.getUtiliesDAO().fetchInvoiceId(cStockTypes.getValue()));
+									hSearchBy.getChildren().removeAll(searchByInvoice,searchByDate);
+									hSearchBy.getChildren().addAll(searchByInvoice,searchByDate);
+									if(group.getSelectedToggle().getUserData().toString().equals("date"))
+							        {
+							        	gMain.getChildren().removeAll(hDate,hInvoice,hSearch);
+							        	gMain.add(hDate, 0,2,4,2);
+							        	gMain.add(hSearch, 0, 3, 6, 3);
+							        }
+								}
+								else if(newValue.equalsIgnoreCase("sales"))
+								{
+									hSearchBy.getChildren().removeAll(searchByInvoice,searchByDate);
+									hSearchBy.getChildren().addAll(searchByDate);
+									if(group.getSelectedToggle().getUserData().toString().equals("date"))
+							        {
+							        	gMain.getChildren().removeAll(hDate,hInvoice,hSearch);
+							        	gMain.add(hDate, 0,2,4,2);
+							        	gMain.add(hSearch, 0, 3, 6, 3);
+							        }
+								}
 							}
-							else if(newValue.equalsIgnoreCase("sales"))
+							catch(Exception e)
 							{
-								hSearchBy.getChildren().removeAll(searchByInvoice,searchByDate);
-								hSearchBy.getChildren().addAll(searchByDate);
-								if(group.getSelectedToggle().getUserData().toString().equals("date"))
-						        {
-						        	gMain.getChildren().removeAll(hDate,hInvoice,hSearch);
-						        	gMain.add(hDate, 0,2,4,2);
-						        	gMain.add(hSearch, 0, 3, 6, 3);
-						        }
+								e.printStackTrace();
 							}
 						}
+						
 					});
 					
 					

@@ -1031,4 +1031,62 @@ public class UtiliesDAO
 				}
 			}
 	}
+		
+		public ObservableList<String> fetchInvoiceId(String typeOfOrder) throws Exception 
+		{
+			SQLiteConfig config = null;
+			Connection conn = null;
+			PreparedStatement pstmt = null;			
+			ResultSet resultSet = null;
+			ObservableList<String> invoiceList=FXCollections.observableArrayList();
+
+			
+			Class.forName(CommonConstants.DRIVERNAME);
+			
+			String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
+			
+			try 
+			{
+				config = new SQLiteConfig();
+				config.enforceForeignKeys(true);
+				conn = DriverManager.getConnection(sDbUrl, config.toProperties());
+				
+				if(typeOfOrder.equalsIgnoreCase("Purchase"))
+				{
+					pstmt = conn.prepareStatement(SQLConstants.FETCH_INVOICE_INCOMING);
+				}
+				/*else if(typeOfOrder.equalsIgnoreCase("sales"))
+				{
+					pstmt = conn.prepareStatement(SQLConstants.FETCH_INVOICE_OUTGOING);
+				}*/
+				
+				resultSet = pstmt.executeQuery();
+				
+				while(resultSet.next())
+				{
+					invoiceList.add(resultSet.getString(1));
+				}
+				
+			}
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				if(conn !=null )
+				{
+					conn.close();
+				}
+				if(pstmt != null )
+				{
+					pstmt.close();
+				}
+				if(resultSet != null)
+				{
+					resultSet.close();
+				}
+			}
+			return invoiceList;
+	}
 }
