@@ -1,6 +1,7 @@
 package com.fnz.service;
 
 
+import com.fnz.VO.CategoryTypeVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.VO.StockVO;
 import com.fnz.dao.IncomingStockDAO;
@@ -16,9 +17,9 @@ public class IncomingStockService
 		incomingStockDAO = new IncomingStockDAO();
 	}
 
-	public String addIncomingStock(String invoiceNo, String date, ObservableList<ItemVO> listData) throws Exception 
+	public String addIncomingStock(String invoiceNo, String date, ObservableList<ItemVO> listData, ObservableList<CategoryTypeVO> typeList) throws Exception 
 	{
-		return incomingStockDAO.addIncomingStock(invoiceNo, date, listData);
+		return incomingStockDAO.addIncomingStock(invoiceNo, date, listData, typeList);
 	}
 	public ObservableList<StockVO> fetchIncomingStockDetails(String initialDate, String finalDate) throws Exception 
 	{

@@ -1,9 +1,5 @@
 package com.fnz.UI;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.processing.RoundEnvironment;
 
 import com.fnz.VO.CategoryTypeVO;
 import com.fnz.VO.CategoryVO;
@@ -24,20 +20,11 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.layout.BorderPane;
@@ -50,7 +37,6 @@ import javafx.scene.shape.RectangleBuilder;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
-import javafx.util.Callback;
 
 public class Settings 
 {
@@ -572,7 +558,7 @@ public class Settings
 					validate.removeMessageOnTextFieldClick(itemName, lmsg);
 					validate.removeMessageOnComboBoxClick(cbcategory, lmsg);
 					listOfItems.clear();
-					listOfItems.addAll(utiliesService.fetchItem());
+					listOfItems.addAll(utiliesService.fetchItem(cbcategory.getValue().getCategotyId()));
  					}
 				} 
  				catch (Exception e1) 
@@ -589,164 +575,176 @@ public class Settings
 	
 	
 	public GridPane editDeleteItem() throws Exception
-	{
-		
-		 star3=new Text("*  ");
-			star3.setFill(Color.MAROON);  
-		    star3.setFont(Font.font ("calibri", 15));
+ {
+
+		star3 = new Text("*  ");
+		star3.setFill(Color.MAROON);
+		star3.setFont(Font.font("calibri", 15));
+		star4 = new Text("*  ");
+		star4.setFill(Color.MAROON);
+		star4.setFont(Font.font("calibri", 15));
 		final GridPane settings = new GridPane();
-		//list Creation
+		// list Creation
 		listOfItems.clear();
-		listOfItems.addAll(utiliesService.fetchItem());
 		
+
 		HBox hlAddItem = new HBox();
- 		Label lAddItem = new Label("Select Item");
- 		lAddItem.setTextFill(Color.DARKGOLDENROD);
- 		hlAddItem.getChildren().addAll(lAddItem,star3);
- 		
- 		final ComboBox<ItemVO> cbItem = new  ComboBox<ItemVO>(listOfItems);
- 		Button edit = new Button("Edit");
- 		edit.setId("buttonall");
- 		Button delete = new Button("Delete");
- 		delete.setId("buttonall");
- 		final HBox hLmsg=new HBox();
+		HBox hlAddCategory = new HBox();
+		Label lAddItem = new Label("Select Item");
+		lAddItem.setTextFill(Color.DARKGOLDENROD);
+		Label lAddCategory = new Label("Select Category");
+		lAddCategory.setTextFill(Color.DARKGOLDENROD);
+		hlAddItem.getChildren().addAll(lAddItem, star3);
+		hlAddCategory.getChildren().addAll(lAddCategory, star4);
+
+		final ComboBox<CategoryVO> cbCategory = new ComboBox<CategoryVO>(listOfCategories);
+		final ComboBox<ItemVO> cbItem = new ComboBox<ItemVO>(listOfItems);
+		Button edit = new Button("Edit");
+		edit.setId("buttonall");
+		Button delete = new Button("Delete");
+		delete.setId("buttonall");
+		final HBox hLmsg = new HBox();
 		final Label lmsg = new Label();
 		hLmsg.getChildren().addAll(lmsg);
 		hLmsg.setAlignment(Pos.CENTER);
-		settings.add(hLmsg,1,5, 2, 5);
-		
+		settings.add(hLmsg, 1, 5, 2, 5);
+
 		final HBox box = new HBox();
 		box.setAlignment(Pos.TOP_LEFT);
 		box.setSpacing(10);
 		box.getChildren().addAll(edit, delete);
-		star5=new Text("*  ");
-		star5.setFill(Color.MAROON);  
-	    star5.setFont(Font.font ("calibri", 15));
-		final HBox heditLabel= new HBox();
+		star5 = new Text("*  ");
+		star5.setFill(Color.MAROON);
+		star5.setFont(Font.font("calibri", 15));
+		final HBox heditLabel = new HBox();
 		final Label editLabel = new Label("New Item Name");
 		editLabel.setTextFill(Color.DARKGOLDENROD);
-		heditLabel.getChildren().addAll(editLabel,star5);
+		heditLabel.getChildren().addAll(editLabel, star5);
 		final TextField editText = new TextField();
-		final Button editFinal =new Button("Edit");
+		final Button editFinal = new Button("Edit");
+
+		
+		cbCategory.valueProperty().addListener(new ChangeListener<CategoryVO>() {
+
+			@Override
+			public void changed(ObservableValue<? extends CategoryVO> observable,
+					CategoryVO oldValue, CategoryVO newValue) {
+				lmsg.setText("");
+				listOfItems.clear();
+				try {
+					listOfItems.addAll(utiliesService.fetchItem(newValue.getCategotyId()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				/*if (flag == false) {
+					box.setVisible(true);
+					flag = false;
+				}*/
+			}
+		});
 		
 		
 		cbItem.valueProperty().addListener(new ChangeListener<ItemVO>() {
 
 			@Override
 			public void changed(ObservableValue<? extends ItemVO> observable,
-					ItemVO oldValue, ItemVO newValue) 
-			{
+					ItemVO oldValue, ItemVO newValue) {
 				lmsg.setText("");
-				if (flag==false){	
+				if (flag == false) {
 					box.setVisible(true);
-					flag=false;
+					flag = false;
 				}
 			}
-			});
+		});
 		edit.setOnAction(new EventHandler<ActionEvent>() {
-			
+
 			@Override
-			public void handle(ActionEvent e)
-			{
-				try 
- 				{
-					if(cbItem.getValue() != null)
-					{
+			public void handle(ActionEvent e) {
+				try {
+					if (cbItem.getValue() != null) {
 						settings.add(heditLabel, 1, 3);
 						settings.add(editText, 2, 3);
-						settings.add(editFinal,2,4);
+						settings.add(editFinal, 2, 4);
 						box.setVisible(false);
-						
-					}
-					else
-					{
+
+					} else {
 						lmsg.setText(CommonConstants.SELECT_ITEM_MSG);
 						lmsg.setTextFill(Color.MAROON);
 					}
- 				}
-				catch (Exception e1) 
-				{
+				} catch (Exception e1) {
 					lmsg.setText("Some Error Occured !!");
 					e1.printStackTrace();
 				}
 			}
 		});
-		
-		
+
 		editFinal.setOnAction(new EventHandler<ActionEvent>() {
-		
+
 			@Override
-			public void handle(ActionEvent e)
-			{
-				try 
- 				{
-					if(validate.isEmpty(editText))
-					{
-						
-					//	settings.getChildren().remove(lmsg);
+			public void handle(ActionEvent e) {
+				try {
+					if (validate.isEmpty(editText)) {
+
+						// settings.getChildren().remove(lmsg);
 						lmsg.setTextFill(Color.MAROON);
 						lmsg.setText(CommonConstants.EMPTY_MSG);
-						
-					}
-					else
-					{
-					
-						utiliesService.editItem(cbItem.getValue().getItemId(),editText.getText());
+
+					} else {
+
+						utiliesService.editItem(cbItem.getValue().getItemId(),
+								editText.getText());
 						lmsg.setTextFill(Color.GREENYELLOW);
-						
-						
+
 						listOfItems.clear();
 						lmsg.setText(CommonConstants.EDIT_MSG);
-						listOfItems.addAll(utiliesService.fetchItem());
-						flag=true;
-						settings.getChildren().removeAll(heditLabel,editText,editFinal);
+						listOfItems.addAll(utiliesService.fetchItem(cbCategory.getValue().getCategotyId()));
+						flag = true;
+						settings.getChildren().removeAll(heditLabel, editText,
+								editFinal);
 						box.setVisible(true);
 						validate.removeMessageOnComboBoxClick(cbItem, lmsg);
 					}
- 				}
-				catch (Exception e1) 
-				{
+				} catch (Exception e1) {
 					lmsg.setText("Some Error Occured !!");
 					lmsg.setTextFill(Color.MAROON);
 					e1.printStackTrace();
 				}
 			}
 		});
-		
-		
+
 		delete.setOnAction(new EventHandler<ActionEvent>() {
- 			
- 			@Override
- 			public void handle(ActionEvent e) 
- 			{
- 				if (cbItem.getValue() != null){
- 				try 
- 				{
- 						//settings.getChildren().remove(lmsg);
- 					
-						utiliesService.deleteItem(cbItem.getValue().getItemId());
+
+			@Override
+			public void handle(ActionEvent e) {
+				if (cbItem.getValue() != null) {
+					try {
+						// settings.getChildren().remove(lmsg);
+
+						utiliesService
+								.deleteItem(cbItem.getValue().getItemId());
 						lmsg.setTextFill(Color.GREENYELLOW);
-						lmsg.setText("\"" +cbItem.getValue().getItemName()+"\""+" "+CommonConstants.DEL_MSG);
-						//settings.add(lmsg, 2, 4);
+						lmsg.setText("\"" + cbItem.getValue().getItemName()
+								+ "\"" + " " + CommonConstants.DEL_MSG);
+						// settings.add(lmsg, 2, 4);
 						listOfItems.clear();
-						listOfItems.addAll(utiliesService.fetchItem());
+						listOfItems.addAll(utiliesService.fetchItem(cbCategory.getValue().getCategotyId()));
 						validate.removeMessageOnComboBoxClick(cbItem, lmsg);
-				} catch (Exception e1) 
-				{
-					lmsg.setText("Some Error Occured !!");
-					e1.printStackTrace();
+					} catch (Exception e1) {
+						lmsg.setText("Some Error Occured !!");
+						e1.printStackTrace();
+					}
+				} else {
+					lmsg.setTextFill(Color.MAROON);
+					lmsg.setText(CommonConstants.COMBO_MSG);
 				}
- 			}
- 				else{
- 					lmsg.setTextFill(Color.MAROON);
- 					lmsg.setText(CommonConstants.COMBO_MSG);
- 				}
- 			}
- 		});
-		
-		//settings.setAlignment(Pos.CENTER);
+			}
+		});
+
+		// settings.setAlignment(Pos.CENTER);
 		settings.setVgap(8);
 		settings.setHgap(10);
+		settings.add(hlAddCategory, 1, 0);
+		settings.add(cbCategory, 2, 0);
 		settings.add(hlAddItem, 1, 1);
 		settings.add(cbItem, 2, 1);
 		settings.add(box, 2, 3);

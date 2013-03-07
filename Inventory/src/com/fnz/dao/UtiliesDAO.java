@@ -555,7 +555,7 @@ public class UtiliesDAO
 	}
 	
 	
-	public ObservableList<ItemVO> fetchItem() throws Exception
+	public ObservableList<ItemVO> fetchItem(String categoryId) throws Exception
 	{
 		SQLiteConfig config = null;
 		Connection conn = null;
@@ -574,7 +574,7 @@ public class UtiliesDAO
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			pstmt = conn.prepareStatement(SQLConstants.FETCH_ITEMS);
-			
+			pstmt.setString(1, categoryId);
 			resultSet = pstmt.executeQuery();
 			
 			while(resultSet.next())
@@ -938,6 +938,20 @@ public class UtiliesDAO
 			if(resultSet != null)
 			{
 				resultSet.close();
+			}
+			//Adding Types of the Item to Itemtype Table
+			ObservableList<ItemVO> itemVO = fetchItem(categoryVO.getCategotyId());
+			
+			for(Iterator<ItemVO> iter= itemVO.iterator();iter.hasNext();)
+			{
+				ItemTypeVO itemTypeVO = new ItemTypeVO();
+				itemTypeVO.setTypeId(newTypeId);
+				itemTypeVO.setItemId(iter.next().getItemId());
+				itemTypeVO.setQuantity(CommonConstants.ZERO);
+				itemTypeVO.setDp(CommonConstants.ZERO);
+				itemTypeVO.setMrp(CommonConstants.ZERO);
+				itemTypeVO.setHp(CommonConstants.ZERO);
+				addItemTypes(itemTypeVO);
 			}
 		}
 	}

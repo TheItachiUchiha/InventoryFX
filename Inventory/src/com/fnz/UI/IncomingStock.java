@@ -647,7 +647,7 @@ public class IncomingStock
 	 								dataTable.add(itemVO);
 	 							}
 	 					}
-	 					msg.setText(incomingStockService.addIncomingStock(invoiceField.getText(), date.getTextField().getText(), dataTable));
+	 					msg.setText(incomingStockService.addIncomingStock(invoiceField.getText(), date.getTextField().getText(), dataTable, typeList));
 	 					invoiceField.clear();
 	 					date.getTextField().clear();
 	 					}

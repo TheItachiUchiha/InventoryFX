@@ -13,6 +13,7 @@ import javafx.collections.ObservableMap;
 
 import org.sqlite.SQLiteConfig;
 
+import com.fnz.VO.CategoryTypeVO;
 import com.fnz.VO.ItemTypeVO;
 import com.fnz.VO.ItemVO;
 import com.fnz.VO.StockVO;
@@ -21,7 +22,7 @@ import com.fnz.common.SQLConstants;
 
 public class IncomingStockDAO 
 {
-	public String addIncomingStock(String invoiceNo, String date, ObservableList<ItemVO> listData) throws Exception 
+	public String addIncomingStock(String invoiceNo, String date, ObservableList<ItemVO> listData, ObservableList<CategoryTypeVO> typeList) throws Exception 
 	{
 		Connection conn = null;
 		ResultSet resultSet = null;
@@ -53,13 +54,22 @@ public class IncomingStockDAO
 				for(Iterator<String> iter=keySet.iterator();iter.hasNext();)
 				{
 					ItemTypeVO itemTypeVO = new ItemTypeVO();
+					String tempTypeName ="";
 					itemTypeVO = map.get(iter.next());
+					for(CategoryTypeVO type:typeList)
+					{
+						if(type.getTypeId().equals(itemTypeVO.getTypeId()))
+						{
+							tempTypeName = type.getTypeName();
+							break;
+						}
+					}
 					if(itemTypeVO.getQuantity()>0)
 					{
 						statement.addBatch(SQLConstants.UPDATE_ADD_ITEMS_TYPES_1 + itemTypeVO.getQuantity()*CommonConstants.CASE_SIZE + SQLConstants.UPDATE_ADD_ITEMS_TYPES_2 +
 								itemVO.getItemId() + SQLConstants.UPDATE_ADD_ITEMS_TYPES_3 + itemTypeVO.getTypeId() + SQLConstants.UPDATE_ADD_ITEMS_TYPES_4);
 						statement.addBatch(SQLConstants.INSERT_INCOMING_STOCK_DETAILS_1+invoiceNo+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+
-								itemTypeVO.getItemId()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+itemTypeVO.getTypeId()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_3+
+								itemVO.getItemName()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+tempTypeName+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_3+
 								itemTypeVO.getQuantity()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_4);
 					}
 				}

@@ -45,9 +45,9 @@ public class UtiliesService
 		return utiliesDAO.fetchItemDetails();
 	}
 	
-	public ObservableList<ItemVO> fetchItem() throws Exception
+	public ObservableList<ItemVO> fetchItem(String categoryId) throws Exception
 	{
-		return utiliesDAO.fetchItem();
+		return utiliesDAO.fetchItem(categoryId);
 	}
 	
 	public void deleteItem(String itemId) throws Exception
