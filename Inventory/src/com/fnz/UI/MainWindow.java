@@ -118,6 +118,8 @@ public class MainWindow extends Application
     	
         border = new BorderPane();
         border.setTop(upperPart());
+        Text text = new Text("© Kryptcode Technologies Limited");
+        text.setFill(Color.DARKGOLDENROD);
         
         border.setBottom(addBBox());
         
@@ -149,10 +151,14 @@ public class MainWindow extends Application
     	border.getStyleClass().add("lowerHBox");
         
         Text text = new Text("© Kryptcode Technologies Limited");
-        text.setFill(Color.WHITE);
+        text.setFill(Color.DARKGOLDENROD);
+        HBox hbase=new HBox();
+        hbase.setAlignment(Pos.CENTER);
+        hbase.getChildren().add(text);
+       
         
-        Label lName=new Label(text.getText());
-        border.setLeft(lName);
+       
+        border.setLeft(hbase);
         
         
         /*HBox hbox = new HBox();

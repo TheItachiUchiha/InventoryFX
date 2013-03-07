@@ -442,7 +442,7 @@ public class OutgoingStock
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
-		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity");
+		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity#");
 		 	quantity.setMinWidth(roundRect.getWidth()*0.3);//200
 		 	quantity.setEditable(true);
 		 	
@@ -512,7 +512,7 @@ public class OutgoingStock
 		 	itemName2.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
-		 	TableColumn<ItemVO, Integer>  quantity2 = new TableColumn<ItemVO, Integer> ("Quantity");
+		 	TableColumn<ItemVO, Integer>  quantity2 = new TableColumn<ItemVO, Integer> ("Quantity#");
 		 	quantity2.setMinWidth(roundRect.getWidth()*0.214);//200
 		 	quantity2.setEditable(true);
 		 	
@@ -694,16 +694,24 @@ public class OutgoingStock
 			StackPane.setMargin(grid, new Insets(11,0,0,0));
 			
 			Text man_text=new Text(CommonConstants.STAR_MSG);
-			man_text.setFill(Color.MAROON);  
+			man_text.setFill(Color.DARKKHAKI);  
 			man_text.setFont(Font.font ("Arial", 12));
+		     
+		     
+			Text msg_qty=new Text(CommonConstants.QTY_MSG1);
+			msg_qty.setFill(Color.DARKKHAKI);  
+			msg_qty.setFont(Font.font ("Arial",12));
 			
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
 			StackPane.setMargin(text5, new Insets(50,8,8,8));
 			StackPane.setAlignment(text5, Pos.TOP_CENTER);
 			
-			StackPane.setMargin(man_text, new Insets(210,18,20,80));
-			StackPane.setAlignment(man_text, Pos.BASELINE_LEFT);
-			stack.getChildren().addAll(text5,roundRect,grid,man_text);
+			StackPane.setMargin(man_text, new Insets(197,100,20,0));
+			StackPane.setAlignment(man_text, Pos.BASELINE_RIGHT);
+			StackPane.setMargin(msg_qty, new Insets(210,95,20,0));
+			StackPane.setAlignment(msg_qty, Pos.BASELINE_RIGHT);
+			
+			stack.getChildren().addAll(text5,roundRect,grid,man_text,msg_qty);
 		}
 		catch (Exception e) 
 		{

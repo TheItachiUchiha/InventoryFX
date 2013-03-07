@@ -418,13 +418,16 @@ public class TransactionHistory
 					borderPane.setTop(vBox);*/
 					
 					Text man_text=new Text(CommonConstants.STAR_MSG);
-					man_text.setFill(Color.MAROON);  
+					man_text.setFill(Color.DARKKHAKI);  
 					man_text.setFont(Font.font ("Arial", 12));
 					
 					
-					
+				/*	
 					StackPane.setMargin(man_text, new Insets(253,18,20,243));
-					StackPane.setAlignment(man_text, Pos.BASELINE_LEFT);
+					StackPane.setAlignment(man_text, Pos.BASELINE_LEFT);*/
+					
+					StackPane.setMargin(man_text, new Insets(240,266,20,0));
+					StackPane.setAlignment(man_text, Pos.BASELINE_RIGHT);
 					
 					StackPane.setMargin(lMsg, new Insets(253,0,0,0));
 					StackPane.setAlignment(lMsg, Pos.BASELINE_CENTER);

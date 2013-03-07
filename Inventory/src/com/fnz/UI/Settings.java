@@ -193,7 +193,7 @@ public class Settings
 			    .x(50)
 			    .y(50)
 			    .width(roundRect.getWidth()/2.5)
-			    .height(roundRect.getHeight()/3)
+			    .height(roundRect.getHeight()/2.8)
 			    .arcWidth(30)
 			    .arcHeight(30)
 			    .build();
@@ -206,7 +206,7 @@ public class Settings
 					    .x(50)
 					    .y(50)
 					    .width(roundRect.getWidth()/2.5)
-					    .height(roundRect.getHeight()/3)
+					    .height(roundRect.getHeight()/2.8)
 					    .arcWidth(30)
 					    .arcHeight(30)
 					    .build();
@@ -261,11 +261,12 @@ public class Settings
 			/*grid.add(table1,0,12);
 			grid.add(table2,1,12);
 			grid.setAlignment(Pos.TOP_CENTER);*/
-		  	Text man_text=new Text(CommonConstants.STAR_MSG);
-			man_text.setFill(Color.MAROON);  
-			man_text.setFont(Font.font ("Arial", 12));
-			StackPane.setMargin(man_text, new Insets(210,18,20,120));
-			StackPane.setAlignment(man_text, Pos.BASELINE_LEFT);
+		      Text man_text=new Text(CommonConstants.STAR_MSG);
+				man_text.setFill(Color.DARKKHAKI);  
+				man_text.setFont(Font.font ("Arial", 12));
+			
+				StackPane.setMargin(man_text, new Insets(197,266,20,0));
+				StackPane.setAlignment(man_text, Pos.BASELINE_RIGHT);
 			
 		  	StackPane.setMargin(roundRect, new Insets(0,0,0,69)); 
 			StackPane.setAlignment(roundRect, Pos.TOP_LEFT);
@@ -340,7 +341,7 @@ public class Settings
 			    .x(50)
 			    .y(50)
 			    .width(roundRect.getWidth()/2.5)
-			    .height(roundRect.getHeight()/3)
+			    .height(roundRect.getHeight()/2.8)
 			    .arcWidth(30)
 			    .arcHeight(30)
 			    .build();
@@ -353,7 +354,7 @@ public class Settings
 					    .x(50)
 					    .y(50)
 					    .width(roundRect.getWidth()/2.5)
-					    .height(roundRect.getHeight()/3)
+					    .height(roundRect.getHeight()/2.8)
 					    .arcWidth(30)
 					    .arcHeight(30)
 					    .build();
@@ -599,6 +600,8 @@ public class Settings
 
 		final ComboBox<CategoryVO> cbCategory = new ComboBox<CategoryVO>(listOfCategories);
 		final ComboBox<ItemVO> cbItem = new ComboBox<ItemVO>(listOfItems);
+		cbItem.setMinWidth(160);
+		cbItem.setMaxWidth(160);
 		Button edit = new Button("Edit");
 		edit.setId("buttonall");
 		Button delete = new Button("Delete");
