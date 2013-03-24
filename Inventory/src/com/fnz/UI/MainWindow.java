@@ -1,9 +1,6 @@
 package com.fnz.UI;
-
-
-
-
-
+import it.sauronsoftware.junique.AlreadyLockedException;
+import it.sauronsoftware.junique.JUnique;
 
 import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemVO;
@@ -86,9 +83,23 @@ public class MainWindow extends Application
 	}
     public static void main(String[] args)
     {
+    	String appId = "BIMS-App";
+    	boolean running;
+    	try {
+			JUnique.acquireLock(appId);
+			running=true;
+		} 
+    	catch (AlreadyLockedException e) 
+		{
+			// TODO Auto-generated catch block
+			running=false;
+		}
+    	if(running)
+    	{
+    		launch(MainWindow.class, args);
+    	}
     	
-    	
-        launch(MainWindow.class, args); 
+         
        
     }
     

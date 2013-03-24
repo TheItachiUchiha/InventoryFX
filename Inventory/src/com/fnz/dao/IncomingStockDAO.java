@@ -147,6 +147,7 @@ public class IncomingStockDAO
 				incomingStockVO.setItemName(resultSet.getString(3));
 				incomingStockVO.setTypeName(resultSet.getString(4));
 				incomingStockVO.setQuantity(resultSet.getInt(5));
+				incomingStockVO.setCheck(false);
 				listIncoming.add(incomingStockVO);
 			}
 			

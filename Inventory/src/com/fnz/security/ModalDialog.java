@@ -52,33 +52,7 @@ public class ModalDialog {
 		  File fileKeylastentered=new File("keyentered.txt");
 			if(fileKeylastentered.exists())
 			{
-				eMac= new EncryptMacWithKey();
-  				  eMac.MakeKeyFile();
-  				  
-  				try {
-					//br = new BufferedReader(new FileReader("key.txt"));
-					brTemp = new BufferedReader(new FileReader("keyentered.txt"));
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				String sCurrentLine;
-				String sCurrentLine2;
-				try {
-					while ((sCurrentLine = brTemp.readLine()) != null) {
-						//System.out.println(sCurrentLine);
-						while ((sCurrentLine2 = br.readLine()) != null) {
-							//System.out.println(sCurrentLine);
-							if (sCurrentLine2.contains(sCurrentLine)){
-								
-								 return;
-							}
-						}
-					}
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				return;
   				  
 			}
 		  

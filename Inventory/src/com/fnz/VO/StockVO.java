@@ -1,5 +1,7 @@
 package com.fnz.VO;
 
+import javafx.scene.control.CheckBox;
+
 public class StockVO 
 {
 	private String invoiceId;
@@ -7,6 +9,8 @@ public class StockVO
 	private String itemName;
 	private String typeName;
 	private Integer quantity;
+	private Boolean check;
+	
 	/**
 	 * @return the invoiceId
 	 */
@@ -67,5 +71,18 @@ public class StockVO
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+	/**
+	 * @return the check
+	 */
+	public Boolean getCheck() {
+		return check;
+	}
+	/**
+	 * @param check the check to set
+	 */
+	public void setCheck(Boolean check) {
+		this.check = check;
+	}
+	
 
 }
