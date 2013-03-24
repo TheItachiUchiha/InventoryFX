@@ -1,5 +1,6 @@
 package com.fnz.UI;
 
+import java.awt.Checkbox;
 import java.util.Date;
 
 import com.fnz.UI.IncomingStock.EditingCell;
@@ -23,7 +24,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
@@ -536,9 +539,16 @@ public class TransactionHistory
 	 	quantity.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("quantity"));
 	 	
+	 	TableColumn checkColumn = new TableColumn("Select");
+	 	checkColumn.setMinWidth(60);
+	 	checkColumn.setCellValueFactory(new PropertyValueFactory<StockVO, Boolean>("check"));
+	 	
+	 	checkColumn.setCellFactory(new CellFactories().cellFactory);
+	 	
+	 	
 	 	table.setItems(data);
 	 	
-		table.getColumns().addAll(date, invoiceId, itemName, typeName, quantity);
+		table.getColumns().addAll(checkColumn, date, invoiceId, itemName, typeName, quantity);
 		hBox.getChildren().addAll(table);
 		return hBox;
 	}
@@ -673,4 +683,64 @@ public class TransactionHistory
 		hBox.getChildren().addAll(table);
 		return hBox;
 	}
+	
+	public class CellFactories {
+	    
+	    
+	    
+		Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = new Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>>() {
+
+            @Override
+            public TableCell<StockVO, Boolean> call(final TableColumn<StockVO, Boolean> param) {
+                final CheckBox checkBox = new CheckBox();
+                final TableCell<StockVO, Boolean> cell = new TableCell<StockVO, Boolean>() {
+
+                    /*@Override
+                    public void updateItem(Object item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null) {
+                            checkBox.setDisable(true);
+                            checkBox.setSelected(false);
+                        } else {
+                            checkBox.setDisable(false);
+                            checkBox.setSelected(item.toString().equals("Yes") ? true : false);
+                            commitEdit(checkBox.isSelected() ? "Yes" : "No");
+                        }
+                    }*/
+                	
+                	@Override
+                    public void startEdit() {
+                        super.startEdit();
+                        if (isEmpty()) {
+                            return;
+                        }
+                        checkBox.setDisable(false);
+                        checkBox.requestFocus();
+                    }
+                    @Override
+                    public void cancelEdit() {
+                        super.cancelEdit();
+                        checkBox.setDisable(true);
+                    }
+                    public void commitEdit(Boolean value) {
+                        super.commitEdit(value);
+                        checkBox.setDisable(true);
+                    }
+                    @Override
+                    public void updateItem(Boolean item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!isEmpty()) {
+                            checkBox.setSelected(item);
+                        }
+                    }
+                	
+                };
+                cell.setGraphic(checkBox);
+                cell.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                cell.setEditable(true);
+                return cell;
+            }
+        };
+	}
+
 }
