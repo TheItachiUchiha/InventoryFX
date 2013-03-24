@@ -3,68 +3,50 @@ package com.fnz.UI;
 
 
 
+
+
 import com.fnz.VO.CategoryVO;
 import com.fnz.VO.ItemVO;
-import com.fnz.common.CommonConstants;
+
 import com.fnz.dao.DBInteraction;
 import com.fnz.dao.UtiliesDAO;
-import com.fnz.panes.Items;
+
 import com.fnz.service.UtiliesService;
 import com.sai.javafx.calendar.demo.FXCalendarDemo;
+import com.fnz.security.*;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Node;
+
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.ToolBar;
-import javafx.scene.control.Tooltip;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.DropShadow;
+
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+
 
 public class MainWindow extends Application 
 {
 	private BorderPane border;
-	private Stage stage;
+	
 	private Scene scene;
 	
 	
@@ -75,7 +57,7 @@ public class MainWindow extends Application
 	public IncomingStock incomingStock;
 	public OutgoingStock outgoingStock;
 	public TransactionHistory transactionHistory;
-	
+	public static ModalDialog SecurityModal;
 	public ObservableList<CategoryVO> categoryList;
 	public ObservableList<ItemVO> itemList;
 	
@@ -87,6 +69,7 @@ public class MainWindow extends Application
 	
 	public MainWindow() throws Exception
 	{
+		
 		new DBInteraction().createDB();
 		settings = new Settings();
 		stockDetails = new StockDetails();
@@ -103,17 +86,20 @@ public class MainWindow extends Application
 	}
     public static void main(String[] args)
     {
+    	
+    	
         launch(MainWindow.class, args); 
+       
     }
     
     @Override
-    public void start(Stage stage)
+    public void start(final Stage stage)
     {
+    	
     	try{
 
 // Use a border pane as the root for scene
     		
-    	
     	categoryList = UtiliesDAO.getUtiliesDAO().categoryList;
     	
         border = new BorderPane();
@@ -135,12 +121,18 @@ public class MainWindow extends Application
 	    stage.setScene(this.scene);
         stage.setTitle("Inventory Management");
         stage.getIcons().add(new Image("icon.png"));
+        ModalDialog SecurityTest = new ModalDialog();
+			
         stage.show();
+        
+     SecurityTest.ModalSecurity(stage,"Kryptcode","lame");
+       
     	}
     	catch(Exception e)
     	{
     		e.printStackTrace();
     	}
+
     }
     private BorderPane addBBox(){
     	javafx.scene.layout.
@@ -317,7 +309,7 @@ public class MainWindow extends Application
  		});*/
     	
     	
-    	
+
     	
         
         
@@ -357,6 +349,7 @@ public class MainWindow extends Application
         
         mainPane.setLeft(tabPane);
         return mainPane;
+        
     
     }
     
