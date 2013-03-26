@@ -729,15 +729,19 @@ public class TransactionHistory
                     @Override
                     public void updateItem(Boolean item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (!isEmpty()) {
+                        if (isEmpty()) {
+                            setGraphic(null);
+                          } else {
+                            setGraphic(checkBox);
                             checkBox.setSelected(item);
-                        }
+                          }
                     }
                 	
                 };
-                cell.setGraphic(checkBox);
+                //cell.setGraphic(checkBox);
                 cell.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 cell.setEditable(true);
+                cell.setAlignment(Pos.CENTER);
                 return cell;
             }
         };
