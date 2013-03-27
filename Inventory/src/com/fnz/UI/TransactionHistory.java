@@ -60,6 +60,9 @@ public class TransactionHistory
 	OutgoingStockService outgoingStockService;
 	Animation animation;
 	Validation validation;
+	ObservableList<StockVO> data;
+	Button BDelete = new Button("Delete");
+	
 	public TransactionHistory()
 	{
 		incomingStockService = new IncomingStockService();
@@ -421,14 +424,17 @@ public class TransactionHistory
 					/*vBox.getChildren().addAll(upperPart,lowerPart);
 					borderPane.setTop(vBox);*/
 					
+					
+					BDelete.setVisible(false);
+                    BDelete.setId("buttonall");
+                    StackPane.setMargin(BDelete, new Insets(240,Screen.getPrimary().getVisualBounds().getWidth()/2.1 ,20,0));
+                    StackPane.setAlignment(BDelete, Pos.BASELINE_RIGHT);
+					
+					
 					Text man_text=new Text(CommonConstants.STAR_MSG);
 					man_text.setFill(Color.DARKKHAKI);  
 					man_text.setFont(Font.font ("Arial", 12));
 					
-					
-				/*	
-					StackPane.setMargin(man_text, new Insets(253,18,20,243));
-					StackPane.setAlignment(man_text, Pos.BASELINE_LEFT);*/
 					
 					StackPane.setMargin(man_text, new Insets(240,266,20,0));
 					StackPane.setAlignment(man_text, Pos.BASELINE_RIGHT);
@@ -460,7 +466,7 @@ public class TransactionHistory
 					
 					StackPane.setMargin(star2, new Insets(190,20,8,95));
 					StackPane.setAlignment(star2, Pos.TOP_CENTER);
-					stack.getChildren().addAll(text5,roundRect,gMain,hTableResult,man_text,lMsg);
+					stack.getChildren().addAll(text5,roundRect,gMain,hTableResult,man_text,lMsg,BDelete);
 					
 		return stack;
 	}
@@ -501,18 +507,20 @@ public class TransactionHistory
 		return borderPane;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public HBox fetchIncomingHistoryTable(String initialDate, String finalDate) throws Exception
 	{
 		HBox hBox = new HBox();
 		hBox.setAlignment(Pos.CENTER);
-		ObservableList<StockVO> data = FXCollections.observableArrayList();
+		data = FXCollections.observableArrayList();
 		
 		data = incomingStockService.fetchIncomingStockDetails(initialDate, finalDate);
-		
+		BDelete.setVisible(true);
 		
 		TableView<StockVO> table = new TableView<StockVO>();
 	 	table.setEditable(true);
-	 	table.setMinSize(600, 300);
+	 	table.setMinSize(780, 280);
+	 	table.setMaxSize(780, 280);
 	 	table.setStyle("-fx-background-color: transparent;");
 	 	
 	 	TableColumn date = new TableColumn("Date");
@@ -521,7 +529,7 @@ public class TransactionHistory
 	 	new PropertyValueFactory<StockVO, String>("date"));
 	 	
 	 	TableColumn invoiceId = new TableColumn("Invoice Id");
-	 	invoiceId.setMinWidth(150);
+	 	invoiceId.setMinWidth(140);
 	 	invoiceId.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("invoiceId"));
 	 	
@@ -531,12 +539,12 @@ public class TransactionHistory
 	 	new PropertyValueFactory<StockVO, String>("itemName"));
 	 	
 	 	TableColumn typeName = new TableColumn("Type");
-	 	typeName.setMinWidth(150);
+	 	typeName.setMinWidth(130);
 	 	typeName.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("typeName"));
 	 	
 	 	TableColumn quantity = new TableColumn("Quantity");
-	 	quantity.setMinWidth(150);
+	 	quantity.setMinWidth(130);
 	 	quantity.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("quantity"));
 	 	
@@ -545,7 +553,8 @@ public class TransactionHistory
 	 	checkColumn.setCellValueFactory(new PropertyValueFactory<StockVO, Boolean>("check"));
 	 	
 	 	
-	 	final Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = CheckBoxTableCell.forTableColumn(checkColumn);
+	 	@SuppressWarnings("unchecked")
+		final Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = CheckBoxTableCell.forTableColumn(checkColumn);
 	 	
 	 	checkColumn.setCellFactory(new Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>>() {
 	 	  @Override
@@ -580,10 +589,10 @@ public class TransactionHistory
 	{
 		HBox hBox = new HBox();
 		hBox.setAlignment(Pos.CENTER);
-		ObservableList<StockVO> data = FXCollections.observableArrayList();
+		data = FXCollections.observableArrayList();
 		
 		data = incomingStockService.fetchIncomingStockDetails(invoiceIdText);
-		
+		BDelete.setVisible(true);
 		
 		TableView<StockVO> table = new TableView<StockVO>();
 	 	table.setEditable(false);
@@ -627,10 +636,10 @@ public class TransactionHistory
 	{
 		HBox hBox = new HBox();
 		hBox.setAlignment(Pos.CENTER);
-		ObservableList<StockVO> data = FXCollections.observableArrayList();
+		data = FXCollections.observableArrayList();
 		
 		data = outgoingStockService.fetchOutgoingStockDetails(initialDate, finalDate);
-		
+		BDelete.setVisible(true);
 		
 		TableView<StockVO> table = new TableView<StockVO>();
 	 	table.setEditable(false);
@@ -669,10 +678,10 @@ public class TransactionHistory
 	{
 		HBox hBox = new HBox();
 		hBox.setAlignment(Pos.CENTER);
-		ObservableList<StockVO> data = FXCollections.observableArrayList();
+		data = FXCollections.observableArrayList();
 		
 		data = outgoingStockService.fetchOutgoingStockDetails(invoiceIdText);
-		
+		BDelete.setVisible(true);
 		
 		TableView<StockVO> table = new TableView<StockVO>();
 	 	table.setEditable(false);
@@ -706,6 +715,12 @@ public class TransactionHistory
 		hBox.getChildren().addAll(table);
 		return hBox;
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
