@@ -37,6 +37,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
@@ -510,7 +511,7 @@ public class TransactionHistory
 		
 		
 		TableView<StockVO> table = new TableView<StockVO>();
-	 	table.setEditable(false);
+	 	table.setEditable(true);
 	 	table.setMinSize(600, 300);
 	 	table.setStyle("-fx-background-color: transparent;");
 	 	
@@ -543,7 +544,29 @@ public class TransactionHistory
 	 	checkColumn.setMinWidth(60);
 	 	checkColumn.setCellValueFactory(new PropertyValueFactory<StockVO, Boolean>("check"));
 	 	
-	 	checkColumn.setCellFactory(new CellFactories().cellFactory);
+	 	
+	 	final Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = CheckBoxTableCell.forTableColumn(checkColumn);
+	 	
+	 	checkColumn.setCellFactory(new Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>>() {
+	 	  @Override
+	 	  public TableCell<StockVO, Boolean> call(TableColumn<StockVO, Boolean> column) {
+	 	    TableCell<StockVO, Boolean> cell = cellFactory.call(column);
+	 	    cell.setAlignment(Pos.CENTER);
+	 	    return cell ;
+	 	  }
+	 	});
+	 	
+	 	
+	 	/*
+	 	 * 
+	 	 * 
+	 	 * Please Scroll down to know more
+	 	 * about the commented code
+	 	 * 
+	 	 * 
+	 	 * 
+	 	 */
+	 	//checkColumn.setCellFactory(new CellFactories().cellFactory);
 	 	
 	 	
 	 	table.setItems(data);
@@ -684,7 +707,13 @@ public class TransactionHistory
 		return hBox;
 	}
 	
-	public class CellFactories {
+	
+	
+	
+	//This commented code is for providing more control over the checkBoxtableColumn
+	
+	
+	/*public class CellFactories {
 	    
 	    
 	    
@@ -695,7 +724,7 @@ public class TransactionHistory
                 final CheckBox checkBox = new CheckBox();
                 final TableCell<StockVO, Boolean> cell = new TableCell<StockVO, Boolean>() {
 
-                    /*@Override
+                    @Override
                     public void updateItem(Object item, boolean empty) {
                         super.updateItem(item, empty);
                         if (item == null) {
@@ -706,7 +735,7 @@ public class TransactionHistory
                             checkBox.setSelected(item.toString().equals("Yes") ? true : false);
                             commitEdit(checkBox.isSelected() ? "Yes" : "No");
                         }
-                    }*/
+                    }
                 	
                 	@Override
                     public void startEdit() {
@@ -746,5 +775,5 @@ public class TransactionHistory
             }
         };
 	}
-
+*/
 }
