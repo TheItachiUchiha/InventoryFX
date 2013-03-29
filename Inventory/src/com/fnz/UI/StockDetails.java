@@ -585,6 +585,14 @@ public class StockDetails
 		        }
 		    });
 		 	
+		 	Rectangle qtyRect = RectangleBuilder.create()
+				    .x(50)
+				    .y(50)
+				    .width(10)
+				    .height(10)
+				    .build();
+					
+			qtyRect.setFill(Color.rgb(240,128,128));
 			
 			grid.add(table1,0,12);
 			grid.add(table2,1,12);
@@ -599,7 +607,16 @@ public class StockDetails
 			msg_qty.setFill(Color.DARKKHAKI);  
 			msg_qty.setFont(Font.font ("Arial",12));
 			
+			Text msg_qtyLow=new Text(CommonConstants.QTY_LOW);
+			msg_qtyLow.setFill(Color.DARKKHAKI);  
+			msg_qtyLow.setFont(Font.font ("Arial",12));
+			
 			StackPane.setMargin(grid, new Insets(35,0,0,0));
+			
+			StackPane.setMargin(qtyRect, new Insets(197,850,100,0));
+			StackPane.setAlignment(qtyRect, Pos.BASELINE_CENTER);
+			StackPane.setMargin(msg_qtyLow, new Insets(197,765,100,0));
+			StackPane.setAlignment(msg_qtyLow, Pos.BASELINE_CENTER);
 			
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
 			StackPane.setMargin(text5, new Insets(50,8,8,8));
@@ -609,7 +626,7 @@ public class StockDetails
 			StackPane.setMargin(msg_qty, new Insets(210,95,20,0));
 			StackPane.setAlignment(msg_qty, Pos.BASELINE_RIGHT);
 			
-			stack.getChildren().addAll(text5,roundRect,grid,man_text,msg_qty);
+			stack.getChildren().addAll(text5,roundRect,grid,man_text,msg_qty,qtyRect,msg_qtyLow);
 		}
 		catch (Exception e) 
 		{

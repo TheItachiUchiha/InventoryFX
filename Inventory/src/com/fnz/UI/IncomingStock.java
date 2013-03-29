@@ -440,7 +440,7 @@ public class IncomingStock
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity†");
-		 	quantity.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	quantity.setMinWidth(roundRect.getWidth()*0.107);
 		 	quantity.setEditable(true);
 		 	
 		 	
@@ -509,7 +509,7 @@ public class IncomingStock
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity2 = new TableColumn<ItemVO, Integer> ("Quantity†");
-		 	quantity2.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	quantity2.setMinWidth(roundRect.getWidth()*0.107);
 		 	quantity2.setEditable(true);
 		 	
 		 	

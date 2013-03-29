@@ -345,6 +345,11 @@ public class OutgoingStock
 		roundRect.setOpacity(0.2);
 		roundRect.setStroke(Color.TRANSPARENT);
 		
+		
+		
+		
+		
+		
 		HBox hlabel= new HBox();
 		hlabel.setMaxWidth(Screen.getPrimary().getVisualBounds().getWidth()-170);
 		hlabel.setMaxHeight(30);
@@ -443,7 +448,7 @@ public class OutgoingStock
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity#");
-		 	quantity.setMinWidth(roundRect.getWidth()*0.3);//200
+		 	quantity.setMinWidth(roundRect.getWidth()*0.107);
 		 	quantity.setEditable(true);
 		 	
 		 	
@@ -513,7 +518,7 @@ public class OutgoingStock
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity2 = new TableColumn<ItemVO, Integer> ("Quantity#");
-		 	quantity2.setMinWidth(roundRect.getWidth()*0.214);//200
+		 	quantity2.setMinWidth(roundRect.getWidth()*0.107);
 		 	quantity2.setEditable(true);
 		 	
 		 	
@@ -701,6 +706,9 @@ public class OutgoingStock
 			Text msg_qty=new Text(CommonConstants.QTY_MSG1);
 			msg_qty.setFill(Color.DARKKHAKI);  
 			msg_qty.setFont(Font.font ("Arial",12));
+			
+			
+			
 			
 			StackPane.setAlignment(roundRect, Pos.TOP_CENTER);
 			StackPane.setMargin(text5, new Insets(50,8,8,8));
