@@ -12,6 +12,7 @@ import com.fnz.common.CommonConstants;
 import com.fnz.dao.UtiliesDAO;
 import com.fnz.service.IncomingStockService;
 import com.fnz.service.OutgoingStockService;
+import com.fnz.service.TransactionHistoryService;
 import com.mytdev.javafx.scene.control.AutoCompleteTextField;
 import com.sai.javafx.calendar.FXCalendar;
 
@@ -61,6 +62,7 @@ public class TransactionHistory
 	Animation animation;
 	Validation validation;
 	ObservableList<StockVO> data;
+	TransactionHistoryService transactionHistoryService;
 	Button BDelete = new Button("Delete");
 	
 	public TransactionHistory()
@@ -68,6 +70,7 @@ public class TransactionHistory
 		incomingStockService = new IncomingStockService();
 		outgoingStockService = new OutgoingStockService();
 		validation = new Validation();
+		transactionHistoryService = new TransactionHistoryService();
 	}
 	
 	
@@ -351,6 +354,19 @@ public class TransactionHistory
 								 					if (!validation.isInvalidDate(sCalendar.getTextField()) && !validation.isInvalidDate(eCalendar.getTextField()) )
 								 					{
 								 						hTableResult.getChildren().addAll(fetchIncomingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+								 						BDelete.setOnAction(new EventHandler<ActionEvent>() {
+															
+															@Override
+															public void handle(ActionEvent arg0) {
+																
+																try {
+																	transactionHistoryService.deletePurchaseFromDate(data);
+																} catch (ClassNotFoundException e) {
+																	// TODO Auto-generated catch block
+																	e.printStackTrace();
+																}
+															}
+														});
 								 					}
 								 					else
 								 					{

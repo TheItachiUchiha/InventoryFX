@@ -56,20 +56,20 @@ public class IncomingStockDAO
 					ItemTypeVO itemTypeVO = new ItemTypeVO();
 					String tempTypeName ="";
 					itemTypeVO = map.get(iter.next());
-					for(CategoryTypeVO type:typeList)
+					/*for(CategoryTypeVO type:typeList)
 					{
 						if(type.getTypeId().equals(itemTypeVO.getTypeId()))
 						{
 							tempTypeName = type.getTypeName();
 							break;
 						}
-					}
+					}*/
 					if(itemTypeVO.getQuantity()>0)
 					{
 						statement.addBatch(SQLConstants.UPDATE_ADD_ITEMS_TYPES_1 + itemTypeVO.getQuantity()*CommonConstants.CASE_SIZE + SQLConstants.UPDATE_ADD_ITEMS_TYPES_2 +
 								itemVO.getItemId() + SQLConstants.UPDATE_ADD_ITEMS_TYPES_3 + itemTypeVO.getTypeId() + SQLConstants.UPDATE_ADD_ITEMS_TYPES_4);
 						statement.addBatch(SQLConstants.INSERT_INCOMING_STOCK_DETAILS_1+invoiceNo+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+
-								itemVO.getItemName()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+tempTypeName+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_3+
+								itemVO.getItemId()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+itemTypeVO.getTypeId()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_3+
 								itemTypeVO.getQuantity()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_4);
 					}
 				}
@@ -144,9 +144,11 @@ public class IncomingStockDAO
 				incomingStockVO.setInvoiceId(resultSet.getString(1));
 				String splitsDate[] = resultSet.getString(2).split("-");
 				incomingStockVO.setDate(splitsDate[2]+"/"+splitsDate[1]+"/"+splitsDate[0]);
-				incomingStockVO.setItemName(resultSet.getString(3));
-				incomingStockVO.setTypeName(resultSet.getString(4));
-				incomingStockVO.setQuantity(resultSet.getInt(5));
+				incomingStockVO.setItemId(resultSet.getString(3));
+				incomingStockVO.setItemName(resultSet.getString(4));
+				incomingStockVO.setTypeId(resultSet.getString(5));
+				incomingStockVO.setTypeName(resultSet.getString(6));
+				incomingStockVO.setQuantity(resultSet.getInt(7));
 				incomingStockVO.setCheck(false);
 				listIncoming.add(incomingStockVO);
 			}

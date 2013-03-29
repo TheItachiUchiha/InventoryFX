@@ -6,7 +6,9 @@ public class StockVO
 {
 	private String invoiceId;
 	private String date;
+	private String itemId;
 	private String itemName;
+	private String typeId;
 	private String typeName;
 	private Integer quantity;
 	private Boolean check;
@@ -83,6 +85,32 @@ public class StockVO
 	public void setCheck(Boolean check) {
 		this.check = check;
 	}
+	/**
+	 * @return the itemId
+	 */
+	public String getItemId() {
+		return itemId;
+	}
+	/**
+	 * @param itemId the itemId to set
+	 */
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
+	}
+	/**
+	 * @return the typeId
+	 */
+	public String getTypeId() {
+		return typeId;
+	}
+	/**
+	 * @param typeId the typeId to set
+	 */
+	public void setTypeId(String typeId) {
+		this.typeId = typeId;
+	}
+	
+	
 	
 
 }
