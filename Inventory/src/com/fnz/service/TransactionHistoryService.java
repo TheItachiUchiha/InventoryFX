@@ -15,6 +15,6 @@ public class TransactionHistoryService {
 	
 	public Boolean deletePurchaseFromDate(ObservableList<StockVO> itemList) throws ClassNotFoundException
 	{
-		return transactionHistoryDAO.DeletePurchaseFromDate(itemList);
+		return transactionHistoryDAO.deletePurchaseFromDate(itemList);
 	}
 }

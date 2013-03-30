@@ -33,6 +33,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
@@ -357,19 +358,7 @@ public class TransactionHistory
 								 							
 								 						
 								 						hTableResult.getChildren().addAll(fetchIncomingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
-								 						BDelete.setOnAction(new EventHandler<ActionEvent>() {
-															
-															@Override
-															public void handle(ActionEvent arg0) {
-																
-																try {
-																	transactionHistoryService.deletePurchaseFromDate(data);
-																} catch (ClassNotFoundException e) {
-																	// TODO Auto-generated catch block
-																	e.printStackTrace();
-																}
-															}
-														});
+								 						
 								 						}
 								 						else{
 								 							lMsg.setText(CommonConstants.DATE_COMPARE);
@@ -454,6 +443,24 @@ public class TransactionHistory
 					
 					BDelete.setVisible(false);
                     BDelete.setId("buttonall");
+                    
+                    BDelete.setOnAction(new EventHandler<ActionEvent>() {
+						
+						@Override
+						public void handle(ActionEvent arg0) {
+							
+							try {
+								if(cStockTypes.getValue().equalsIgnoreCase("Purchase"))
+								{
+									transactionHistoryService.deletePurchaseFromDate(data);
+								}
+								
+							} catch (ClassNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					});
                     StackPane.setMargin(BDelete, new Insets(240,Screen.getPrimary().getVisualBounds().getWidth()/2.1 ,20,0));
                     StackPane.setAlignment(BDelete, Pos.BASELINE_RIGHT);
 					
@@ -575,22 +582,25 @@ public class TransactionHistory
 	 	quantity.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("quantity"));
 	 	
-	 	TableColumn checkColumn = new TableColumn("Select");
+	 	TableColumn<StockVO,Boolean> checkColumn = new TableColumn<StockVO,Boolean>("Select");
 	 	checkColumn.setMinWidth(60);
-	 	checkColumn.setCellValueFactory(new PropertyValueFactory<StockVO, Boolean>("check"));
+	 	checkColumn.setCellValueFactory(
+	 	new PropertyValueFactory<StockVO, Boolean>("check"));
 	 	
 	 	
-	 	@SuppressWarnings("unchecked")
-		final Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = CheckBoxTableCell.forTableColumn(checkColumn);
+		/*final Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = CheckBoxTableCell.forTableColumn(checkColumn);*/
 	 	
-	 	checkColumn.setCellFactory(new Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>>() {
+	 	checkColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkColumn));
+	 	
+	 	/*checkColumn.setCellFactory(new Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>>() {
 	 	  @Override
 	 	  public TableCell<StockVO, Boolean> call(TableColumn<StockVO, Boolean> column) {
 	 	    TableCell<StockVO, Boolean> cell = cellFactory.call(column);
 	 	    cell.setAlignment(Pos.CENTER);
 	 	    return cell ;
 	 	  }
-	 	});
+	 	});*/
+	 
 	 	
 	 	
 	 	/*

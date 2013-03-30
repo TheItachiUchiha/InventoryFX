@@ -14,7 +14,7 @@ import com.fnz.common.SQLConstants;
 
 public class TransactionHistoryDAO {
 	
-	public Boolean DeletePurchaseFromDate(ObservableList<StockVO> itemList) throws ClassNotFoundException
+	public Boolean deletePurchaseFromDate(ObservableList<StockVO> itemList) throws ClassNotFoundException
 	{
 		Connection conn = null;
 		ResultSet resultSet = null;
@@ -37,9 +37,10 @@ public class TransactionHistoryDAO {
 				if(stock.getCheck())
 				{
 					statement.addBatch(SQLConstants.DELETE_TRANSACTION_INCOMING_STOCK_DETAILS_1+stock.getInvoiceId()+
-						SQLConstants.DELETE_TRANSACTION_INCOMING_STOCK_DETAILS_2+stock.getItemId()+
-						SQLConstants.DELETE_TRANSACTION_INCOMING_STOCK_DETAILS_3+stock.getTypeId()+
-						SQLConstants.DELETE_TRANSACTION_INCOMING_STOCK_DETAILS_4);
+						SQLConstants.DELETE_TRANSACTION_INCOMING_STOCK_2+stock.getDate()+
+						SQLConstants.DELETE_TRANSACTION_INCOMING_STOCK_DETAILS_3+stock.getItemId()+
+						SQLConstants.DELETE_TRANSACTION_INCOMING_STOCK_DETAILS_4+stock.getTypeId()+
+						SQLConstants.DELETE_TRANSACTION_INCOMING_STOCK_DETAILS_5);
 					statement.addBatch(SQLConstants.DELETE_TRANSACTION_UPDATE_ITEM_TYPE_1+stock.getQuantity() +
 							SQLConstants.DELETE_TRANSACTION_UPDATE_ITEM_TYPE_2 + stock.getItemId() +
 							SQLConstants.UPDATE_DEL_ITEMS_TYPES_3+ stock.getTypeId() +
