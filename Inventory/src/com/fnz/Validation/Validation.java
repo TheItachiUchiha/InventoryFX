@@ -4,7 +4,9 @@ package com.fnz.Validation;
  * 
  */
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.*;
 
 import com.mytdev.javafx.scene.control.AutoCompleteTextField;
@@ -55,6 +57,24 @@ public class Validation
 			
 			return false;
 			}
+		}
+	public boolean compareDates(String str1, String str2) throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    	Date date1 = sdf.parse(str1);
+    	Date date2 = sdf.parse(str2);
+    	System.out.println(sdf.format(date1));
+    	System.out.println(sdf.format(date2));
+
+    	if(date1.compareTo(date2)>0){
+    		//System.out.println("Date1 is after Date2");
+    		return false;
+    	
+    	}else{
+    		return true;
+    	}
+
+		
+	
 		}
 	
 	public boolean isEmpty(AutoCompleteTextField textField){

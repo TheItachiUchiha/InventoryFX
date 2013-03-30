@@ -353,6 +353,9 @@ public class TransactionHistory
 												{
 								 					if (!validation.isInvalidDate(sCalendar.getTextField()) && !validation.isInvalidDate(eCalendar.getTextField()) )
 								 					{
+								 						if (validation.compareDates(sCalendar.getTextField().getText(), eCalendar.getTextField().getText())){
+								 							
+								 						
 								 						hTableResult.getChildren().addAll(fetchIncomingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
 								 						BDelete.setOnAction(new EventHandler<ActionEvent>() {
 															
@@ -367,15 +370,22 @@ public class TransactionHistory
 																}
 															}
 														});
+								 						}
+								 						else{
+								 							lMsg.setText(CommonConstants.DATE_COMPARE);
+								 							BDelete.setVisible(false);
+								 						}
 								 					}
 								 					else
 								 					{
 								 						lMsg.setText(CommonConstants.WRONG_DATE);
+								 						BDelete.setVisible(false);
 								 					}
 												}
 												else
 												{
 													lMsg.setText(CommonConstants.EMPTY_MSG);
+													BDelete.setVisible(false);
 												}
 											}
 											else if(group.getSelectedToggle().getUserData().equals("invoice"))
@@ -400,6 +410,7 @@ public class TransactionHistory
 												{
 								 					if (!validation.isInvalidDate(sCalendar.getTextField()) && !validation.isInvalidDate(eCalendar.getTextField()) )
 								 					{
+								 						
 								 						hTableResult.getChildren().addAll(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
 								 					}
 								 					else
