@@ -222,17 +222,22 @@ public class TransactionHistory
 					hSearch.setMaxHeight(10);
 					hSearch.setPadding(new Insets(15, 0, 0, 0));
 					hSearch.getChildren().add(search);
-					
+					final Text star3=new Text("*");
+					star3.setFill(Color.MAROON);  
+				     star3.setFont(Font.font ("calibri", 15));
+				     HBox hTextInvoice = new HBox();
 					final Label invoiceId = new Label("Invoice Id");
 					invoiceId.setTextFill(Color.DARKGOLDENROD);
+					hTextInvoice.getChildren().addAll(invoiceId,star3);
 					final AutoCompleteTextField<String> textInvoice = new AutoCompleteTextField<String>();		
 					textInvoice.setItems(listOfInvoice);
+					
 					final HBox hInvoice=new HBox();
 					hInvoice.setAlignment(Pos.TOP_LEFT);
 					hInvoice.setMaxHeight(25);
 					hInvoice.setSpacing(25);
 					hInvoice.setPadding(new Insets(1, 0, 0, 0));
-					hInvoice.getChildren().addAll(invoiceId,textInvoice);
+					hInvoice.getChildren().addAll(hTextInvoice,textInvoice);
 					
 					if(cStockTypes.getValue().equalsIgnoreCase("purchase"))
 					{
@@ -256,6 +261,7 @@ public class TransactionHistory
 			        	gMain.add(hDate, 0,2,4,2);
 			        	gMain.add(hSearch, 0, 3, 6, 3);
 			        }
+				
 					
 					/*if(groupSales.getSelectedToggle().getUserData().toString().equals("date"))
 			        {
@@ -576,12 +582,14 @@ public class TransactionHistory
 	 	new PropertyValueFactory<StockVO, String>("typeName"));
 	 	
 	 	TableColumn<StockVO,Integer> quantity = new TableColumn<StockVO,Integer>("Quantity");
-	 	quantity.setMinWidth(130);
+	 	quantity.setMinWidth(137);
+	 	quantity.setMaxWidth(137);
 	 	quantity.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, Integer>("quantity"));
 	 	
 	 	TableColumn<StockVO,Boolean> checkColumn = new TableColumn<StockVO,Boolean>("");
-	 	checkColumn.setMinWidth(10);
+	 	checkColumn.setMinWidth(28);
+	 	checkColumn.setMaxWidth(28);
 	 	checkColumn.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, Boolean>("check"));
 	 	
@@ -627,7 +635,8 @@ public class TransactionHistory
 	 	table.setStyle("-fx-background-color: transparent;");
 	 	
 	 	TableColumn<StockVO, String> date = new TableColumn<StockVO, String>("Date");
-	 	date.setMinWidth(150);
+	 	date.setMinWidth(147);
+	 	date.setMaxWidth(147);
 	 	date.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("date"));
 	 	
@@ -642,17 +651,20 @@ public class TransactionHistory
 	 	new PropertyValueFactory<StockVO, String>("itemName"));
 	 	
 	 	TableColumn<StockVO, String> typeName = new TableColumn<StockVO, String>("Type");
-	 	typeName.setMinWidth(150);
+	 	typeName.setMinWidth(128);
+	 	typeName.setMaxWidth(128);
 	 	typeName.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("typeName"));
 	 	
 	 	TableColumn<StockVO,Integer> quantity = new TableColumn<StockVO, Integer>("Quantity");
-	 	quantity.setMinWidth(150);
+	 	quantity.setMinWidth(130);
+	 	quantity.setMaxWidth(130);
 	 	quantity.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, Integer>("quantity"));
 	 	
 	 	TableColumn<StockVO,Boolean> checkColumn = new TableColumn<StockVO,Boolean>("");
-	 	checkColumn.setMinWidth(10);
+	 	checkColumn.setMinWidth(28);
+	 	checkColumn.setMaxWidth(28);
 	 	checkColumn.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, Boolean>("check"));
 	 	
