@@ -14,8 +14,6 @@ public class Animation
 	private int listBtnY;
 	 public void unanimate(Node obj,int x, int y) 
 	    {
-	
-	    	//System.out.println(obj);
 	    	if (listBtn!=null){
 	    		
 	    

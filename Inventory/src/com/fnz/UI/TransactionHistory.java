@@ -16,6 +16,7 @@ import com.fnz.service.TransactionHistoryService;
 import com.mytdev.javafx.scene.control.AutoCompleteTextField;
 import com.sai.javafx.calendar.FXCalendar;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -65,6 +66,8 @@ public class TransactionHistory
 	ObservableList<StockVO> data;
 	TransactionHistoryService transactionHistoryService;
 	Button BDelete = new Button("Delete");
+	ComboBox<String> cStockTypes=null;
+	TableView<StockVO> table = null;
 	
 	public TransactionHistory()
 	{
@@ -74,11 +77,17 @@ public class TransactionHistory
 		transactionHistoryService = new TransactionHistoryService();
 	}
 	
+	public BorderPane viewHistory()
+	{
+		final BorderPane borderPane = new BorderPane();
+		borderPane.setId("borderxx");
+		borderPane.setCenter(viewHistoryStack());
+		return borderPane;
+	}
 	
 	public StackPane viewHistoryStack() 
 	{
 		StackPane stack = new StackPane();
-		final BorderPane borderPane = new BorderPane();
 		final HBox hTableResult=new HBox();
 		hTableResult.setMaxHeight(300);
 		final Text lMsg=new Text();
@@ -119,7 +128,7 @@ public class TransactionHistory
 					stockType.addAll("Purchase","Sales");
 					Label lStockType = new Label("Select Stock type");
 					lStockType.setTextFill(Color.DARKGOLDENROD);
-					final ComboBox<String> cStockTypes = new ComboBox<>(stockType);
+					cStockTypes = new ComboBox<>(stockType);
 					cStockTypes.setId("test");
 					cStockTypes.setValue(stockType.get(CommonConstants.ZERO));
 					gMain.add(lStockType, 0, 0);
@@ -381,7 +390,7 @@ public class TransactionHistory
 											{
 												if (!validation.isEmpty(textInvoice))
 												{
-													hTableResult.getChildren().addAll(fetchIncomingHistoryTable(textInvoice.getText()));
+													//hTableResult.getChildren().addAll(fetchIncomingHistoryTable(textInvoice.getText()));
 												}
 												else
 												{
@@ -400,7 +409,7 @@ public class TransactionHistory
 								 					if (!validation.isInvalidDate(sCalendar.getTextField()) && !validation.isInvalidDate(eCalendar.getTextField()) )
 								 					{
 								 						
-								 						hTableResult.getChildren().addAll(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+								 						//hTableResult.getChildren().addAll(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
 								 					}
 								 					else
 								 					{
@@ -432,6 +441,8 @@ public class TransactionHistory
 					 			}
 					 		});
 					
+					
+					
 				
 					
 					/*lowerPart.getChildren().addAll(sDate,sCalendar,eDate,eCalendar,search);*/
@@ -444,7 +455,8 @@ public class TransactionHistory
 					BDelete.setVisible(false);
                     BDelete.setId("buttonall");
                     
-                    BDelete.setOnAction(new EventHandler<ActionEvent>() {
+                   
+                    	BDelete.setOnAction(new EventHandler<ActionEvent>() {
 						
 						@Override
 						public void handle(ActionEvent arg0) {
@@ -452,15 +464,17 @@ public class TransactionHistory
 							try {
 								if(cStockTypes.getValue().equalsIgnoreCase("Purchase"))
 								{
-									transactionHistoryService.deletePurchaseFromDate(data);
+									transactionHistoryService.deletePurchaseFromDate(table.getItems());
 								}
 								
-							} catch (ClassNotFoundException e) {
+							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
 					});
+                    
+                    
                     StackPane.setMargin(BDelete, new Insets(240,Screen.getPrimary().getVisualBounds().getWidth()/2.1 ,20,0));
                     StackPane.setAlignment(BDelete, Pos.BASELINE_RIGHT);
 					
@@ -505,41 +519,7 @@ public class TransactionHistory
 		return stack;
 	}
 	
-	public BorderPane viewHistory()
-	{
-		final BorderPane borderPane = new BorderPane();
-		//borderPane.setPadding(new Insets(15,0,0,0));
-		 borderPane.setId("borderxx");
-		// GridPane buttonGrid = new GridPane();
-			
-		// buttonGrid.setVgap(20);
-		 //buttonGrid.setPadding(new Insets(130,0,0,0));
-			
-		   borderPane.setCenter(viewHistoryStack());
-		   
-		//   final ToggleButton bt1= new ToggleButton("History Search");
-		   
-		  // 	bt1.setId("drinkName");
-		 //  	bt1.setMaxSize(250,250);
-		 //  	buttonGrid.add(bt1,0,0); //search
-		 //  	
-		  // 	bt1.setOnAction(new EventHandler<ActionEvent>() {
-					
-		//			@Override
-			//		public void handle(ActionEvent e) 
-			//		{
-						//borderPane.setStyle("-fx-background-image: url('wine.jpeg');");
-			//			 borderPane.setCenter(viewHistoryStack());
-				//		 animation.animateRight(bt1,0,0);
-			//		}
-			//	});
-			//		
-					
-					
-		
-		  // 	borderPane.setLeft(buttonGrid);
-		return borderPane;
-	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public HBox fetchIncomingHistoryTable(String initialDate, String finalDate) throws Exception
@@ -551,36 +531,37 @@ public class TransactionHistory
 		data = incomingStockService.fetchIncomingStockDetails(initialDate, finalDate);
 		BDelete.setVisible(true);
 		
-		TableView<StockVO> table = new TableView<StockVO>();
+		table = new TableView<StockVO>();
 	 	table.setEditable(true);
 	 	table.setMinSize(780, 280);
 	 	table.setMaxSize(780, 280);
 	 	table.setStyle("-fx-background-color: transparent;");
+	 	table.setItems(data);
 	 	
-	 	TableColumn date = new TableColumn("Date");
+	 	TableColumn<StockVO,String> date = new TableColumn<StockVO,String>("Date");
 	 	date.setMinWidth(150);
 	 	date.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("date"));
 	 	
-	 	TableColumn invoiceId = new TableColumn("Invoice Id");
+	 	TableColumn<StockVO,String> invoiceId = new TableColumn<StockVO,String>("Invoice Id");
 	 	invoiceId.setMinWidth(140);
 	 	invoiceId.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("invoiceId"));
 	 	
-	 	TableColumn itemName = new TableColumn("Item Name");
+	 	TableColumn<StockVO,String> itemName = new TableColumn<StockVO,String>("Item Name");
 	 	itemName.setMinWidth(150);
 	 	itemName.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("itemName"));
 	 	
-	 	TableColumn typeName = new TableColumn("Type");
+	 	TableColumn<StockVO,String> typeName = new TableColumn<StockVO,String>("Type");
 	 	typeName.setMinWidth(130);
 	 	typeName.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("typeName"));
 	 	
-	 	TableColumn quantity = new TableColumn("Quantity");
+	 	TableColumn<StockVO,Integer> quantity = new TableColumn<StockVO,Integer>("Quantity");
 	 	quantity.setMinWidth(130);
 	 	quantity.setCellValueFactory(
-	 	new PropertyValueFactory<StockVO, String>("quantity"));
+	 	new PropertyValueFactory<StockVO, Integer>("quantity"));
 	 	
 	 	TableColumn<StockVO,Boolean> checkColumn = new TableColumn<StockVO,Boolean>("Select");
 	 	checkColumn.setMinWidth(60);
@@ -588,9 +569,12 @@ public class TransactionHistory
 	 	new PropertyValueFactory<StockVO, Boolean>("check"));
 	 	
 	 	
-		/*final Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = CheckBoxTableCell.forTableColumn(checkColumn);*/
 	 	
-	 	checkColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkColumn));
+	 	
+		//final Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = CheckBoxTableCell.forTableColumn(checkColumn);
+	 	
+	 	//checkColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkColumn));
+	 	
 	 	
 	 	/*checkColumn.setCellFactory(new Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>>() {
 	 	  @Override
@@ -612,17 +596,18 @@ public class TransactionHistory
 	 	 * 
 	 	 * 
 	 	 */
-	 	//checkColumn.setCellFactory(new CellFactories().cellFactory);
+	 	checkColumn.setCellFactory(CheckBoxTableCell);
+	 	
+	 	 
 	 	
 	 	
-	 	table.setItems(data);
 	 	
 		table.getColumns().addAll(checkColumn, date, invoiceId, itemName, typeName, quantity);
 		hBox.getChildren().addAll(table);
 		return hBox;
 	}
 	
-	public HBox fetchIncomingHistoryTable(String invoiceIdText) throws Exception
+	/*public HBox fetchIncomingHistoryTable(String invoiceIdText) throws Exception
 	{
 		HBox hBox = new HBox();
 		hBox.setAlignment(Pos.CENTER);
@@ -751,7 +736,7 @@ public class TransactionHistory
 		table.getColumns().addAll(date, itemName, typeName, quantity);
 		hBox.getChildren().addAll(table);
 		return hBox;
-	}
+	}*/
 	
 	
 	
@@ -775,19 +760,7 @@ public class TransactionHistory
             public TableCell<StockVO, Boolean> call(final TableColumn<StockVO, Boolean> param) {
                 final CheckBox checkBox = new CheckBox();
                 final TableCell<StockVO, Boolean> cell = new TableCell<StockVO, Boolean>() {
-
-                    @Override
-                    public void updateItem(Object item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null) {
-                            checkBox.setDisable(true);
-                            checkBox.setSelected(false);
-                        } else {
-                            checkBox.setDisable(false);
-                            checkBox.setSelected(item.toString().equals("Yes") ? true : false);
-                            commitEdit(checkBox.isSelected() ? "Yes" : "No");
-                        }
-                    }
+                private ObservableValue<Boolean> ov;
                 	
                 	@Override
                     public void startEdit() {
@@ -815,6 +788,13 @@ public class TransactionHistory
                           } else {
                             setGraphic(checkBox);
                             checkBox.setSelected(item);
+                            if (ov instanceof BooleanProperty) {
+                                checkBox.selectedProperty().unbindBidirectional((BooleanProperty) ov);
+                            }
+                            ov = getTableColumn().getCellObservableValue(getIndex());
+                            if (ov instanceof BooleanProperty) {
+                                checkBox.selectedProperty().bindBidirectional((BooleanProperty) ov);
+                            }
                           }
                     }
                 	
@@ -826,6 +806,35 @@ public class TransactionHistory
                 return cell;
             }
         };
+	}*/
+	
+	public static class CheckBoxTableCell<StockVO, Boolean> extends TableCell<StockVO, Boolean> {
+	    private final CheckBox checkBox;
+	    private ObservableValue<Boolean> ov;
+
+	    public CheckBoxTableCell() {
+	        this.checkBox = new CheckBox();
+	        this.checkBox.setAlignment(Pos.CENTER);
+
+	        setAlignment(Pos.CENTER);
+	        setGraphic(checkBox);
+	    } 
+
+	    @Override public void updateItem(Boolean item, boolean empty) {
+	        super.updateItem(item, empty);
+	        if (empty) {
+	            setText(null);
+	            setGraphic(null);
+	        } else {
+	            setGraphic(checkBox);
+	            if (ov instanceof BooleanProperty) {
+	                checkBox.selectedProperty().unbindBidirectional((BooleanProperty) ov);
+	            }
+	            ov = getTableColumn().getCellObservableValue(getIndex());
+	            if (ov instanceof BooleanProperty) {
+	                checkBox.selectedProperty().bindBidirectional((BooleanProperty) ov);
+	            }
+	        }
+	    }
 	}
-*/
 }

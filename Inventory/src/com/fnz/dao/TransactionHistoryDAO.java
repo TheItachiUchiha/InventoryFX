@@ -34,7 +34,7 @@ public class TransactionHistoryDAO {
 			
 			for(StockVO stock:itemList)
 			{
-				if(stock.getCheck())
+				if(stock.isCheck())
 				{
 					statement.addBatch(SQLConstants.DELETE_TRANSACTION_INCOMING_STOCK_DETAILS_1+stock.getInvoiceId()+
 						SQLConstants.DELETE_TRANSACTION_INCOMING_STOCK_2+stock.getDate()+
@@ -47,7 +47,7 @@ public class TransactionHistoryDAO {
 							SQLConstants.UPDATE_DEL_ITEMS_TYPES_4);
 				}
 			}
-				
+			statement.executeBatch();	
 			//statement.addBatch(SQLConstants.DELETE_TRANSACTION_INCOMING_STOCK_1+)
 		}
 			catch (Exception e) {

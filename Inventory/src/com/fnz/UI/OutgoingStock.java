@@ -594,7 +594,6 @@ public class OutgoingStock
 	 				else{
 	 					
 	 					if (validate.isInvalidDate(date.getTextField())){
-	 						//System.out.println("Date is invalid");
 	 						msg.setTextFill(Color.MAROON);
 	 						
 		 					date.getTextField().getStyleClass().add("error");

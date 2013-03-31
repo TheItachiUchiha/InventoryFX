@@ -329,8 +329,6 @@ public class MainWindow extends Application
     		
   		  public void changed(ObservableValue<? extends Tab> tab, Tab oldTab, Tab newTab) {
   		    
-  			  System.out.println(newTab.getText());
-  			  System.out.println(tabA.getText());
   			  
   			if(newTab.getText().equals(tabA.getText()))
   		    {

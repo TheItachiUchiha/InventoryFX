@@ -62,11 +62,9 @@ public class Validation
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     	Date date1 = sdf.parse(str1);
     	Date date2 = sdf.parse(str2);
-    	System.out.println(sdf.format(date1));
-    	System.out.println(sdf.format(date2));
+    	
 
     	if(date1.compareTo(date2)>0){
-    		//System.out.println("Date1 is after Date2");
     		return false;
     	
     	}else{
@@ -167,8 +165,7 @@ public void allowDigit(final TextField fieldName){
 		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {              
 			 
 			 if(newValue.intValue() > oldValue.intValue()){
-				char ch = fieldName.getText().charAt(oldValue.intValue());
-				//System.out.println("Length:"+ oldValue+"  "+ newValue +" "+ch);                   
+				char ch = fieldName.getText().charAt(oldValue.intValue());                   
 	 
 				//Check if the new character is the number or other's
 				if(!(ch >= '0' && ch <= '9' )){       

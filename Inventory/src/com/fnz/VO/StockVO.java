@@ -1,5 +1,7 @@
 package com.fnz.VO;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.CheckBox;
 
 public class StockVO 
@@ -11,8 +13,13 @@ public class StockVO
 	private String typeId;
 	private String typeName;
 	private Integer quantity;
-	private Boolean check;
+	private BooleanProperty check;
 	
+	
+	public StockVO()
+	{
+		this.check = new SimpleBooleanProperty(false);
+	}
 	/**
 	 * @return the invoiceId
 	 */
@@ -76,14 +83,14 @@ public class StockVO
 	/**
 	 * @return the check
 	 */
-	public Boolean getCheck() {
-		return check;
+	public boolean isCheck() {
+		return check.get();
 	}
 	/**
 	 * @param check the check to set
 	 */
-	public void setCheck(Boolean check) {
-		this.check = check;
+	public void setCheck(boolean check) {
+		this.check.set(check);
 	}
 	/**
 	 * @return the itemId
