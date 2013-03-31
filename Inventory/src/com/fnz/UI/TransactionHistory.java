@@ -68,6 +68,7 @@ public class TransactionHistory
 	Button BDelete = new Button("Delete");
 	ComboBox<String> cStockTypes=null;
 	TableView<StockVO> table = null;
+	HBox hTableResult=null;
 	
 	public TransactionHistory()
 	{
@@ -88,8 +89,9 @@ public class TransactionHistory
 	public StackPane viewHistoryStack() 
 	{
 		StackPane stack = new StackPane();
-		final HBox hTableResult=new HBox();
+		hTableResult = new HBox();
 		hTableResult.setMaxHeight(300);
+		
 		final Text lMsg=new Text();
 		lMsg.setFill(Color.MAROON);  
 		lMsg.setFont(Font.font ("Arial", 12));
@@ -270,6 +272,7 @@ public class TransactionHistory
 						{
 							try
 							{
+								BDelete.setVisible(false);
 								sCalendar.getTextField().clear();
 								eCalendar.getTextField().clear();
 								hTableResult.getChildren().clear();
@@ -313,6 +316,7 @@ public class TransactionHistory
 					
 					if(cStockTypes.getValue().equalsIgnoreCase("purchase"))
 					{
+						
 						group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
 							@Override
 						    public void changed(ObservableValue<? extends Toggle> ov,
@@ -347,8 +351,6 @@ public class TransactionHistory
 					 			@Override
 					 			public void handle(ActionEvent e) 
 					 			{
-					 				
-					 			
 					 				try 
 					 				{
 					 					lMsg.setText("");
@@ -357,8 +359,7 @@ public class TransactionHistory
 											hTableResult.getChildren().clear();
 											if(group.getSelectedToggle().getUserData().equals("date"))
 											{
-												
-												
+											
 												if (!validation.isEmpty(sCalendar.getTextField()) && !validation.isEmpty(eCalendar.getTextField()))
 												{
 								 					if (!validation.isInvalidDate(sCalendar.getTextField()) && !validation.isInvalidDate(eCalendar.getTextField()) )
@@ -388,9 +389,10 @@ public class TransactionHistory
 											}
 											else if(group.getSelectedToggle().getUserData().equals("invoice"))
 											{
+												hTableResult.getChildren().clear();
 												if (!validation.isEmpty(textInvoice))
 												{
-													//hTableResult.getChildren().addAll(fetchIncomingHistoryTable(textInvoice.getText()));
+													hTableResult.getChildren().addAll(fetchIncomingHistoryTable(textInvoice.getText()));
 												}
 												else
 												{
@@ -409,7 +411,7 @@ public class TransactionHistory
 								 					if (!validation.isInvalidDate(sCalendar.getTextField()) && !validation.isInvalidDate(eCalendar.getTextField()) )
 								 					{
 								 						
-								 						//hTableResult.getChildren().addAll(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+								 						hTableResult.getChildren().addAll(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
 								 					}
 								 					else
 								 					{
@@ -443,13 +445,6 @@ public class TransactionHistory
 					
 					
 					
-				
-					
-					/*lowerPart.getChildren().addAll(sDate,sCalendar,eDate,eCalendar,search);*/
-					
-					
-					/*vBox.getChildren().addAll(upperPart,lowerPart);
-					borderPane.setTop(vBox);*/
 					
 					
 					BDelete.setVisible(false);
@@ -464,8 +459,30 @@ public class TransactionHistory
 							try {
 								if(cStockTypes.getValue().equalsIgnoreCase("Purchase"))
 								{
-									transactionHistoryService.deletePurchaseFromDate(table.getItems());
+									hTableResult.getChildren().clear();
+									if(group.getSelectedToggle().getUserData().equals("date"))
+									{
+										transactionHistoryService.deletePurchaseFromDate(table.getItems());
+										hTableResult.getChildren().clear();
+										hTableResult.getChildren().add(fetchIncomingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+									}
+									else if(group.getSelectedToggle().getUserData().equals("invoice"))
+									{
+										transactionHistoryService.deletePurchaseFromDate(table.getItems());
+										hTableResult.getChildren().clear();
+										hTableResult.getChildren().addAll(fetchIncomingHistoryTable(textInvoice.getText()));
+									}
 								}
+								else if(cStockTypes.getValue().equalsIgnoreCase("Sales"))
+								{
+									if(group.getSelectedToggle().getUserData().equals("date"))
+									{
+										transactionHistoryService.deleteSalesFromDate(table.getItems());
+										hTableResult.getChildren().clear();
+						 				hTableResult.getChildren().addAll(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+									}
+								}
+										
 								
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
@@ -533,8 +550,8 @@ public class TransactionHistory
 		
 		table = new TableView<StockVO>();
 	 	table.setEditable(true);
-	 	table.setMinSize(780, 280);
-	 	table.setMaxSize(780, 280);
+	 	table.setMinSize(737, 280);
+	 	table.setMaxSize(737, 280);
 	 	table.setStyle("-fx-background-color: transparent;");
 	 	table.setItems(data);
 	 	
@@ -563,51 +580,35 @@ public class TransactionHistory
 	 	quantity.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, Integer>("quantity"));
 	 	
-	 	TableColumn<StockVO,Boolean> checkColumn = new TableColumn<StockVO,Boolean>("Select");
-	 	checkColumn.setMinWidth(60);
+	 	TableColumn<StockVO,Boolean> checkColumn = new TableColumn<StockVO,Boolean>("");
+	 	checkColumn.setMinWidth(10);
 	 	checkColumn.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, Boolean>("check"));
 	 	
 	 	
 	 	
 	 	
-		//final Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = CheckBoxTableCell.forTableColumn(checkColumn);
-	 	
-	 	//checkColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkColumn));
+		final Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = CheckBoxTableCell.forTableColumn(checkColumn);
 	 	
 	 	
-	 	/*checkColumn.setCellFactory(new Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>>() {
+	 	
+	 	checkColumn.setCellFactory(new Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>>() {
 	 	  @Override
 	 	  public TableCell<StockVO, Boolean> call(TableColumn<StockVO, Boolean> column) {
 	 	    TableCell<StockVO, Boolean> cell = cellFactory.call(column);
 	 	    cell.setAlignment(Pos.CENTER);
 	 	    return cell ;
 	 	  }
-	 	});*/
+	 	});
 	 
 	 	
-	 	
-	 	/*
-	 	 * 
-	 	 * 
-	 	 * Please Scroll down to know more
-	 	 * about the commented code
-	 	 * 
-	 	 * 
-	 	 * 
-	 	 */
-	 	checkColumn.setCellFactory(CheckBoxTableCell);
-	 	
-	 	 
-	 	
-	 	
-	 	
+	 	 	
 		table.getColumns().addAll(checkColumn, date, invoiceId, itemName, typeName, quantity);
 		hBox.getChildren().addAll(table);
 		return hBox;
 	}
 	
-	/*public HBox fetchIncomingHistoryTable(String invoiceIdText) throws Exception
+	public HBox fetchIncomingHistoryTable(String invoiceIdText) throws Exception
 	{
 		HBox hBox = new HBox();
 		hBox.setAlignment(Pos.CENTER);
@@ -616,39 +617,59 @@ public class TransactionHistory
 		data = incomingStockService.fetchIncomingStockDetails(invoiceIdText);
 		BDelete.setVisible(true);
 		
-		TableView<StockVO> table = new TableView<StockVO>();
-	 	table.setEditable(false);
-	 	table.setMinSize(600, 300);
+		table = new TableView<StockVO>();
+		table.setItems(data);
+		
+		
+	 	table.setEditable(true);
+	 	table.setMinSize(737, 280);
+	 	table.setMaxSize(737, 280);
 	 	table.setStyle("-fx-background-color: transparent;");
 	 	
-	 	TableColumn date = new TableColumn("Date");
+	 	TableColumn<StockVO, String> date = new TableColumn<StockVO, String>("Date");
 	 	date.setMinWidth(150);
 	 	date.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("date"));
 	 	
-	 	TableColumn invoiceId = new TableColumn("Invoice Id");
+	 	TableColumn<StockVO, String> invoiceId = new TableColumn<StockVO, String>("Invoice Id");
 	 	invoiceId.setMinWidth(150);
 	 	invoiceId.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("invoiceId"));
 	 	
-	 	TableColumn itemName = new TableColumn("Item Name");
+	 	TableColumn<StockVO, String> itemName = new TableColumn<StockVO, String>("Item Name");
 	 	itemName.setMinWidth(150);
 	 	itemName.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("itemName"));
 	 	
-	 	TableColumn typeName = new TableColumn("Type");
+	 	TableColumn<StockVO, String> typeName = new TableColumn<StockVO, String>("Type");
 	 	typeName.setMinWidth(150);
 	 	typeName.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("typeName"));
 	 	
-	 	TableColumn quantity = new TableColumn("Quantity");
+	 	TableColumn<StockVO,Integer> quantity = new TableColumn<StockVO, Integer>("Quantity");
 	 	quantity.setMinWidth(150);
 	 	quantity.setCellValueFactory(
-	 	new PropertyValueFactory<StockVO, String>("quantity"));
+	 	new PropertyValueFactory<StockVO, Integer>("quantity"));
 	 	
-	 	table.setItems(data);
+	 	TableColumn<StockVO,Boolean> checkColumn = new TableColumn<StockVO,Boolean>("");
+	 	checkColumn.setMinWidth(10);
+	 	checkColumn.setCellValueFactory(
+	 	new PropertyValueFactory<StockVO, Boolean>("check"));
 	 	
-		table.getColumns().addAll(date, invoiceId, itemName, typeName, quantity);
+	 	final Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = CheckBoxTableCell.forTableColumn(checkColumn);
+	 	
+	 	
+	 	checkColumn.setCellFactory(new Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>>() {
+	 	  @Override
+	 	  public TableCell<StockVO, Boolean> call(TableColumn<StockVO, Boolean> column) {
+	 	    TableCell<StockVO, Boolean> cell = cellFactory.call(column);
+	 	    cell.setAlignment(Pos.CENTER);
+	 	    return cell ;
+	 	  }
+	 	});
+	 
+	 	
+		table.getColumns().addAll(checkColumn, date, invoiceId, itemName, typeName, quantity);
 		hBox.getChildren().addAll(table);
 		return hBox;
 	}
@@ -663,35 +684,53 @@ public class TransactionHistory
 		data = outgoingStockService.fetchOutgoingStockDetails(initialDate, finalDate);
 		BDelete.setVisible(true);
 		
-		TableView<StockVO> table = new TableView<StockVO>();
-	 	table.setEditable(false);
-	 	table.setMinSize(600, 300);
+		table = new TableView<StockVO>();
+		table.setItems(data);
+		
+	 	table.setEditable(true);
+	 	table.setMinSize(627, 280);
+	 	table.setMaxSize(627, 280);
 	 	table.setStyle("-fx-background-color: transparent;");
 	 	
-	 	TableColumn date = new TableColumn("Date");
+	 	TableColumn<StockVO, String> date = new TableColumn<StockVO, String>("Date");
 	 	date.setMinWidth(150);
 	 	date.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("date"));
 	 	
 	 	
-	 	TableColumn itemName = new TableColumn("Item Name");
+	 	TableColumn<StockVO, String> itemName = new TableColumn<StockVO, String>("Item Name");
 	 	itemName.setMinWidth(150);
 	 	itemName.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("itemName"));
 	 	
-	 	TableColumn typeName = new TableColumn("Type");
+	 	TableColumn<StockVO, String> typeName = new TableColumn<StockVO, String>("Type");
 	 	typeName.setMinWidth(150);
 	 	typeName.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("typeName"));
 	 	
-	 	TableColumn quantity = new TableColumn("Quantity");
-	 	quantity.setMinWidth(150);
+	 	TableColumn<StockVO, Integer> quantity = new TableColumn<StockVO, Integer>("Quantity");
+	 	quantity.setMinWidth(140);
 	 	quantity.setCellValueFactory(
-	 	new PropertyValueFactory<StockVO, String>("quantity"));
+	 	new PropertyValueFactory<StockVO, Integer>("quantity"));
 	 	
-	 	table.setItems(data);
+	 	TableColumn<StockVO,Boolean> checkColumn = new TableColumn<StockVO,Boolean>("");
+	 	checkColumn.setMinWidth(10);
+	 	checkColumn.setCellValueFactory(
+	 	new PropertyValueFactory<StockVO, Boolean>("check"));
+	 	final Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = CheckBoxTableCell.forTableColumn(checkColumn);
 	 	
-		table.getColumns().addAll(date, itemName, typeName, quantity);
+	 	
+	 	
+	 	checkColumn.setCellFactory(new Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>>() {
+	 	  @Override
+	 	  public TableCell<StockVO, Boolean> call(TableColumn<StockVO, Boolean> column) {
+	 	    TableCell<StockVO, Boolean> cell = cellFactory.call(column);
+	 	    cell.setAlignment(Pos.CENTER);
+	 	    return cell ;
+	 	  }
+	 	});
+	 	
+		table.getColumns().addAll(checkColumn, date, itemName, typeName, quantity);
 		hBox.getChildren().addAll(table);
 		return hBox;
 	}
@@ -705,7 +744,9 @@ public class TransactionHistory
 		data = outgoingStockService.fetchOutgoingStockDetails(invoiceIdText);
 		BDelete.setVisible(true);
 		
-		TableView<StockVO> table = new TableView<StockVO>();
+		table = new TableView<StockVO>();
+		table.setItems(data);
+		
 	 	table.setEditable(false);
 	 	table.setMinSize(600, 300);
 	 	table.setStyle("-fx-background-color: transparent;");
@@ -731,110 +772,25 @@ public class TransactionHistory
 	 	quantity.setCellValueFactory(
 	 	new PropertyValueFactory<StockVO, String>("quantity"));
 	 	
-	 	table.setItems(data);
+	 	TableColumn<StockVO,Boolean> checkColumn = new TableColumn<StockVO,Boolean>("Select");
+	 	checkColumn.setMinWidth(60);
+	 	checkColumn.setCellValueFactory(
+	 	new PropertyValueFactory<StockVO, Boolean>("check"));
+	 	final Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = CheckBoxTableCell.forTableColumn(checkColumn);
 	 	
-		table.getColumns().addAll(date, itemName, typeName, quantity);
+	 	
+	 	
+	 	checkColumn.setCellFactory(new Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>>() {
+	 	  @Override
+	 	  public TableCell<StockVO, Boolean> call(TableColumn<StockVO, Boolean> column) {
+	 	    TableCell<StockVO, Boolean> cell = cellFactory.call(column);
+	 	    cell.setAlignment(Pos.CENTER);
+	 	    return cell ;
+	 	  }
+	 	});
+	 	
+		table.getColumns().addAll(checkColumn, date, itemName, typeName, quantity);
 		hBox.getChildren().addAll(table);
 		return hBox;
-	}*/
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//This commented code is for providing more control over the checkBoxtableColumn
-	
-	
-	/*public class CellFactories {
-	    
-	    
-	    
-		Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>> cellFactory = new Callback<TableColumn<StockVO, Boolean>, TableCell<StockVO, Boolean>>() {
-
-            @Override
-            public TableCell<StockVO, Boolean> call(final TableColumn<StockVO, Boolean> param) {
-                final CheckBox checkBox = new CheckBox();
-                final TableCell<StockVO, Boolean> cell = new TableCell<StockVO, Boolean>() {
-                private ObservableValue<Boolean> ov;
-                	
-                	@Override
-                    public void startEdit() {
-                        super.startEdit();
-                        if (isEmpty()) {
-                            return;
-                        }
-                        checkBox.setDisable(false);
-                        checkBox.requestFocus();
-                    }
-                    @Override
-                    public void cancelEdit() {
-                        super.cancelEdit();
-                        checkBox.setDisable(true);
-                    }
-                    public void commitEdit(Boolean value) {
-                        super.commitEdit(value);
-                        checkBox.setDisable(true);
-                    }
-                    @Override
-                    public void updateItem(Boolean item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (isEmpty()) {
-                            setGraphic(null);
-                          } else {
-                            setGraphic(checkBox);
-                            checkBox.setSelected(item);
-                            if (ov instanceof BooleanProperty) {
-                                checkBox.selectedProperty().unbindBidirectional((BooleanProperty) ov);
-                            }
-                            ov = getTableColumn().getCellObservableValue(getIndex());
-                            if (ov instanceof BooleanProperty) {
-                                checkBox.selectedProperty().bindBidirectional((BooleanProperty) ov);
-                            }
-                          }
-                    }
-                	
-                };
-                //cell.setGraphic(checkBox);
-                cell.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                cell.setEditable(true);
-                cell.setAlignment(Pos.CENTER);
-                return cell;
-            }
-        };
-	}*/
-	
-	public static class CheckBoxTableCell<StockVO, Boolean> extends TableCell<StockVO, Boolean> {
-	    private final CheckBox checkBox;
-	    private ObservableValue<Boolean> ov;
-
-	    public CheckBoxTableCell() {
-	        this.checkBox = new CheckBox();
-	        this.checkBox.setAlignment(Pos.CENTER);
-
-	        setAlignment(Pos.CENTER);
-	        setGraphic(checkBox);
-	    } 
-
-	    @Override public void updateItem(Boolean item, boolean empty) {
-	        super.updateItem(item, empty);
-	        if (empty) {
-	            setText(null);
-	            setGraphic(null);
-	        } else {
-	            setGraphic(checkBox);
-	            if (ov instanceof BooleanProperty) {
-	                checkBox.selectedProperty().unbindBidirectional((BooleanProperty) ov);
-	            }
-	            ov = getTableColumn().getCellObservableValue(getIndex());
-	            if (ov instanceof BooleanProperty) {
-	                checkBox.selectedProperty().bindBidirectional((BooleanProperty) ov);
-	            }
-	        }
-	    }
 	}
 }

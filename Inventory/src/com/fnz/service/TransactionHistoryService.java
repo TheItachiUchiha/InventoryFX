@@ -13,8 +13,12 @@ public class TransactionHistoryService {
 		transactionHistoryDAO = new TransactionHistoryDAO();
 	}
 	
-	public Boolean deletePurchaseFromDate(ObservableList<StockVO> itemList) throws ClassNotFoundException
+	public Boolean deletePurchaseFromDate(ObservableList<StockVO> itemList) throws Exception
 	{
 		return transactionHistoryDAO.deletePurchaseFromDate(itemList);
+	}
+	public Boolean deleteSalesFromDate(ObservableList<StockVO> itemList) throws Exception
+	{
+		return transactionHistoryDAO.deleteSalesFromDate(itemList);
 	}
 }

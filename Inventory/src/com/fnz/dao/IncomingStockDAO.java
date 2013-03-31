@@ -209,9 +209,11 @@ public class IncomingStockDAO
 				incomingStockVO.setInvoiceId(resultSet.getString(1));
 				String splitsDate[] = resultSet.getString(2).split("-");
 				incomingStockVO.setDate(splitsDate[2]+"/"+splitsDate[1]+"/"+splitsDate[0]);
-				incomingStockVO.setItemName(resultSet.getString(3));
-				incomingStockVO.setTypeName(resultSet.getString(4));
-				incomingStockVO.setQuantity(resultSet.getInt(5));
+				incomingStockVO.setItemId(resultSet.getString(3));
+				incomingStockVO.setItemName(resultSet.getString(4));
+				incomingStockVO.setTypeId(resultSet.getString(5));
+				incomingStockVO.setTypeName(resultSet.getString(6));
+				incomingStockVO.setQuantity(resultSet.getInt(7));
 				listIncoming.add(incomingStockVO);
 			}
 			

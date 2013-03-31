@@ -1,123 +1,102 @@
 package com.fnz.VO;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.control.CheckBox;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 
 public class StockVO 
 {
-	private String invoiceId;
-	private String date;
-	private String itemId;
-	private String itemName;
-	private String typeId;
-	private String typeName;
-	private Integer quantity;
-	private BooleanProperty check;
-	
+	private final StringProperty invoiceId;
+	private final StringProperty date;
+	private final StringProperty itemId;
+	private final StringProperty itemName;
+	private final StringProperty typeId;
+	private final StringProperty typeName;
+	private final IntegerProperty quantity;
+	private final BooleanProperty check;
 	
 	public StockVO()
 	{
-		this.check = new SimpleBooleanProperty(false);
+		this.invoiceId = new SimpleStringProperty();
+		this.date = new SimpleStringProperty();
+		this.itemId = new SimpleStringProperty();
+		this.itemName = new SimpleStringProperty();
+		this.typeId = new SimpleStringProperty();
+		this.typeName = new SimpleStringProperty();
+		this.quantity = new SimpleIntegerProperty();
+		this.check = new SimpleBooleanProperty();
 	}
-	/**
-	 * @return the invoiceId
-	 */
+	StockVO(String invoiceId, String date,String itemId,String itemName,String typeId,String typeName,Integer quantity,  boolean check) {
+		this.invoiceId = new SimpleStringProperty(invoiceId);
+		this.date = new SimpleStringProperty(date);
+		this.itemId = new SimpleStringProperty(itemId);
+		this.itemName = new SimpleStringProperty(itemName);
+		this.typeId = new SimpleStringProperty(typeId);
+		this.typeName = new SimpleStringProperty(typeName);
+		this.quantity = new SimpleIntegerProperty(quantity);
+		this.check = new SimpleBooleanProperty(check);
+	}
+	
+	
 	public String getInvoiceId() {
-		return invoiceId;
+		return invoiceId.get();
 	}
-	/**
-	 * @param invoiceId the invoiceId to set
-	 */
-	public void setInvoiceId(String invoiceId) {
-		this.invoiceId = invoiceId;
-	}
-	/**
-	 * @return the date
-	 */
 	public String getDate() {
-		return date;
+		return date.get();
 	}
-	/**
-	 * @param date the date to set
-	 */
-	public void setDate(String date) {
-		this.date = date;
+	public String getItemId() {
+		return itemId.get();
 	}
-	/**
-	 * @return the itemName
-	 */
 	public String getItemName() {
-		return itemName;
+		return itemName.get();
 	}
-	/**
-	 * @param itemName the itemName to set
-	 */
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+	public String getTypeId() {
+		return typeId.get();
 	}
-	/**
-	 * @return the typeName
-	 */
 	public String getTypeName() {
-		return typeName;
+		return typeName.get();
 	}
-	/**
-	 * @param typeName the typeName to set
-	 */
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
-	/**
-	 * @return the quantity
-	 */
 	public Integer getQuantity() {
-		return quantity;
+		return quantity.get();
 	}
-	/**
-	 * @param quantity the quantity to set
-	 */
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-	/**
-	 * @return the check
-	 */
-	public boolean isCheck() {
+	public Boolean getCheck() {
 		return check.get();
 	}
-	/**
-	 * @param check the check to set
-	 */
+	
+	public void setInvoiceId(String invoiceId) {
+		this.invoiceId.set(invoiceId);
+	}
+	
+	public void setDate(String date) {
+		this.date.set(date);
+	}
+
+	public void setItemId(String itemId) {
+		this.itemId.set(itemId);
+	}
+	
+	public void setItemName(String itemName) {
+		this.itemName.set(itemName);
+	}
+	public void setTypeId(String typeId) {
+		this.typeId.set(typeId);
+	}
+	public void setTypeName(String typeName) {
+		this.typeName.set(typeName);
+	}
+	public void setQuantity(Integer quantity) {
+		this.quantity.set(quantity);
+	}
 	public void setCheck(boolean check) {
 		this.check.set(check);
 	}
-	/**
-	 * @return the itemId
-	 */
-	public String getItemId() {
-		return itemId;
-	}
-	/**
-	 * @param itemId the itemId to set
-	 */
-	public void setItemId(String itemId) {
-		this.itemId = itemId;
-	}
-	/**
-	 * @return the typeId
-	 */
-	public String getTypeId() {
-		return typeId;
-	}
-	/**
-	 * @param typeId the typeId to set
-	 */
-	public void setTypeId(String typeId) {
-		this.typeId = typeId;
-	}
-	
-	
-	
 
+	public BooleanProperty checkProperty() {
+		return check;
+	}
+	
 }

@@ -143,9 +143,11 @@ public class OutgoingStockDAO
 				StockVO StockVO = new StockVO();
 				String splitsDate[] = resultSet.getString(1).split("-");
 				StockVO.setDate(splitsDate[2]+"/"+splitsDate[1]+"/"+splitsDate[0]);
-				StockVO.setItemName(resultSet.getString(2));
-				StockVO.setTypeName(resultSet.getString(3));
-				StockVO.setQuantity(resultSet.getInt(4));
+				StockVO.setItemId(resultSet.getString(2));
+				StockVO.setItemName(resultSet.getString(3));
+				StockVO.setTypeId(resultSet.getString(4));
+				StockVO.setTypeName(resultSet.getString(5));
+				StockVO.setQuantity(resultSet.getInt(6));
 				listIncoming.add(StockVO);
 			}
 			
