@@ -160,7 +160,7 @@ public class ModalDialog {
 										if (sCurrentLine.contains(tSecurityNumber.getText())){
 											//System.out.println("fine");
 											ModalDialog mtemp= new ModalDialog();
-				      						mtemp.ModalRegister(stage, "Kryptcode", "Registered Successfully");
+				      						mtemp.ModalRegister(stage, "kryptCode", "Registered Successfully");
 				      						
 				      						
 				      						FileWriter fstream = new FileWriter("keyentered.txt");
