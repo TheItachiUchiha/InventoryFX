@@ -656,7 +656,9 @@ public class IncomingStock
 	 				} 
 	 				catch (Exception e1) 
 					{
-						e1.printStackTrace();
+	 					e1.printStackTrace();
+	 					msg.setText(CommonConstants.PURCHASE_INVOICE_ERROR);
+	 					msg.setTextFill(Color.MAROON);
 					}
 	 					}
 	 				}

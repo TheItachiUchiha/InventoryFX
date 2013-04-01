@@ -80,8 +80,7 @@ public class IncomingStockDAO
 		}
 		catch (Exception e) 
 		{
-			e.printStackTrace();
-			msg = e.getMessage();
+			throw e;
 		}
 		finally
 		{
