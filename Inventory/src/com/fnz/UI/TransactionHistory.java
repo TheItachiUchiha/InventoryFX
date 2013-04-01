@@ -26,11 +26,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBuilder;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.LabelBuilder;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
@@ -55,8 +59,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.RectangleBuilder;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.application.Application;
 import javafx.beans.value.*;
@@ -79,8 +85,10 @@ public class TransactionHistory
 	ComboBox<String> cStockTypes=null;
 	TableView<StockVO> table = null;
 	HBox hTableResult=null;
-	Stage stg;
-	ModalDialog confirmBox = new ModalDialog();
+	ToggleGroup group;
+	FXCalendar sCalendar;
+	FXCalendar eCalendar;
+	AutoCompleteTextField<String> textInvoice;
 	
 	public TransactionHistory()
 	{
@@ -90,15 +98,15 @@ public class TransactionHistory
 		transactionHistoryService = new TransactionHistoryService();
 	}
 	
-	public BorderPane viewHistory()
+	public BorderPane viewHistory(Stage stage)
 	{
 		final BorderPane borderPane = new BorderPane();
 		borderPane.setId("borderxx");
-		borderPane.setCenter(viewHistoryStack());
+		borderPane.setCenter(viewHistoryStack(stage));
 		return borderPane;
 	}
 	
-	public StackPane viewHistoryStack() 
+	public StackPane viewHistoryStack(final Stage stage) 
 	{
 		StackPane stack = new StackPane();
 		hTableResult = new HBox();
@@ -159,7 +167,7 @@ public class TransactionHistory
 					lowerPart.setPadding(new Insets(0, 20, 0, 20));*/
 					//upperPart.set
 					
-					final ToggleGroup group = new ToggleGroup();
+					group = new ToggleGroup();
 					
 					
 					final RadioButton searchByInvoice = new RadioButton("Invoice");
@@ -208,10 +216,10 @@ public class TransactionHistory
 					eDate.setTextFill(Color.DARKGOLDENROD);
 					
 					
-					final FXCalendar sCalendar = new FXCalendar();
+					sCalendar = new FXCalendar();
 					
 					
-					final FXCalendar eCalendar = new FXCalendar();
+					eCalendar = new FXCalendar();
 					
 					
 					HBox sHBox = new HBox();
@@ -241,7 +249,7 @@ public class TransactionHistory
 					final Label invoiceId = new Label("Invoice Id");
 					invoiceId.setTextFill(Color.DARKGOLDENROD);
 					hTextInvoice.getChildren().addAll(invoiceId,star3);
-					final AutoCompleteTextField<String> textInvoice = new AutoCompleteTextField<String>();		
+					textInvoice = new AutoCompleteTextField<String>();		
 					textInvoice.setItems(listOfInvoice);
 					
 					final HBox hInvoice=new HBox();
@@ -473,39 +481,10 @@ public class TransactionHistory
 						
 						@Override
 						public void handle(ActionEvent arg0) {
-							int confirm=0;
-							
-							confirm =confirmBox.ModalConfirm(stg,"Confirm Delete", "Are you sure ?");
-							System.out.println(confirm);
-							
-							
 							
 							try {
-								if(cStockTypes.getValue().equalsIgnoreCase("Purchase"))
-								{
-									hTableResult.getChildren().clear();
-									if(group.getSelectedToggle().getUserData().equals("date"))
-									{
-										transactionHistoryService.deletePurchaseFromDate(table.getItems());
-										hTableResult.getChildren().clear();
-										hTableResult.getChildren().add(fetchIncomingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
-									}
-									else if(group.getSelectedToggle().getUserData().equals("invoice"))
-									{
-										transactionHistoryService.deletePurchaseFromDate(table.getItems());
-										hTableResult.getChildren().clear();
-										hTableResult.getChildren().addAll(fetchIncomingHistoryTable(textInvoice.getText()));
-									}
-								}
-								else if(cStockTypes.getValue().equalsIgnoreCase("Sales"))
-								{
-									if(group.getSelectedToggle().getUserData().equals("date"))
-									{
-										transactionHistoryService.deleteSalesFromDate(table.getItems());
-										hTableResult.getChildren().clear();
-						 				hTableResult.getChildren().addAll(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
-									}
-								}
+								
+								TransactionDeleteModalWindow(stage);
 										
 								
 							} catch (Exception e) {
@@ -824,5 +803,126 @@ public class TransactionHistory
 		hBox.getChildren().addAll(table);
 		return hBox;
 	}
+	public void TransactionDeleteModalWindow(final Stage classStage) throws Exception{
+		final TextField temp = new TextField();
+		// initialize the confirmation dialog
+		final Stage dialog = new Stage(StageStyle.TRANSPARENT);
+		dialog.initModality(Modality.WINDOW_MODAL);
+		dialog.initOwner(classStage);
+		dialog.setScene(new Scene(HBoxBuilder
+				.create()
+				.styleClass("modal-dialog")
+				.children(
+						LabelBuilder.create().text("Are you sure to delete the entry/entries?")
+								.build(),
+						ButtonBuilder.create().text("Yes").defaultButton(true)
+								.onAction(new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent actionEvent) {
+										// take action and close the dialog.
+										if(cStockTypes.getValue().equalsIgnoreCase("Purchase"))
+										{
+											hTableResult.getChildren().clear();
+											if(group.getSelectedToggle().getUserData().equals("date"))
+											{
+													try {
+														transactionHistoryService.deletePurchaseFromDate(table.getItems());
+													} catch (Exception e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+													hTableResult.getChildren().clear();
+													try {
+														hTableResult.getChildren().add(fetchIncomingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+													} catch (Exception e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+											}
+											else if(group.getSelectedToggle().getUserData().equals("invoice"))
+											{
+													try {
+														transactionHistoryService.deletePurchaseFromDate(table.getItems());
+													} catch (Exception e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+													hTableResult.getChildren().clear();
+													try {
+														hTableResult.getChildren().addAll(fetchIncomingHistoryTable(textInvoice.getText()));
+													} catch (Exception e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+											}
+										}
+										else if(cStockTypes.getValue().equalsIgnoreCase("Sales"))
+										{
+											if(group.getSelectedToggle().getUserData().equals("date"))
+											{
+													try {
+														transactionHistoryService.deleteSalesFromDate(table.getItems());
+													} catch (Exception e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+													hTableResult.getChildren().clear();
+									 				try {
+														hTableResult.getChildren().addAll(fetchOutgoingHistoryTable(sCalendar.getTextField().getText(), eCalendar.getTextField().getText()));
+													} catch (Exception e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+												
+											}
+										}	
+										classStage.getScene().getRoot()
+												.setEffect(null);
+										dialog.close();
+									}
+								}).build(),
+						ButtonBuilder.create().text("No").cancelButton(true)
+								.onAction(new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent actionEvent) {
+										// abort action and close the dialog.
+										
+										classStage.getScene().getRoot()
+												.setEffect(null);
+										dialog.close();
+									}
+								}).build()).build(), Color.TRANSPARENT));
+		dialog.getScene()
+				.getStylesheets()
+				.add(getClass().getResource("../styles/modal-dialog.css")
+						.toExternalForm());
+		
+		// allow the dialog to be dragged around.
+		final Node root = dialog.getScene().getRoot();
+		final Delta dragDelta = new Delta();
+		root.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				// record a delta distance for the drag and drop operation.
+				dragDelta.x = dialog.getX() - mouseEvent.getScreenX();
+				dragDelta.y = dialog.getY() - mouseEvent.getScreenY();
+			}
+		});
+		root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				dialog.setX(mouseEvent.getScreenX() + dragDelta.x);
+				dialog.setY(mouseEvent.getScreenY() + dragDelta.y);
+			}
+		});
+
+		
+
+				classStage.getScene().getRoot().setEffect(new BoxBlur());
+				dialog.show();
+	}
+	
 	class Delta { double x, y; }
+
 }
+
