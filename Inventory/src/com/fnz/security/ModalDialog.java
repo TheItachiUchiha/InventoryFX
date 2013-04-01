@@ -21,12 +21,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBuilder;
 import javafx.scene.control.Label;
+import javafx.scene.control.LabelBuilder;
 import javafx.scene.control.TextField;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -44,7 +47,7 @@ public class ModalDialog {
 	EncryptMacWithKey eMac;
 	BufferedReader br = null;
 	BufferedReader brTemp = null;
-	
+	 int flag=0;
 	
 	  public void ModalSecurity(final Stage stg,String title, String message) {
 		 
@@ -226,9 +229,42 @@ public class ModalDialog {
 	            stage.show();
 	  }
 	     
-	           
-	  public void ModalRegister(final Stage stg,String title, String message) {
-		  stg.close();
+	public boolean ModalConfirmTest(final Stage primaryStage,String title, String message){
+		final Stage dialog = new Stage(StageStyle.TRANSPARENT);
+		dialog.initModality(Modality.WINDOW_MODAL);
+		dialog.initOwner(primaryStage);
+		dialog.setScene(
+		new Scene(
+		HBoxBuilder.create().styleClass("modal-dialog").children(
+		LabelBuilder.create().text(message).build(),
+		ButtonBuilder.create().text("Yes").defaultButton(true).onAction(new EventHandler<ActionEvent>() {
+		@Override public void handle(ActionEvent actionEvent) {
+		// take action and close the dialog.
+		System.out.println("Liked: ");
+		primaryStage.getScene().getRoot().setEffect(null);
+		dialog.close();
+		}
+		}).build(),
+		ButtonBuilder.create().text("No").cancelButton(true).onAction(new EventHandler<ActionEvent>() {
+		@Override public void handle(ActionEvent actionEvent) {
+		// abort action and close the dialog.
+		System.out.println("Disliked: ");
+		primaryStage.getScene().getRoot().setEffect(null);
+		dialog.close();
+		}
+		}).build()
+		).build()
+		, Color.TRANSPARENT
+		)
+		);
+		dialog.show();
+		dialog.getScene().getStylesheets().add(getClass().getResource("modal-dialog.css").toExternalForm());
+		 return false;
+	}
+	  
+	  public int ModalConfirm(final Stage stg,String title, String message) {
+		
+		 
 	        final  Stage stage = new Stage(StageStyle.UTILITY);       
 		  stage.initModality(Modality.APPLICATION_MODAL);
           stage.setResizable(false);
@@ -252,12 +288,18 @@ public class ModalDialog {
            gPane.add(new Label(message), 1, 1);
            hButtons.setAlignment(Pos.CENTER);
            
+          HBox hButtonsYesNo = new HBox();
+          hButtonsYesNo.setAlignment(Pos.CENTER);
+          hButtonsYesNo.setSpacing(10);
+           Button btYes = new Button("Yes");
+           Button btNo = new Button("No");
+           btYes.setPrefSize(70, 30);
+           btYes.setId("buttonall");
+           btNo.setPrefSize(70, 30);
+           btNo.setId("buttonall");
+          hButtonsYesNo.getChildren().addAll(btYes,btNo); 
+           gPane.add(hButtonsYesNo, 3, 3);
            
-           Button btConfirm = new Button("OK");
-           
-           gPane.add(btConfirm, 3, 3);
-           btConfirm.setPrefSize(70, 30);
-           btConfirm.setId("buttonall");
            
           
            hButtons.getChildren().addAll(gPane);
@@ -273,6 +315,14 @@ public class ModalDialog {
    	    	stage.setHeight(Screen.getPrimary().getVisualBounds().getHeight()/5);
            stage.setScene(scene);        
            stage.show();
+           
+          
+        	
+        		
+        	
+        		
+        		
+           
            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				
 				
@@ -281,24 +331,114 @@ public class ModalDialog {
 					// TODO Auto-generated method stub
 					
 					stage.close();
-					stg.close();
+					flag = 2;
+					
 				}
 			}); 
-           btConfirm.setOnAction(new EventHandler<ActionEvent>() {
+           btYes.setOnAction(new EventHandler<ActionEvent>() {
      			
      			@Override
      			public void handle(ActionEvent e) 
      			{
      				
-     				System.out.println("confirm clicked");
-     				
+     				System.out.println("Yes clicked");
+     				flag = 1;
      				stage.close();
-     				stg.close();
+     				 
      			}
      		});
-	  }
+           btNo.setOnAction(new EventHandler<ActionEvent>() {
+    			
+    			@Override
+    			public void handle(ActionEvent e) 
+    			{
+    				
+    				System.out.println("No clicked");
+    				flag = 2;
+    				stage.close();
+    				
+    				
+    			}
+    			
+    		});
+       
+          
+           return flag;
+          
+        	}
 	  
 	  
+      
+  public void ModalRegister(final Stage stg,String title, String message) {
+	  stg.close();
+        final  Stage stage = new Stage(StageStyle.UTILITY);       
+	  stage.initModality(Modality.APPLICATION_MODAL);
+      stage.setResizable(false);
+      //Set the owner of the Stage 
+      stage.initOwner(stg);
+      stage.setTitle(title);
+      //stage.initStyle(StageStyle.UNDECORATED);
+    
+     
+       Group root = new Group();
+       Scene scene = new Scene(root);
+       scene.getStylesheets().add(
+               this.getClass().getClassLoader().getResource("com/fnz/styles/Tab.css").toString());
+       BorderPane borderPane = new BorderPane();
+       borderPane.setPadding(new Insets(20,0,20,20));
+       HBox hMsg = new HBox();
+       HBox hButtons = new HBox();
+       hMsg.setAlignment(Pos.CENTER);
+       GridPane gPane = new GridPane();
+       gPane.setVgap(10);
+       gPane.add(new Label(message), 1, 1);
+       hButtons.setAlignment(Pos.CENTER);
+       
+       
+       Button btConfirm = new Button("OK");
+       
+       gPane.add(btConfirm, 3, 3);
+       btConfirm.setPrefSize(70, 30);
+       btConfirm.setId("buttonall");
+       
+      
+       hButtons.getChildren().addAll(gPane);
+      hButtons.setAlignment(Pos.CENTER);
+     
+      hButtons.setSpacing(10);
+       
+      
+      // hButtons.setStyle("-fx-background-color: #336699;");
+       borderPane.setTop(hButtons);
+       root.getChildren().add(borderPane);   
+       stage.setWidth(Screen.getPrimary().getVisualBounds().getWidth()/4);
+	    	stage.setHeight(Screen.getPrimary().getVisualBounds().getHeight()/5);
+       stage.setScene(scene);        
+       stage.show();
+       stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			
+			
+			@Override
+			public void handle(WindowEvent paramT) {
+				// TODO Auto-generated method stub
+				
+				stage.close();
+				stg.close();
+			}
+		}); 
+       btConfirm.setOnAction(new EventHandler<ActionEvent>() {
+ 			
+ 			@Override
+ 			public void handle(ActionEvent e) 
+ 			{
+ 				
+ 				System.out.println("confirm clicked");
+ 				
+ 				stage.close();
+ 				stg.close();
+ 			}
+ 		});
+  }
 	 
  public void DeleteKeyFile(){
 	 File file = new File("key.txt");

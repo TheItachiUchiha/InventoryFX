@@ -10,6 +10,7 @@ import com.fnz.VO.StockVO;
 import com.fnz.Validation.Validation;
 import com.fnz.common.CommonConstants;
 import com.fnz.dao.UtiliesDAO;
+import com.fnz.security.ModalDialog;
 import com.fnz.service.IncomingStockService;
 import com.fnz.service.OutgoingStockService;
 import com.fnz.service.TransactionHistoryService;
@@ -55,7 +56,16 @@ import javafx.scene.shape.RectangleBuilder;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.application.Application;
+import javafx.beans.value.*;
+import javafx.concurrent.Worker;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.web.WebView;
+
 
 public class TransactionHistory 
 {
@@ -69,6 +79,8 @@ public class TransactionHistory
 	ComboBox<String> cStockTypes=null;
 	TableView<StockVO> table = null;
 	HBox hTableResult=null;
+	Stage stg;
+	ModalDialog confirmBox = new ModalDialog();
 	
 	public TransactionHistory()
 	{
@@ -461,6 +473,12 @@ public class TransactionHistory
 						
 						@Override
 						public void handle(ActionEvent arg0) {
+							int confirm=0;
+							
+							confirm =confirmBox.ModalConfirm(stg,"Confirm Delete", "Are you sure ?");
+							System.out.println(confirm);
+							
+							
 							
 							try {
 								if(cStockTypes.getValue().equalsIgnoreCase("Purchase"))
@@ -691,6 +709,7 @@ public class TransactionHistory
 	{
 		HBox hBox = new HBox();
 		hBox.setAlignment(Pos.CENTER);
+		hBox.setPadding(new Insets(0, 0, 0, 34));
 		data = FXCollections.observableArrayList();
 		
 		data = outgoingStockService.fetchOutgoingStockDetails(initialDate, finalDate);
@@ -805,4 +824,5 @@ public class TransactionHistory
 		hBox.getChildren().addAll(table);
 		return hBox;
 	}
+	class Delta { double x, y; }
 }

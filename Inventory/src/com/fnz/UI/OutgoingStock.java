@@ -70,6 +70,7 @@ public class OutgoingStock
 	Animation animation;
 	StackPane stack;
 	Validation validate;	
+	FXCalendar date;
 	
 	public OutgoingStock() 
 	{
@@ -80,6 +81,7 @@ public class OutgoingStock
 	}
 	public BorderPane delStockDrinkList(final ObservableList<CategoryVO> listCategory)
 	{
+		date = new FXCalendar();
 		final BorderPane borderPane = new BorderPane();
 		
 		 borderPane.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth());
@@ -416,7 +418,7 @@ public class OutgoingStock
 			l2.setTextFill(Color.DARKGOLDENROD);
 			dateBox.getChildren().addAll(l2,star1);
 			
-			final FXCalendar date = new FXCalendar();
+			
 			dateBox.getChildren().add(date);
 			
 			
@@ -662,7 +664,7 @@ public class OutgoingStock
 						{
 							msg.setText(tempMsg);
 						}
-	 					date.getTextField().clear();
+	 					/*date.getTextField().clear();*/
 	 				} 
 	 				catch (Exception e1) 
 					{

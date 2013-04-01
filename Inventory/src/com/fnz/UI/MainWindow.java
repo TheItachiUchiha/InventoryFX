@@ -124,6 +124,8 @@ public class MainWindow extends Application
         scene.getStylesheets().add(FXCalendarDemo.class.getResource("/com/fnz/styles/calendar_styles.css").toExternalForm());
         scene.getStylesheets().add(
                 this.getClass().getClassLoader().getResource("com/fnz/styles/Tab.css").toString());
+        scene.getStylesheets().add(
+                this.getClass().getClassLoader().getResource("modal-dialog.css").toString());		
         stage.setX(0);
 	    stage.setY(0);
 	    //stage.getIcons().add(new Image(getClass().getResourceAsStream("/com/fnz/styles/Two-storied house.png")));
@@ -137,7 +139,8 @@ public class MainWindow extends Application
         stage.show();
         
      SecurityTest.ModalSecurity(stage,"Kryptcode","lame");
-       
+     TransactionHistory tr= new TransactionHistory();
+		tr.stg = stage; 
     	}
     	catch(Exception e)
     	{
@@ -345,6 +348,7 @@ public class MainWindow extends Application
   			if(newTab.getText().equals(tabD.getText()))
   			{
   				tabD.setContent(transactionHistory.viewHistory());
+  				
   			}
   		    if(newTab.getText().equals(tabSetting.getText()))
   		    {

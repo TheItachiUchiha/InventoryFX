@@ -69,6 +69,8 @@ public class IncomingStock
 	Animation animation;
 	StackPane stack;
 	Validation validate;	
+	TextField invoiceField = new TextField();
+	FXCalendar date;
 	
 	public IncomingStock() 
 	{
@@ -76,11 +78,13 @@ public class IncomingStock
 		incomingStockService = new IncomingStockService();
 		animation = new Animation();
 		validate = new Validation();
+		
 	}
 	public BorderPane addStockDrinkList(final ObservableList<CategoryVO> listCategory)
 	{
 		final BorderPane borderPane = new BorderPane();
-		
+		invoiceField = new TextField();
+		date = new FXCalendar();
 		borderPane.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth());
 	    borderPane.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight());
 	    borderPane.setPadding(new Insets(15,0,0,20));
@@ -398,7 +402,7 @@ public class IncomingStock
 			l1.setTextFill(Color.DARKGOLDENROD);
 			invoiceBox.getChildren().addAll(l1,star1);
 			
-			final TextField invoiceField = new TextField();
+			
 			invoiceBox.getChildren().add(invoiceField);
 			
 			Text star2=new Text("*  ");
@@ -410,7 +414,7 @@ public class IncomingStock
 			l2.setTextFill(Color.DARKGOLDENROD);
 			dateBox.getChildren().addAll(l2,star2);
 			
-			final FXCalendar date = new FXCalendar();
+			
 			dateBox.getChildren().add(date);
 			
 			
@@ -646,8 +650,8 @@ public class IncomingStock
 	 							}
 	 					}
 	 					msg.setText(incomingStockService.addIncomingStock(invoiceField.getText(), date.getTextField().getText(), dataTable, typeList));
-	 					invoiceField.clear();
-	 					date.getTextField().clear();
+	 					/*invoiceField.clear();
+	 					date.getTextField().clear();*/
 	 					}
 	 				} 
 	 				catch (Exception e1) 
