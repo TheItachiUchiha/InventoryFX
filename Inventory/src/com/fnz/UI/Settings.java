@@ -507,6 +507,7 @@ public class Settings
 					if(listOfTypes.size()==0)
 					{
 						lmsg.setText("Please set a Type \nFor The Category");
+						lmsg.setTextFill(Color.MAROON);
 						add.setDisable(true);
 						itemName.setDisable(true);
 					}
@@ -637,6 +638,8 @@ public class Settings
 				try {
 					listOfItems.addAll(utiliesService.fetchItem(newValue.getCategotyId()));
 				} catch (Exception e) {
+					lmsg.setText(CommonConstants.ERROR_ADMIN);
+					lmsg.setTextFill(Color.MAROON);
 					e.printStackTrace();
 				}
 				/*if (flag == false) {
@@ -675,7 +678,8 @@ public class Settings
 						lmsg.setTextFill(Color.MAROON);
 					}
 				} catch (Exception e1) {
-					lmsg.setText("Some Error Occured !!");
+					lmsg.setText(CommonConstants.ERROR_ADMIN);
+					lmsg.setTextFill(Color.MAROON);
 					e1.printStackTrace();
 				}
 			}
@@ -708,7 +712,7 @@ public class Settings
 						validate.removeMessageOnComboBoxClick(cbItem, lmsg);
 					}
 				} catch (Exception e1) {
-					lmsg.setText("Some Error Occured !!");
+					lmsg.setText(CommonConstants.ERROR_ADMIN);
 					lmsg.setTextFill(Color.MAROON);
 					e1.printStackTrace();
 				}
@@ -733,7 +737,8 @@ public class Settings
 						listOfItems.addAll(utiliesService.fetchItem(cbCategory.getValue().getCategotyId()));
 						validate.removeMessageOnComboBoxClick(cbItem, lmsg);
 					} catch (Exception e1) {
-						lmsg.setText("Some Error Occured !!");
+						lmsg.setText(CommonConstants.ERROR_ADMIN);
+						lmsg.setTextFill(Color.MAROON);
 						e1.printStackTrace();
 					}
 				} else {
@@ -911,7 +916,8 @@ public class Settings
 		 				try
 		 				{
 							utiliesService.addTypes(categories.getValue(), type.getText());
-							msg.setText("Type added Successfully to Category");
+							msg.setText(CommonConstants.TYPE_ADDED_SUCCESSFULLY);
+							msg.setTextFill(Color.GREENYELLOW);
 							validate.removeMessageOnTextFieldClick(type, msg);
 						}
 		 				catch (Exception e1) 
@@ -1025,7 +1031,8 @@ public class Settings
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					
-					msg.setText("Some error occured..");
+					msg.setText(CommonConstants.ERROR_ADMIN);
+					msg.setTextFill(Color.MAROON);
 				}
 			}
 		});
@@ -1059,7 +1066,8 @@ public class Settings
 		 				catch (Exception e1) 
 		 				{
 		 					
-		 					msg.setText("Some error occured..");
+		 					msg.setText(CommonConstants.ERROR_ADMIN);
+		 					msg.setTextFill(Color.MAROON);
 						}
 		 			}
 		 		});
@@ -1111,7 +1119,8 @@ public class Settings
 				}
  				catch (Exception e1) 
  				{
- 					msg.setText("Some error occured..");
+ 					msg.setText(CommonConstants.ERROR_ADMIN);
+ 					msg.setTextFill(Color.MAROON);
 				}
  			}
  		});
@@ -1132,7 +1141,8 @@ public class Settings
 						}
 		 				catch (Exception e1) 
 		 				{
-		 					msg.setText("Some error occured..");
+		 					msg.setText(CommonConstants.ERROR_ADMIN);
+		 					msg.setTextFill(Color.MAROON);
 						}
 		 			}
 		 		});
@@ -1315,7 +1325,8 @@ public class Settings
 				
 					// TODO Auto-generated catch block
 					
-					msg.setText("Some error occured..");
+					msg.setText(CommonConstants.ERROR_ADMIN);
+					msg.setTextFill(Color.MAROON);
 				}
 			}
 		});
@@ -1333,7 +1344,8 @@ public class Settings
 				} catch (Exception e) {
 				
 					// TODO Auto-generated catch block
-					msg.setText("Some error occured..");
+					msg.setText(CommonConstants.ERROR_ADMIN);
+					msg.setTextFill(Color.MAROON);
 				}
 			}
 		});
@@ -1356,10 +1368,12 @@ public class Settings
 		 					itemTypeVO.setHp(Integer.parseInt(hp.getText()));
 							utiliesService.addItemTypes(itemTypeVO);
 							msg.setText("Details added Successfully to Category");
+							msg.setTextFill(Color.GREENYELLOW);
 						}
 		 				catch (Exception e1) 
 		 				{
-		 					msg.setText("Data Already Exists ! \nPlease select Edit if you want to edit !");
+		 					msg.setText(CommonConstants.EDIT_DATA_EXISTS);
+		 					msg.setTextFill(Color.MAROON);
 							e1.printStackTrace();
 						}
 		 			}
@@ -1420,7 +1434,8 @@ public class Settings
 				} catch (Exception e) {
 				
 					// TODO Auto-generated catch block
-					msg.setText("Some error occured..");
+					msg.setText(CommonConstants.ERROR_ADMIN);
+					msg.setTextFill(Color.MAROON);
 				}
 			}
 		});
@@ -1438,7 +1453,8 @@ public class Settings
 				} catch (Exception e) {
 				
 					// TODO Auto-generated catch block
-					msg.setText("Some error occured..");
+					msg.setText(CommonConstants.ERROR_ADMIN);
+					msg.setTextFill(Color.MAROON);
 				}
 			}
 		});
@@ -1460,7 +1476,8 @@ public class Settings
 				} catch (Exception e) {
 				
 					// TODO Auto-generated catch block
-					msg.setText("Some error occured..");
+					msg.setText(CommonConstants.ERROR_ADMIN);
+					msg.setTextFill(Color.MAROON);
 				}
 			}
 		});
@@ -1478,10 +1495,12 @@ public class Settings
 		 					getItemTypeVO().setHp(Integer.parseInt(hp.getText()));
 							utiliesService.updateItemTypes(getItemTypeVO());
 							msg.setText("Details Updated Successfully to Category");
+							msg.setTextFill(Color.GREENYELLOW);
 						}
 		 				catch (Exception e1) 
 		 				{
-		 					msg.setText("Data Already Exists ! \nPlease select Edit if you want to edit !");
+		 					msg.setText(CommonConstants.EDIT_DATA_EXISTS);
+		 					msg.setTextFill(Color.MAROON);
 							e1.printStackTrace();
 						}
 		 			}
