@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -26,11 +27,14 @@ public class OutgoingStockDAO
 		Connection conn = null;
 		ResultSet resultSet = null;
 		SQLiteConfig config = null;
-		java.sql.Statement statement = null;
+		Statement statement = null;
+		PreparedStatement prep = null;
 		Class.forName(CommonConstants.DRIVERNAME);
 		String msg = CommonConstants.UPDATE_MSG;
 		ObservableList<ItemVO> itemList = FXCollections.observableArrayList();
 		itemList = new StockDetailsDAO().viewStock(categoryId);
+		ObservableList<String> tempItemId = FXCollections.observableArrayList();
+		ObservableList<String> tempTypeId = FXCollections.observableArrayList();
 		
 		String sDbUrl = CommonConstants.sJdbc + ":" + CommonConstants.DB_LOCATION + CommonConstants.sTempDb;
 		
@@ -40,8 +44,19 @@ public class OutgoingStockDAO
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
 			statement = conn.createStatement();
+			
 			String splitsDate[] = date.split("/");
 			date = splitsDate[2]+"-"+splitsDate[1]+"-"+splitsDate[0];
+			
+			prep = conn.prepareStatement(SQLConstants.FETCH_OUTGOING_BY_DATE);
+			prep.setString(1, date);
+			resultSet = prep.executeQuery();
+			
+			while(resultSet.next())
+			{
+				tempItemId.add(resultSet.getString(1));
+				tempTypeId.add(resultSet.getString(2));
+			}
 			
 			for(ItemVO itemVO : listData)
 			{
@@ -63,9 +78,23 @@ public class OutgoingStockDAO
 								{
 									statement.addBatch(SQLConstants.UPDATE_DEL_ITEMS_TYPES_1 + itemTypeVO.getQuantity() + SQLConstants.UPDATE_DEL_ITEMS_TYPES_2 +
 											itemVO.getItemId() + SQLConstants.UPDATE_DEL_ITEMS_TYPES_3 + itemTypeVO.getTypeId() + SQLConstants.UPDATE_DEL_ITEMS_TYPES_4);
+									if(tempItemId.contains(itemTypeVO.getItemId()))
+									{
+										if(tempTypeId.contains(itemTypeVO.getTypeId()))
+										{
+											statement.addBatch(SQLConstants.UPDATE_OUTGOING_STOCK_DETAILS_1+itemTypeVO.getQuantity()+
+													SQLConstants.UPDATE_OUTGOING_STOCK_DETAILS_2+itemTypeVO.getItemId()+
+													SQLConstants.UPDATE_OUTGOING_STOCK_DETAILS_3+itemTypeVO.getTypeId()+
+													SQLConstants.UPDATE_OUTGOING_STOCK_DETAILS_4+date+
+													SQLConstants.UPDATE_OUTGOING_STOCK_DETAILS_5);
+										}
+									}
+									else
+									{
 									statement.addBatch(SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_1+date+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_2+
 											itemTypeVO.getItemId()+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_2+itemTypeVO.getTypeId()+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_3+
 											itemTypeVO.getQuantity()+SQLConstants.INSERT_OUTGOING_STOCK_DETAILS_4);
+									}
 								}
 							}
 							else
@@ -82,8 +111,7 @@ public class OutgoingStockDAO
 		}
 		catch (Exception e) 
 		{
-			msg = e.getMessage();
-			e.printStackTrace();
+			throw e;
 		}
 		finally
 		{

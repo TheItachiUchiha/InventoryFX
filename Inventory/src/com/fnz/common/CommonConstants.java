@@ -78,6 +78,7 @@ public class CommonConstants
 	public static final String LOW_STOCK_MSG = " is low in Stock";
 	public static final String QTY_LOW = " Low in Stock";
 	public static final String DATE_COMPARE = "Start date can't be greater than End date";
+	public static final String ERROR_ADMIN = "Some Error Occured. Please contact Administrator.";
 
 	public static final String PURCHASE_INVOICE_ERROR = "InvoiceId & Date already exists. Incase of incorrect entry, please delete from history";
 }

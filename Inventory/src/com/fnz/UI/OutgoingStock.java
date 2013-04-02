@@ -668,7 +668,8 @@ public class OutgoingStock
 	 				} 
 	 				catch (Exception e1) 
 					{
-						e1.printStackTrace();
+	 					msg.setText(CommonConstants.ERROR_ADMIN);
+						msg.setTextFill(Color.MAROON);	
 					}
 	 			}
 	 			}
