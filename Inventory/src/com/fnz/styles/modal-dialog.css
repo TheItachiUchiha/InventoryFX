@@ -9,8 +9,11 @@
 	-fx-spacing:10;
 	-fx-alignment:center;
 	-fx-font-size:20;
-	-fx-background-color:linear-gradient(tobottom,derive(-fx-glass-color,20%),-fx-glass-color);
-	-fx-border-color:derive(-fx-glass-color,-20%);
+	/*-fx-background-color:linear-gradient(derive(-fx-glass-color,70%),-fx-glass-color);*/
+	-fx-background-color:linear-gradient(derive(rgb(255,239,213),70%),rgb(255,239,213));
+	
+	/*-fx-border-color:derive(-fx-glass-color,-20%);*/
+	-fx-border-color:derive(rgb(255,239,213),-20%);
 	-fx-border-width:5;
 	-fx-background-insets:12;
 	-fx-border-insets:10;
