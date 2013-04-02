@@ -71,7 +71,7 @@ public class IncomingStockDAO
 						statement.addBatch(SQLConstants.INSERT_INCOMING_STOCK_DETAILS_1+invoiceNo+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_2+
 								date + SQLConstants.INSERT_INCOMING_STOCK_DETAILS_3+
 								itemVO.getItemId()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_3+itemTypeVO.getTypeId()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_4+
-								itemTypeVO.getQuantity()+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_5);
+								itemTypeVO.getQuantity()*CommonConstants.CASE_SIZE+SQLConstants.INSERT_INCOMING_STOCK_DETAILS_5);
 					}
 				}
 			}
