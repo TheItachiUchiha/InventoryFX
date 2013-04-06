@@ -594,7 +594,7 @@ public class StockDetails
 			qtyRect.setFill(Color.rgb(240,128,128));
 			
 			grid.add(table1,0,12);
-			grid.add(table2,1,12);
+			//grid.add(table2,1,12);
 			grid.setAlignment(Pos.TOP_CENTER);
 			
 			Text man_text=new Text(CommonConstants.STAR_MSG);

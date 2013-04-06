@@ -24,6 +24,9 @@ public class CommonConstants
 	
 	public static final int CASE_SIZE = 12;
 	
+	public static final String ENABLED = "Y";
+	public static final String DISABLED = "N";
+	
 	public static final String STATUS_LOW_ON_STOCK = "Cancelled";
 	
 	public static final String STATUS_AVAILABLE = "Available";

@@ -46,8 +46,6 @@ public class MainWindow extends Application
 	
 	private Scene scene;
 	
-	
-	
 	public Settings settings;
 	public StockDetails stockDetails;
 	public UtiliesService utiliesService;

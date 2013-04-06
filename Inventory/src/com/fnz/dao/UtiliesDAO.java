@@ -110,14 +110,33 @@ public class UtiliesDAO
 			}
 			
 			
+			pstmt1 = null;
+			resultSet = null;
+			pstmt1 = conn.prepareStatement(SQLConstants.FETCH_LATEST_ITEM_TABLE_NAME_EXISTANCE);
+			pstmt1.setString(1, itemVO.getItemName());
+			resultSet = pstmt1.executeQuery();
+			
+			if(resultSet.next())
+			{
+				newItemId = resultSet.getString(1);
+				pstmt = conn.prepareStatement(SQLConstants.UPDATE_ITEM_TABLE);
+				pstmt.setString(1, itemVO.getItemName());
+				pstmt.execute();
+			}
+			else
+			{			
+				pstmt.setString(1, newItemId);
+				pstmt.setString(2, itemVO.getItemName());
+				pstmt.setString(3, itemVO.getCategoryId());
+				pstmt.setString(4, CommonConstants.ENABLED);
+				
+				pstmt.execute();
+			}
+			
 			pstmt.setQueryTimeout(CommonConstants.TIMEOUT);
 			
 			
-			pstmt.setString(1, newItemId);
-			pstmt.setString(2, itemVO.getItemName());
-			pstmt.setString(3, itemVO.getCategoryId());	
 			
-			pstmt.execute();
 			
 			
 			
@@ -673,13 +692,16 @@ public class UtiliesDAO
 			config.enforceForeignKeys(true);
 
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.DELETE_ITEM_TYPE_TABLE);
-			
+			pstmt = conn.prepareStatement(SQLConstants.DELETE_ITEM_TYPE_TABLE_ITEM);
 			pstmt.setString(1, itemId);
 			pstmt.execute();
 			
+			
+			//Not required when we have entered the ENABLED TAB FOR ITEMS AND TYOES
+			
 			pstmt = conn.prepareStatement(SQLConstants.DELETE_ITEMS);
-			pstmt.setString(1, itemId);
+			pstmt.setString(1, CommonConstants.DISABLED);
+			pstmt.setString(2, itemId);
 			pstmt.execute();
 			
 		}
@@ -880,7 +902,7 @@ public class UtiliesDAO
 			config = new SQLiteConfig();
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.INSERT_CATEGORY_TYPES);
+			
 			
 			
 			pstmt1 = conn.prepareStatement(SQLConstants.FETCH_LATEST_CATEGORY_TYPE);
@@ -905,15 +927,29 @@ public class UtiliesDAO
 				newTypeId = newTypeId + latestRow.toString();
 			}
 			
+			pstmt1 = null;
+			resultSet = null;
+			pstmt1 = conn.prepareStatement(SQLConstants.FETCH_LATEST_CATEGORY_TYPE_NAME_EXISTANCE);
+			pstmt1.setString(1, typeName);
+			resultSet = pstmt1.executeQuery();
+			pstmt1 = null;
 			
-			pstmt.setQueryTimeout(CommonConstants.TIMEOUT);
-			
-			
-			pstmt.setString(1, newTypeId);	
-			pstmt.setString(2, typeName);
-			pstmt.setString(3, categoryVO.getCategotyId());
-			
-			pstmt.executeUpdate();
+			if(resultSet.next())
+			{
+				newTypeId = resultSet.getString(1);
+				pstmt = conn.prepareStatement(SQLConstants.UPDATE_CATEGORY_TYPES);
+				pstmt.setString(1, typeName);
+				pstmt.execute();
+			}
+			else
+			{			
+				pstmt = conn.prepareStatement(SQLConstants.INSERT_CATEGORY_TYPES);
+				pstmt.setString(1, newTypeId);	
+				pstmt.setString(2, typeName);
+				pstmt.setString(3, categoryVO.getCategotyId());
+				pstmt.setString(4, CommonConstants.ENABLED);
+				pstmt.executeUpdate();
+			}
 			
 		}
 		catch (Exception e) 
@@ -976,8 +1012,14 @@ public class UtiliesDAO
 			config = new SQLiteConfig();
 			config.enforceForeignKeys(true);
 			conn = DriverManager.getConnection(sDbUrl, config.toProperties());
-			pstmt = conn.prepareStatement(SQLConstants.DELETE_CATEGORY_TYPE);
+			
+			pstmt = conn.prepareStatement(SQLConstants.DELETE_ITEM_TYPE_TABLE_TYPE);
 			pstmt.setString(1, deleteCategoryTypes.getTypeId());
+			pstmt.execute();
+			
+			pstmt = conn.prepareStatement(SQLConstants.DELETE_CATEGORY_TYPE);
+			pstmt.setString(1, CommonConstants.DISABLED);
+			pstmt.setString(2, deleteCategoryTypes.getTypeId());
 			pstmt.execute();
 			
 		}

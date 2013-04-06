@@ -5,13 +5,13 @@ public class SQLConstants
 	
 	public static final String CREATE_CATEGORY_TABLE = "CREATE TABLE if not exists CATEGORY_TABLE (CATEGORY_ID text PRIMARY KEY, CATEGORY_NAME TEXT UNIQUE NOT NULL)";
 	
-	public static final String CREATE_ITEM_TABLE = "CREATE TABLE if not exists ITEMS_TABLE (ITEM_ID text UNIQUE NOT NULL,ITEM_NAME text UNIQUE NOT NULL,CATEGORY_ID TEXT)";
+	public static final String CREATE_ITEM_TABLE = "CREATE TABLE if not exists ITEMS_TABLE (ITEM_ID text UNIQUE NOT NULL,ITEM_NAME text UNIQUE NOT NULL, CATEGORY_ID TEXT,ENABLED TEXT)";
 	
 	public static final String INDEX_ITEM_TABLE = "CREATE INDEX IF NOT EXISTS INDEX_ITEMS_TABLE ON ITEMS_TABLE (CATEGORY_ID)";
 			
 	
-	public static final String CREATE_CATEGORY_TYPES = "CREATE TABLE if not exists CATEGORY_TYPES (TYPE_ID text PRIMARY KEY,TYPE TEXT NOT NULL, CATEGORY_ID TEXT,"+
-			"UNIQUE(TYPE,CATEGORY_ID), FOREIGN KEY(CATEGORY_ID) REFERENCES CATEGORY_TABLE(CATEGORY_ID))" ;
+	public static final String CREATE_CATEGORY_TYPES = "CREATE TABLE if not exists CATEGORY_TYPES (TYPE_ID text PRIMARY KEY,TYPE TEXT NOT NULL, CATEGORY_ID TEXT, ENABLED TEXT,"+
+			"UNIQUE(TYPE,CATEGORY_ID,ENABLED), FOREIGN KEY(CATEGORY_ID) REFERENCES CATEGORY_TABLE(CATEGORY_ID))" ;
 	
 	public static final String INDEX_CATEGORY_TYPES = "CREATE INDEX IF NOT EXISTS INDEX_CATEGORY_TYPES ON CATEGORY_TYPES (CATEGORY_ID)";
 
@@ -42,7 +42,7 @@ public class SQLConstants
 	
 	public static final String INSERT_CATEGORY_1 = "INSERT OR IGNORE INTO CATEGORY_TABLE (CATEGORY_ID, CATEGORY_NAME)";
 	
-	public static final String INSERT_ITEM = "INSERT INTO ITEMS_TABLE values (?,?,?)";
+	public static final String INSERT_ITEM = "INSERT INTO ITEMS_TABLE values (?,?,?,?)";
 	
 	public static final String INSERT_ITEMS_TYPES = "INSERT INTO ITEMS_TYPES_TABLE values (?,?,?,?,?,?)";
 	
@@ -52,7 +52,7 @@ public class SQLConstants
 
 	public static final String INSERT_INCOMING_STOCK = "INSERT INTO INCOMING_STOCK values (?,?,?)";
 	
-	public static final String INSERT_CATEGORY_TYPES = "INSERT INTO CATEGORY_TYPES values (?,?,?)";
+	public static final String INSERT_CATEGORY_TYPES = "INSERT INTO CATEGORY_TYPES values (?,?,?,?)";
 	
 	public static final String FETCH_LATEST_CATEGORY = "SELECT max(rowid) as row from CATEGORY_TABLE";
 	
@@ -60,25 +60,27 @@ public class SQLConstants
 	
 	public static final String FETCH_LATEST_CATEGORY_TYPE = "SELECT max(rowid) as row from CATEGORY_TYPES";
 	
-	public static final String FETCH_ITEM_FROM_CATEGORY = "SELECT ITEM_ID, ITEM_NAME from ITEMS_TABLE where CATEGORY_ID =? ";
+	public static final String FETCH_ITEM_FROM_CATEGORY = "SELECT DISTINCT ITEM_ID, ITEM_NAME from ITEMS_TABLE IT,CATEGORY_TYPES CT where IT.CATEGORY_ID =? AND CT.CATEGORY_ID = IT.CATEGORY_ID AND IT.ENABLED = 'Y' AND CT.ENABLED = 'Y'";
 	
 	public static final String FETCH_CATEGORY = "SELECT CATEGORY_ID,CATEGORY_NAME FROM CATEGORY_TABLE";
 	
-	public static final String FETCH_ITEMS = "SELECT ITEM_ID, ITEM_NAME,CATEGORY_ID FROM ITEMS_TABLE where category_id=?";
+	public static final String FETCH_ITEMS = "SELECT ITEM_ID, ITEM_NAME,CATEGORY_ID FROM ITEMS_TABLE where category_id=? AND ENABLED = 'Y'";
 	
 	public static final String FETCH_ITEMS_TYPES = "SELECT TYPE_ID,QUANTITY,D_PRICE,MRP,H_PRICE FROM ITEMS_TYPES_TABLE WHERE ITEM_ID =" ;
 	
 	public static final String FETCH_ITEMS_TYPES_2 = "AND TYPE_ID IN ";
 	
-	public static final String FETCH_TYPE_FROM_CATEGORY = "SELECT TYPE_ID, TYPE FROM CATEGORY_TYPES WHERE CATEGORY_ID = ?";
+	public static final String FETCH_TYPE_FROM_CATEGORY = "SELECT TYPE_ID, TYPE FROM CATEGORY_TYPES WHERE CATEGORY_ID = ? AND ENABLED = 'Y'";
 	
-	public static final String DELETE_CATEGORY_TYPE = "DELETE FROM CATEGORY_TYPES WHERE TYPE_ID = ?";
+	public static final String DELETE_CATEGORY_TYPE = "UPDATE CATEGORY_TYPES SET ENABLED = ? WHERE TYPE_ID = ?";
 	
 	public static final String EDIT_CATEGORY_TYPE = "UPDATE CATEGORY_TYPES SET TYPE = ? WHERE TYPE_ID = ?";
 	
-	public static final String DELETE_ITEMS = "DELETE FROM ITEMS_TABLE where ITEM_ID = ?";
+	public static final String DELETE_ITEMS = "UPDATE ITEMS_TABLE SET ENABLED = ? where ITEM_ID = ?";
 	
-	public static final String DELETE_ITEM_TYPE_TABLE = "DELETE FROM ITEMS_TYPES_TABLE where ITEM_ID = ?";
+	public static final String DELETE_ITEM_TYPE_TABLE_ITEM = "DELETE FROM ITEMS_TYPES_TABLE where ITEM_ID = ?";
+	
+	public static final String DELETE_ITEM_TYPE_TABLE_TYPE = "DELETE FROM ITEMS_TYPES_TABLE where TYPE_ID = ?";
 	
 	public static final String EDIT_ITEMS = "UPDATE ITEMS_TABLE SET ITEM_NAME = ? where ITEM_ID = ?";
 	
@@ -165,5 +167,11 @@ public class SQLConstants
 	public static final String ADD_TRANSACTION_UPDATE_ITEM_TYPE_3 = "' AND TYPE_ID ='";
 	public static final String ADD_TRANSACTION_UPDATE_ITEM_TYPE_4 = "';";
 			
+	public static final String FETCH_LATEST_CATEGORY_TYPE_NAME_EXISTANCE = "SELECT TYPE_ID from CATEGORY_TYPES WHERE TYPE = ?";
 	
+	public static final String FETCH_LATEST_ITEM_TABLE_NAME_EXISTANCE = "SELECT ITEM_ID from ITEMS_TABLE WHERE ITEM_NAME = ?";
+	
+	public static final String UPDATE_CATEGORY_TYPES = "UPDATE CATEGORY_TYPES SET ENABLED = 'Y' WHERE TYPE = ?";
+	
+	public static final String UPDATE_ITEM_TABLE = "UPDATE ITEMS_TABLE SET ENABLED = 'Y' WHERE ITEM_NAME = ?";
 }
