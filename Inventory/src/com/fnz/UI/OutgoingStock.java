@@ -326,8 +326,8 @@ public class OutgoingStock
 		
 		GridPane grid = new GridPane();
 	
-        grid.setVgap(8);
-        grid.setPadding(new Insets(30));
+        grid.setVgap(5);
+        grid.setPadding(new Insets(15));
 		final ObservableList<ItemVO> dataTable;
 		final ObservableList<ItemVO> dataTable1;
 		//final ObservableList<ItemVO> dataTable2;
@@ -409,9 +409,10 @@ public class OutgoingStock
 			invoiceBox.getChildren().add(invoiceField);*/
 			
 			HBox dateBox = new HBox();
-			dateBox.setPadding(new Insets(0.5, 0, 0.5, 50));
+			dateBox.setPadding(new Insets(0.5, 50, 0.5, 0));
+			dateBox.setAlignment(Pos.CENTER_RIGHT);
 			Text star1=new Text("*  ");
-			star1.setFill(Color.MAROON);  
+			star1.setFill(Color.RED);  
 		     star1.setFont(Font.font ("calibri", 15));
 		     
 			Label l2=new Label("Date");
@@ -424,10 +425,12 @@ public class OutgoingStock
 			
 			
 			
-		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
+			final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(true);
-		 	table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
-		 	table1.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);
+		 	//table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
+		 	//table1.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);//400,300
+		 	table1.setMinSize(roundRect.getWidth()*0.41, roundRect.getHeight()*0.519);//400,300
+		 	table1.setMaxSize(roundRect.getWidth()-50, roundRect.getHeight()-200);
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
 		 	/*final TableView<ItemVO> table2 = new TableView<ItemVO>();
@@ -445,11 +448,14 @@ public class OutgoingStock
 		 	
 		 	
 		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
-		 	itemName.setMinWidth(roundRect.getWidth()*0.3);//200
+		 	itemName.setResizable(false);
+		 	itemName.setMinWidth(roundRect.getWidth()*0.5);//200
+		 	itemName.setMaxWidth(roundRect.getWidth()*0.5);
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity#");
+		 	quantity.setResizable(false);
 		 	quantity.setMinWidth(roundRect.getWidth()*0.107);
 		 	quantity.setEditable(true);
 		 	
@@ -459,6 +465,7 @@ public class OutgoingStock
 		 		 TableColumn<ItemVO, Integer> col = new TableColumn<ItemVO, Integer>(type.getTypeName());
 		 		 col.setMinWidth(roundRect.getWidth()*0.107);//100
 		 		 col.setEditable(true);
+		 		 col.setResizable(false);
 		 		
 		 		final Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>> cellFactory = new Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>>() {
 					public TableCell<ItemVO, Integer> call(TableColumn<ItemVO, Integer> p) {
@@ -494,6 +501,14 @@ public class OutgoingStock
 		 		}
 		 		
 		 		
+		 	if(quantity.getColumns().size()>=5 && quantity.getColumns().size()<=7)
+		 	{
+		 		itemName.setMinWidth(itemName.getWidth() - (quantity.getColumns().size()-4)*100);
+		 	}
+		 	if(quantity.getColumns().size()>7)
+		 	{
+		 		itemName.setMinWidth(itemName.getWidth() - ((7-4)*100));
+		 	}
 		 	
 		 	table1.setItems(dataTable);
 		 	final TableColumn[] columns1 = {itemName, quantity};
@@ -587,7 +602,7 @@ public class OutgoingStock
 	 			public void handle(ActionEvent e) 
 	 			{
 	 				if (validate.isEmpty(date.getTextField())){
-	 					msg.setTextFill(Color.MAROON);
+	 					msg.setTextFill(Color.RED);
 	 					
 	 					date.getTextField().getStyleClass().add("error");
 	 					
@@ -596,7 +611,7 @@ public class OutgoingStock
 	 				else{
 	 					
 	 					if (validate.isInvalidDate(date.getTextField())){
-	 						msg.setTextFill(Color.MAROON);
+	 						msg.setTextFill(Color.RED);
 	 						
 		 					date.getTextField().getStyleClass().add("error");
 		 					msg.setText(CommonConstants.WRONG_DATE);
@@ -659,17 +674,17 @@ public class OutgoingStock
 								}
 							}
 							msg.setText(tempItemName +"'s" + " " + tempTypeName + CommonConstants.LOW_STOCK_MSG);
-							msg.setTextFill(Color.MAROON);						}
+							msg.setTextFill(Color.RED);						}
 						else
 						{
 							msg.setText(tempMsg);
 						}
-	 					/*date.getTextField().clear();*/
+	 					date.getTextField().clear();
 	 				} 
 	 				catch (Exception e1) 
 					{
 	 					msg.setText(CommonConstants.ERROR_ADMIN);
-						msg.setTextFill(Color.MAROON);	
+						msg.setTextFill(Color.RED);	
 					}
 	 			}
 	 			}
@@ -681,14 +696,21 @@ public class OutgoingStock
 			
 			
 			//grid.add(invoiceBox,0,11);
-			grid.add(dateBox, 1, 13);
-			grid.add(table1,0,13);
+			//HBox hDateBox2 = new HBox();
+			//hDateBox2.setPadding(new Insets(0, 50, 0, 0));
+			grid.add(dateBox, 0, 2);
+			//hDateBox2.getChildren().add(dateBox);
+			//hDateBox2.setAlignment(Pos.CENTER_RIGHT);
+			//grid.add(hDateBox2,0,2);
+			
+			grid.add(table1,0,5);
+			
 			//grid.add(table2,1,13);
 			HBox hBut = new HBox();
 			hBut.setMaxHeight(5);
 			hBut.getChildren().add(button);
 			hBut.setAlignment(Pos.CENTER);
-			grid.add(hBut,0,15,3,15);
+			grid.add(hBut,0,7,3,7);
 			
 			//grid.add(button,1,14);
 			HBox hMsg = new HBox();
@@ -696,9 +718,9 @@ public class OutgoingStock
 			hMsg.getChildren().add(msg);
 			//hMsg.setStyle("-fx-background-color: red");
 			hMsg.setAlignment(Pos.CENTER);
-			grid.add(hMsg,0,17,3,17);
+			grid.add(hMsg,0,13,3,9);
 			grid.setAlignment(Pos.TOP_CENTER);
-			StackPane.setMargin(grid, new Insets(11,0,0,0));
+			StackPane.setMargin(grid, new Insets(85,0,0,0));
 			
 			Text man_text=new Text(CommonConstants.STAR_MSG);
 			man_text.setFill(Color.DARKKHAKI);  

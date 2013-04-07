@@ -54,10 +54,10 @@ public class Settings
 		animation = new Animation();
 		listOfCategories = UtiliesDAO.getUtiliesDAO().categoryList;
 		star1=new Text("*  ");
-		star1.setFill(Color.MAROON);  
+		star1.setFill(Color.RED);  
 	    star1.setFont(Font.font ("calibri", 15));
 	    star2=new Text("*  ");
-		star2.setFill(Color.MAROON);  
+		star2.setFill(Color.RED);  
 	    star2.setFont(Font.font ("calibri", 15));
 	    flag=false;
 	   
@@ -512,7 +512,7 @@ public class Settings
 					if(listOfTypes.size()==0)
 					{
 						lmsg.setText("Please set a Type \nFor The Category");
-						lmsg.setTextFill(Color.MAROON);
+						lmsg.setTextFill(Color.RED);
 						add.setDisable(true);
 						itemName.setDisable(true);
 					}
@@ -539,12 +539,12 @@ public class Settings
  				try 
  				{
  					if (validate.isEmpty(itemName)){
- 						lmsg.setTextFill(Color.MAROON);
+ 						lmsg.setTextFill(Color.RED);
  						itemName.getStyleClass().add("error");
  						lmsg.setText(CommonConstants.EMPTY_MSG);
  					}
  					else if((cbcategory.getValue()) == null){
- 						lmsg.setTextFill(Color.MAROON);
+ 						lmsg.setTextFill(Color.RED);
  						itemName.getStyleClass().remove("error");
  						//cbcategory.getStyleClass().add("error");
  						lmsg.setText(CommonConstants.COMBO_MSG);
@@ -571,7 +571,7 @@ public class Settings
  				catch (Exception e1) 
 				{
  					
- 					lmsg.setTextFill(Color.MAROON);
+ 					lmsg.setTextFill(Color.RED);
 					lmsg.setText(CommonConstants.ALREADY_EXISTS);
 					e1.printStackTrace();
 				}
@@ -585,10 +585,10 @@ public class Settings
  {
 
 		star3 = new Text("*  ");
-		star3.setFill(Color.MAROON);
+		star3.setFill(Color.RED);
 		star3.setFont(Font.font("calibri", 15));
 		star4 = new Text("*  ");
-		star4.setFill(Color.MAROON);
+		star4.setFill(Color.RED);
 		star4.setFont(Font.font("calibri", 15));
 		final GridPane settings = new GridPane();
 		// list Creation
@@ -627,7 +627,7 @@ public class Settings
 		box.setSpacing(10);
 		box.getChildren().addAll(edit, delete);
 		star5 = new Text("*  ");
-		star5.setFill(Color.MAROON);
+		star5.setFill(Color.RED);
 		star5.setFont(Font.font("calibri", 15));
 		final HBox heditLabel = new HBox();
 		final Label editLabel = new Label("New Item Name");
@@ -648,7 +648,7 @@ public class Settings
 					listOfItems.addAll(utiliesService.fetchItem(newValue.getCategotyId()));
 				} catch (Exception e) {
 					lmsg.setText(CommonConstants.ERROR_ADMIN);
-					lmsg.setTextFill(Color.MAROON);
+					lmsg.setTextFill(Color.RED);
 					e.printStackTrace();
 				}
 				/*if (flag == false) {
@@ -684,11 +684,11 @@ public class Settings
 
 					} else {
 						lmsg.setText(CommonConstants.SELECT_ITEM_MSG);
-						lmsg.setTextFill(Color.MAROON);
+						lmsg.setTextFill(Color.RED);
 					}
 				} catch (Exception e1) {
 					lmsg.setText(CommonConstants.ERROR_ADMIN);
-					lmsg.setTextFill(Color.MAROON);
+					lmsg.setTextFill(Color.RED);
 					e1.printStackTrace();
 				}
 			}
@@ -702,7 +702,7 @@ public class Settings
 					if (validate.isEmpty(editText)) {
 
 						// settings.getChildren().remove(lmsg);
-						lmsg.setTextFill(Color.MAROON);
+						lmsg.setTextFill(Color.RED);
 						lmsg.setText(CommonConstants.EMPTY_MSG);
 
 					} else {
@@ -722,7 +722,7 @@ public class Settings
 					}
 				} catch (Exception e1) {
 					lmsg.setText(CommonConstants.ERROR_ADMIN);
-					lmsg.setTextFill(Color.MAROON);
+					lmsg.setTextFill(Color.RED);
 					e1.printStackTrace();
 				}
 			}
@@ -747,11 +747,11 @@ public class Settings
 						validate.removeMessageOnComboBoxClick(cbItem, lmsg);
 					} catch (Exception e1) {
 						lmsg.setText(CommonConstants.ERROR_ADMIN);
-						lmsg.setTextFill(Color.MAROON);
+						lmsg.setTextFill(Color.RED);
 						e1.printStackTrace();
 					}
 				} else {
-					lmsg.setTextFill(Color.MAROON);
+					lmsg.setTextFill(Color.RED);
 					lmsg.setText(CommonConstants.COMBO_MSG);
 				}
 			}
@@ -939,7 +939,7 @@ public class Settings
 						}
 		 				catch (Exception e1) 
 		 				{
-		 					msg.setTextFill(Color.MAROON);
+		 					msg.setTextFill(Color.RED);
 							msg.setText(CommonConstants.ALREADY_EXISTS);
 							e1.printStackTrace();
 						}
@@ -1058,7 +1058,7 @@ public class Settings
 					// TODO Auto-generated catch block
 					
 					msg.setText(CommonConstants.ERROR_ADMIN);
-					msg.setTextFill(Color.MAROON);
+					msg.setTextFill(Color.RED);
 				}
 			}
 		});
@@ -1086,14 +1086,14 @@ public class Settings
 		 					gridPane.getChildren().remove(msg);
 							utiliesService.deleteCategoryTypes(type.getValue());
 							msg.setText("\""+type.getValue().getTypeName()+"\" "+ CommonConstants.DEL_MSG);
-							msg.setTextFill(Color.MAROON);
+							msg.setTextFill(Color.RED);
 							gridPane.add(msg,1,7);
 						}
 		 				catch (Exception e1) 
 		 				{
 		 					
 		 					msg.setText(CommonConstants.ERROR_ADMIN);
-		 					msg.setTextFill(Color.MAROON);
+		 					msg.setTextFill(Color.RED);
 						}
 		 			}
 		 		});
@@ -1126,13 +1126,13 @@ public class Settings
  					{
  						gridPane.add(msg,1,5);
  						msg.setText(CommonConstants.SELECT_CATEGORY);
- 						msg.setTextFill(Color.MAROON);
+ 						msg.setTextFill(Color.RED);
  					}
  					else if(type.getValue() == null)
  					{
  						gridPane.add(msg,1,5);
  						msg.setText(CommonConstants.SELECT_TYPE);
- 						msg.setTextFill(Color.MAROON);
+ 						msg.setTextFill(Color.RED);
  					}
  					else
  					{
@@ -1147,7 +1147,7 @@ public class Settings
  				catch (Exception e1) 
  				{
  					msg.setText(CommonConstants.ERROR_ADMIN);
- 					msg.setTextFill(Color.MAROON);
+ 					msg.setTextFill(Color.RED);
 				}
  			}
  		});
@@ -1169,7 +1169,7 @@ public class Settings
 		 				catch (Exception e1) 
 		 				{
 		 					msg.setText(CommonConstants.ERROR_ADMIN);
-		 					msg.setTextFill(Color.MAROON);
+		 					msg.setTextFill(Color.RED);
 						}
 		 			}
 		 		});
@@ -1360,7 +1360,7 @@ public class Settings
 					// TODO Auto-generated catch block
 					
 					msg.setText(CommonConstants.ERROR_ADMIN);
-					msg.setTextFill(Color.MAROON);
+					msg.setTextFill(Color.RED);
 				}
 			}
 		});
@@ -1379,7 +1379,7 @@ public class Settings
 				
 					// TODO Auto-generated catch block
 					msg.setText(CommonConstants.ERROR_ADMIN);
-					msg.setTextFill(Color.MAROON);
+					msg.setTextFill(Color.RED);
 				}
 			}
 		});
@@ -1407,7 +1407,7 @@ public class Settings
 		 				catch (Exception e1) 
 		 				{
 		 					msg.setText(CommonConstants.EDIT_DATA_EXISTS);
-		 					msg.setTextFill(Color.MAROON);
+		 					msg.setTextFill(Color.RED);
 							e1.printStackTrace();
 						}
 		 			}
@@ -1477,7 +1477,7 @@ public class Settings
 				
 					// TODO Auto-generated catch block
 					msg.setText(CommonConstants.ERROR_ADMIN);
-					msg.setTextFill(Color.MAROON);
+					msg.setTextFill(Color.RED);
 				}
 			}
 		});
@@ -1496,7 +1496,7 @@ public class Settings
 				
 					// TODO Auto-generated catch block
 					msg.setText(CommonConstants.ERROR_ADMIN);
-					msg.setTextFill(Color.MAROON);
+					msg.setTextFill(Color.RED);
 				}
 			}
 		});
@@ -1519,7 +1519,7 @@ public class Settings
 				
 					// TODO Auto-generated catch block
 					msg.setText(CommonConstants.ERROR_ADMIN);
-					msg.setTextFill(Color.MAROON);
+					msg.setTextFill(Color.RED);
 				}
 			}
 		});
@@ -1542,7 +1542,7 @@ public class Settings
 		 				catch (Exception e1) 
 		 				{
 		 					msg.setText(CommonConstants.EDIT_DATA_EXISTS);
-		 					msg.setTextFill(Color.MAROON);
+		 					msg.setTextFill(Color.RED);
 							e1.printStackTrace();
 						}
 		 			}

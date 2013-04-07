@@ -393,7 +393,7 @@ public class IncomingStock
 			label.setAlignment(Pos.CENTER_LEFT);
 		 	//grid.add(label,1,0);
 			Text star1=new Text("*  ");
-			star1.setFill(Color.MAROON);  
+			star1.setFill(Color.RED);  
 		     star1.setFont(Font.font ("calibri", 15));
 		     
 			final HBox invoiceBox = new HBox();
@@ -406,7 +406,7 @@ public class IncomingStock
 			invoiceBox.getChildren().add(invoiceField);
 			
 			Text star2=new Text("*  ");
-			star2.setFill(Color.MAROON);  
+			star2.setFill(Color.RED);  
 		     star2.setFont(Font.font ("calibri", 15));
 			HBox dateBox = new HBox();
 			dateBox.setPadding(new Insets(0.5, 0, 0.5, 50));
@@ -422,7 +422,7 @@ public class IncomingStock
 		 	table1.setEditable(true);
 		 	//table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
 		 	//table1.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);//400,300
-		 	table1.setMinSize(roundRect.getWidth()*0.41, roundRect.getHeight()*0.400);
+		 	table1.setMinSize(roundRect.getWidth()*0.41, roundRect.getHeight()*0.519);//400,300
 		 	table1.setMaxSize(roundRect.getWidth()-50, roundRect.getHeight()-200);
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
@@ -441,6 +441,7 @@ public class IncomingStock
 		 	
 		 	
 		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
+		 	itemName.setResizable(false);
 		 	itemName.setMinWidth(roundRect.getWidth()*0.5);//200
 		 	itemName.setMaxWidth(roundRect.getWidth()*0.5);
 		 	itemName.setCellValueFactory(
@@ -448,6 +449,7 @@ public class IncomingStock
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity†");
 		 	quantity.setMinWidth(roundRect.getWidth()*0.107);
+		 	quantity.setResizable(false);
 		 	quantity.setEditable(true);
 		 	
 		 	
@@ -456,6 +458,7 @@ public class IncomingStock
 		 		 TableColumn<ItemVO, Integer> col = new TableColumn<ItemVO, Integer>(type.getTypeName());
 		 		 col.setMinWidth(roundRect.getWidth()*0.107);//100
 		 		 col.setEditable(true);
+		 		col.setResizable(false);
 		 		
 		 		final Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>> cellFactory = new Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>>() {
 					public TableCell<ItemVO, Integer> call(TableColumn<ItemVO, Integer> p) {
@@ -593,7 +596,7 @@ public class IncomingStock
 	 			{
 	 				if (validate.isEmpty(invoiceField)){
 	 					
-	 					msg.setTextFill(Color.MAROON);
+	 					msg.setTextFill(Color.RED);
 	 					
 	 					msg.setText(CommonConstants.EMPTY_MSG);
 	 					invoiceField.requestFocus();
@@ -603,7 +606,7 @@ public class IncomingStock
 	 				
 	 				else{
 	 					if (validate.isEmpty(date.getTextField())){
-	 						msg.setTextFill(Color.MAROON);
+	 						msg.setTextFill(Color.RED);
 	 						invoiceField.getStyleClass().remove("error");
 		 					date.getTextField().getStyleClass().add("error");
 		 					msg.setText(CommonConstants.EMPTY_MSG);
@@ -612,7 +615,7 @@ public class IncomingStock
 	 				try 
 	 				{
 	 					if (validate.isInvalidDate(date.getTextField())){
-	 						msg.setTextFill(Color.MAROON);
+	 						msg.setTextFill(Color.RED);
 	 						invoiceField.getStyleClass().remove("error");
 		 					date.getTextField().getStyleClass().add("error");
 		 					msg.setText(CommonConstants.WRONG_DATE);
@@ -661,15 +664,15 @@ public class IncomingStock
 	 							}
 	 					}*/
 	 					msg.setText(incomingStockService.addIncomingStock(invoiceField.getText(), date.getTextField().getText(), dataTable1, typeList));
-	 					/*invoiceField.clear();
-	 					date.getTextField().clear();*/
+	 					invoiceField.clear();
+	 					date.getTextField().clear();
 	 					}
 	 				} 
 	 				catch (Exception e1) 
 					{
 	 					e1.printStackTrace();
 	 					msg.setText(CommonConstants.PURCHASE_INVOICE_ERROR);
-	 					msg.setTextFill(Color.MAROON);
+	 					msg.setTextFill(Color.RED);
 					}
 	 					}
 	 				}
@@ -678,27 +681,29 @@ public class IncomingStock
 			
 			
 			HBox hBox1 = new HBox();
+			hBox1.setAlignment(Pos.CENTER_LEFT);
+			hBox1.setSpacing(100);
 			hBox1.getChildren().addAll(invoiceBox,dateBox);
-			grid.add(hBox1,0,11);
+			grid.add(hBox1,0,0);
 			//grid.add(dateBox, 1, 11);
 			
-			grid.add(table1,0,13);
+			grid.add(table1,0,2);
 			//grid.add(table2,1,13);
 			HBox hBut = new HBox();
-			hBut.setMaxHeight(5);
+			//hBut.setMaxHeight(5);
 			hBut.getChildren().addAll(button);
 			hBut.setAlignment(Pos.CENTER);
-			grid.add(hBut,0,15,3,15);
+			grid.add(hBut,0,3,1,3);
 			
 			HBox hMsg = new HBox();
 			hMsg.setMaxHeight(5);
 			hMsg.getChildren().add(msg);
 			//hMsg.setStyle("-fx-background-color: red");
 			hMsg.setAlignment(Pos.CENTER);
-			grid.add(hMsg,0,17,3,17);
+			grid.add(hMsg,0,6,3,5);
 			
 			grid.setAlignment(Pos.TOP_CENTER);
-			StackPane.setMargin(grid, new Insets(11,0,0,0));
+			StackPane.setMargin(grid, new Insets(85,0,0,0));
 			
 			Text man_text=new Text(CommonConstants.STAR_MSG);
 			man_text.setFill(Color.DARKKHAKI);  

@@ -113,7 +113,7 @@ public class TransactionHistory
 		hTableResult.setMaxHeight(300);
 		
 		final Text lMsg=new Text();
-		lMsg.setFill(Color.MAROON);  
+		lMsg.setFill(Color.RED);  
 		lMsg.setFont(Font.font ("Arial", 12));
 		
 		final GridPane gMain = new GridPane();
@@ -203,14 +203,14 @@ public class TransactionHistory
 					
 					//gMain.add(searchByDate, 4,1);
 					final Text star1=new Text("*");
-					star1.setFill(Color.MAROON);  
+					star1.setFill(Color.RED);  
 				     star1.setFont(Font.font ("calibri", 15));
 					
 					final Label sDate = new Label("Start Date");
 					sDate.setTextFill(Color.DARKGOLDENROD);
 					
 					final Text star2=new Text("*");
-					star2.setFill(Color.MAROON);  
+					star2.setFill(Color.RED);  
 				     star2.setFont(Font.font ("calibri", 15));
 					final Label eDate = new Label("End Date");
 					eDate.setTextFill(Color.DARKGOLDENROD);
@@ -243,7 +243,7 @@ public class TransactionHistory
 					hSearch.setPadding(new Insets(15, 0, 0, 0));
 					hSearch.getChildren().add(search);
 					final Text star3=new Text("*");
-					star3.setFill(Color.MAROON);  
+					star3.setFill(Color.RED);  
 				     star3.setFont(Font.font ("calibri", 15));
 				     HBox hTextInvoice = new HBox();
 					final Label invoiceId = new Label("Invoice Id");
@@ -441,11 +441,13 @@ public class TransactionHistory
 								 					}
 								 					else
 								 					{
+								 						BDelete.setVisible(false);
 								 						lMsg.setText(CommonConstants.WRONG_DATE);
 								 					}
 												}
 												else
 												{
+													BDelete.setVisible(false);
 													lMsg.setText(CommonConstants.EMPTY_MSG);
 												}
 												

@@ -399,12 +399,14 @@ public class StockDetails
 		 	
 		 	
 		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
+		 	itemName.setResizable(false);
 		 	itemName.setMaxWidth(roundRect.getWidth()*0.5);
 		 	itemName.setMinWidth(roundRect.getWidth()*0.5);//200
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity = new TableColumn<ItemVO, Integer> ("Quantity#");
+		 	quantity.setResizable(false);
 		 	quantity.setMinWidth(roundRect.getWidth()*0.107);//200
 		 
 		 	/*quantity.setCellValueFactory(
@@ -457,7 +459,7 @@ public class StockDetails
 									if(item<=5)
 									{
 										this.getStyleClass().add("celllow");
-										setTextFill(Color.MAROON);
+										setTextFill(Color.RED);
 									}
 								}
 									
@@ -562,7 +564,7 @@ public class StockDetails
 										if(item<=5)
 										{
 											this.getStyleClass().add("celllow");
-											setTextFill(Color.MAROON);
+											setTextFill(Color.RED);
 										}
 									}
 										
@@ -618,7 +620,7 @@ public class StockDetails
 			msg_qtyLow.setFill(Color.DARKKHAKI);  
 			msg_qtyLow.setFont(Font.font ("Arial",12));
 			
-			StackPane.setMargin(grid, new Insets(35,0,0,0));
+			StackPane.setMargin(grid, new Insets(10,0,0,0));
 			
 			StackPane.setMargin(qtyRect, new Insets(197,850,100,0));
 			StackPane.setAlignment(qtyRect, Pos.BASELINE_CENTER);
