@@ -396,10 +396,10 @@ public class Settings
 		      textAdd.setFont(Font.font ("Arial", 16));
 		   */
 		     // textAdd.setEffect(lighting);
-		      
+		    /*  
 		      final Text textDelete = new Text(25, 1000, "Edit/Delete Category Types");
 		      textDelete.setFill(Color.DARKGOLDENROD);  
-		      textDelete.setFont(Font.font ("Arial", 16));
+		      textDelete.setFont(Font.font ("Arial", 16));*/
 		    //  textDelete.setEffect(lighting);
 		      
 		     
@@ -423,16 +423,16 @@ public class Settings
 				StackPane.setMargin(textAdd, new Insets(0,700,300,roundRect1.getWidth()/1.40));
 			*/
 			
-				StackPane.setAlignment(textDelete,Pos.CENTER_RIGHT);
-				StackPane.setMargin(textDelete, new Insets(0,roundRect2.getWidth()/1.1,300,0));
+				/*StackPane.setAlignment(textDelete,Pos.CENTER_RIGHT);
+				StackPane.setMargin(textDelete, new Insets(0,roundRect2.getWidth()/1.1,300,0));*/
 				
 				StackPane.setAlignment(grid, Pos.CENTER_LEFT);
 				StackPane.setMargin(grid, new Insets(162,0,200,roundRect1.getWidth()/2.0));
 				
 				StackPane.setAlignment(grid2, Pos.CENTER_RIGHT);
-				StackPane.setMargin(grid2, new Insets(230,0,100,roundRect2.getWidth()/0.60));
+				StackPane.setMargin(grid2, new Insets(190,0,100,roundRect2.getWidth()/0.60));
 			
-			stack.getChildren().addAll(textDelete,text5,roundRect,roundRect1,roundRect2,grid,grid2);
+			stack.getChildren().addAll(text5,roundRect,roundRect1,roundRect2,grid,grid2);
 		}
 		catch (Exception e) 
 		{
@@ -1003,9 +1003,15 @@ public class Settings
 	
 	public GridPane editDeleteTypeToCategory()
 	{
+		final Text textDelete = new Text(25, 1000, "Edit/Delete Category Types");
+	      textDelete.setFill(Color.DARKGOLDENROD);  
+	      textDelete.setFont(Font.font ("Arial", 16));
+	      HBox hEditDelCat = new HBox();
+	      hEditDelCat.getChildren().add(textDelete);
+	      
 		final GridPane gridPane = new GridPane();
 		gridPane.setVgap(8);
-		gridPane.setPadding(new Insets(10,0,0,0));
+		gridPane.setPadding(new Insets(0,0,0,0));
 		gridPane.setHgap(8);
 		//gridPane.setAlignment(Pos.CENTER);
 		
@@ -1093,13 +1099,14 @@ public class Settings
 		 		});
 		
 		
-		
-		
-		gridPane.add(cat, 0, 0);
-		gridPane.add(category, 1, 0);
-		gridPane.add(typ,0,1);
-		gridPane.add(type,1,1);
-		gridPane.add(htemp,0,2);
+		hEditDelCat.setAlignment(Pos.CENTER);
+		gridPane.add(hEditDelCat, 1, 1,2,1);
+		gridPane.add(cat, 1, 4);
+		gridPane.add(category, 2, 4);
+		gridPane.add(typ,1,5);
+		gridPane.add(type,2,5);
+		htemp.setAlignment(Pos.CENTER);
+		gridPane.add(htemp,1,6,2,6);
 
 
 		//gridPane.add(edit, 0, 3);
@@ -1251,7 +1258,7 @@ public class Settings
 		      lighting.setSurfaceScale(9.0);  
 		      text5.setEffect(lighting);  
 		 	
-		      final Text textAdd = new Text(25, 175, "Add Items price");  
+		/*      final Text textAdd = new Text(25, 175, "Add Items price");  
 		      textAdd.setFill(Color.DARKGOLDENROD);  
 		      textAdd.setFont(Font.font ("Arial", 16));
 		      final Light.Distant lightAdd = new Light.Distant();  
@@ -1260,10 +1267,10 @@ public class Settings
 		      lighting.setLight(lightAdd);  
 		      lighting.setSurfaceScale(9.0);  
 		     // textAdd.setEffect(lighting);
-		      
+*/		 /*     
 		      final Text textDelete = new Text(25, 1000, "Edit/Delete Items price");
 		      textDelete.setFill(Color.DARKGOLDENROD);  
-		      textDelete.setFont(Font.font ("Arial", 16));
+		      textDelete.setFont(Font.font ("Arial", 16));*/
 		    //  textDelete.setEffect(lighting);
 		      
 		     
@@ -1283,20 +1290,20 @@ public class Settings
 				StackPane.setMargin(text5, new Insets(50,0,0,Screen.getPrimary().getVisualBounds().getWidth()/3.5));
 				StackPane.setAlignment(text5, Pos.TOP_LEFT);
 				
-				StackPane.setAlignment(textAdd, Pos.CENTER_LEFT);
-				StackPane.setMargin(textAdd, new Insets(0,700,300,roundRect1.getWidth()/1.40));
+				/*StackPane.setAlignment(textAdd, Pos.CENTER_LEFT);
+				StackPane.setMargin(textAdd, new Insets(0,700,300,roundRect1.getWidth()/1.40));*/
 			
-			
+			/*
 				StackPane.setAlignment(textDelete,Pos.CENTER_RIGHT);
-				StackPane.setMargin(textDelete, new Insets(0,roundRect2.getWidth()/1.1,300,0));
+				StackPane.setMargin(textDelete, new Insets(0,roundRect2.getWidth()/1.1,300,0));*/
 				
 				StackPane.setAlignment(grid, Pos.CENTER_LEFT);
-				StackPane.setMargin(grid, new Insets(210,0,200,roundRect1.getWidth()/2.3));
+				StackPane.setMargin(grid, new Insets(170,0,200,roundRect1.getWidth()/2.3));
 				
 				StackPane.setAlignment(grid2, Pos.CENTER_RIGHT);
-				StackPane.setMargin(grid2, new Insets(210,0,100,roundRect2.getWidth()/0.60));
+				StackPane.setMargin(grid2, new Insets(180,0,200,roundRect2.getWidth()/0.58));
 			
-			stack.getChildren().addAll(textAdd,textDelete,text5,roundRect,roundRect1,roundRect2,grid,grid2);
+			stack.getChildren().addAll(text5,roundRect,roundRect1,roundRect2,grid,grid2);
 		}
 		catch (Exception e) 
 		{
@@ -1311,6 +1318,12 @@ public class Settings
 	
 	public GridPane addDetailsToItems()
 	{
+		   final Text textAdd = new Text(25, 175, "Add Items price");  
+		      textAdd.setFill(Color.DARKGOLDENROD);  
+		      textAdd.setFont(Font.font ("Arial", 16));
+		      HBox hTextAdd = new HBox();
+		      hTextAdd.getChildren().add(textAdd);
+		      
 		final Label msg = new Label();
 		
 		GridPane gridPane = new GridPane();
@@ -1399,25 +1412,33 @@ public class Settings
 						}
 		 			}
 		 		});
-		gridPane.add(new Label("Category"), 0, 0);
-		gridPane.add(categories, 1, 0);
-		gridPane.add(new Label("Item"),0,1);
-		gridPane.add(items,1,1);
-		gridPane.add(new Label("Types"),0,2);
-		gridPane.add(types, 1, 2);
-		gridPane.add(new Label("Depo Price"),0,3);
-		gridPane.add(dp, 1, 3);
-		gridPane.add(new Label("M.R.P."),0,4);
-		gridPane.add(mrp, 1, 4);
-		gridPane.add(new Label("Hotel Price"),0,5);
-		gridPane.add(hp, 1, 5);
-		gridPane.add(add, 1, 6);
-		gridPane.add(msg,1,8);
+		hTextAdd.setAlignment(Pos.CENTER);
+		gridPane.add(hTextAdd, 1, 1,2,1);
+		gridPane.add(new Label("Category"), 1, 3);
+		gridPane.add(categories, 2,3);
+		gridPane.add(new Label("Item"),1,4);
+		gridPane.add(items,2,4);
+		gridPane.add(new Label("Types"),1,5);
+		gridPane.add(types, 2, 5);
+		gridPane.add(new Label("Depo Price"),1,6);
+		gridPane.add(dp, 2, 6);
+		gridPane.add(new Label("M.R.P."),1,7);
+		gridPane.add(mrp, 2, 7);
+		gridPane.add(new Label("Hotel Price"),1,8);
+		gridPane.add(hp, 2, 8);
+		gridPane.add(add, 2, 10);
+		gridPane.add(msg,2,11);
 		return gridPane;
 	}
 	
 	public GridPane updateDetailsToItems()
 	{
+		 final Text textDelete = new Text(25, 1000, "Edit/Delete Items price");
+	      textDelete.setFill(Color.DARKGOLDENROD);  
+	      textDelete.setFont(Font.font ("Arial", 16));
+	     HBox hTextDelete = new HBox();
+	     hTextDelete.getChildren().add(textDelete);
+	     hTextDelete.setAlignment(Pos.CENTER);
 		final Label msg = new Label();
 		GridPane gridPane = new GridPane();
 		gridPane.setVgap(8);
@@ -1526,20 +1547,21 @@ public class Settings
 						}
 		 			}
 		 		});
-		gridPane.add(new Label("Category"), 0, 0);
-		gridPane.add(categories, 1, 0);
-		gridPane.add(new Label("Item"),0,1);
-		gridPane.add(items,1,1);
-		gridPane.add(new Label("Types"),0,2);
-		gridPane.add(types, 1, 2);
-		gridPane.add(new Label("Depo Price"),0,3);
-		gridPane.add(dp, 1, 3);
-		gridPane.add(new Label("M.R.P."),0,4);
-		gridPane.add(mrp, 1, 4);
-		gridPane.add(new Label("Hotel Price"),0,5);
-		gridPane.add(hp, 1, 5);
-		gridPane.add(add, 1, 6);
-		gridPane.add(msg,1,8);
+		gridPane.add(hTextDelete,0,0,2,1);
+		gridPane.add(new Label("Category"), 0, 2);
+		gridPane.add(categories, 1, 2);
+		gridPane.add(new Label("Item"),0,3);
+		gridPane.add(items,1,3);
+		gridPane.add(new Label("Types"),0,4);
+		gridPane.add(types, 1, 4);
+		gridPane.add(new Label("Depo Price"),0,5);
+		gridPane.add(dp, 1, 5);
+		gridPane.add(new Label("M.R.P."),0,6);
+		gridPane.add(mrp, 1, 6);
+		gridPane.add(new Label("Hotel Price"),0,7);
+		gridPane.add(hp, 1, 7);
+		gridPane.add(add, 1, 8);
+		gridPane.add(msg,1,10);
 		return gridPane;
 	}
 }
