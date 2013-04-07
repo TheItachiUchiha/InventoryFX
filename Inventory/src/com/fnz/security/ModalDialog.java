@@ -1,8 +1,11 @@
 package com.fnz.security;
 
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -47,15 +50,33 @@ public class ModalDialog {
 	EncryptMacWithKey eMac;
 	BufferedReader br = null;
 	BufferedReader brTemp = null;
+	boolean checkKey;
+	
 	 int flag=0;
 	
-	  public void ModalSecurity(final Stage stg,String title, String message) {
-		 
+	  public void ModalSecurity(final Stage stg,String title, String message) throws IOException {
+		  eMac= new EncryptMacWithKey(); 
 		  
 		  File fileKeylastentered=new File("keyentered.txt");
 			if(fileKeylastentered.exists())
 			{
+				
+				FileInputStream fstream = new FileInputStream(fileKeylastentered);
+				  
+				  DataInputStream in = new DataInputStream(fstream);
+				  BufferedReader br = new BufferedReader(new InputStreamReader(in));
+				  String strLine;
+				 
+				  while ((strLine = br.readLine()) != null)   {
+					 
+		  			checkKey = eMac.validateKey(strLine);
+				 // System.out.println (strLine);
+				  }
+				 
+				  in.close();
+				  if (checkKey){
 				return;
+				  }
   				  
 			}
 		  
@@ -148,36 +169,24 @@ public class ModalDialog {
 	      						
 	      					
 	      						try {
-	      							eMac= new EncryptMacWithKey();
-	      		  				  eMac.MakeKeyFile();
-	      		      				  
-	      							String sCurrentLine;
-	      							
-									br = new BufferedReader(new FileReader("key.txt"));
-									while ((sCurrentLine = br.readLine()) != null) {
-										//System.out.println(sCurrentLine);
-										System.out.println(tSecurityNumber.getText());
-										if (sCurrentLine.contains(tSecurityNumber.getText())){
-											//System.out.println("fine");
-											ModalDialog mtemp= new ModalDialog();
-				      						mtemp.ModalRegister(stage, "kryptCode", "Registered Successfully");
-				      						
-				      						
-				      						FileWriter fstream = new FileWriter("keyentered.txt");
-				      					  BufferedWriter out = new BufferedWriter(fstream);
-				      					  out.write(tSecurityNumber.getText());
-				      					 out.close();
-				    						
-										}
-										else{
-										//	System.out.println("chor");
-											lMsg.setText("Wrong product key entered");
-											lMsg.setTextFill(Color.MAROON);
-											tSecurityNumber.requestFocus();
-										}
-										
-									}
-								} catch (FileNotFoundException e1) {
+	      						
+	      		  				checkKey = eMac.validateKey(tSecurityNumber.getText());
+	      		  				if (checkKey){
+	      		  				ModalDialog mtemp= new ModalDialog();
+	      		  			mtemp.ModalRegister(stage, "kryptCode", "Registered Successfully");
+	      		  				FileWriter fstream = new FileWriter("keyentered.txt");
+	      		  					BufferedWriter out = new BufferedWriter(fstream);
+	      		  						out.write(tSecurityNumber.getText());
+	      		  						out.close();
+	      		  				}
+	      		  			else{
+								//	System.out.println("chor");
+									lMsg.setText("Wrong product key entered");
+									lMsg.setTextFill(Color.MAROON);
+									tSecurityNumber.requestFocus();
+								}
+	      						}
+	      							 catch (FileNotFoundException e1) {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								} catch (IOException e1) {

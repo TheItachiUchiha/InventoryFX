@@ -58,7 +58,7 @@ public class MacAddress
                 }
             }
             in.close();
-            System.out.println(macAddress);
+           // System.out.println(macAddress);
             return macAddress;
 }    
 }

@@ -140,7 +140,7 @@
     -fx-text-fill: black;
 }
 .tab-header-background {
-   -fx-background-image: url("../../../../img/bgh3.png");
+   -fx-background-image: url("bgh3.png");
    
 } 
 .lowerHBox {

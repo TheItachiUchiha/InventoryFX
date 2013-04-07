@@ -5,14 +5,15 @@ import java.security.*;
 public class EncryptMacWithKey
 
 {
+	String macfourbit;
 
-	public void MakeKeyFile()
+	public boolean validateKey(String userKey)
 
 	{
 				try			
 				{ 
 					MacToString mts=new MacToString();
-					String macfourbit=mts.createStringFromMac();
+					 macfourbit=mts.createStringFromMac();
 					
 					//Checking the Key with Mac Address
 					String macString="";
@@ -30,11 +31,13 @@ public class EncryptMacWithKey
 								macString=macString+s+"-";
 					}
 					macString = macString.substring(0,macString.length()-1);
+					
+					
 					//System.out.println(macString);
-					String mac=new MacAddress().getMacAddress();
-					System.out.println("Mac Address is:"+mac);
+					//String mac=new MacAddress().getMacAddress();
+					//System.out.println("Mac Address is:"+mac);
 				
-					if (macString.equals(mac)) 
+					/*if (macString.equals(mac)) 
 					{
 						//System.out.println("Key Matched....Now writing to the file");
 						MessageDigest md =MessageDigest.getInstance("SHA"); 
@@ -54,13 +57,24 @@ public class EncryptMacWithKey
 					else
 					{
 						System.out.println("Key is not Matching");
-					}
+					}*/
 				}
 				
 				catch(Exception e1)
 				
-				{ System.out.println(""+e1);}
+				{ System.out.println(""+e1);
+				}
+				
+			userKey = userKey.trim();
+			if (userKey.equalsIgnoreCase(macfourbit)){
+				return true;
+			}
+			else{
+				return false;
+			}
 				
 				}
+	
+	
 
 }
