@@ -122,8 +122,7 @@ public class MainWindow extends Application
         scene.getStylesheets().add(FXCalendarDemo.class.getResource("/com/fnz/styles/calendar_styles.css").toExternalForm());
         scene.getStylesheets().add(
                 this.getClass().getClassLoader().getResource("com/fnz/styles/Tab.css").toString());
-        scene.getStylesheets().add(getClass().getResource("../styles/modal-dialog.css")
-						.toExternalForm());	
+        scene.getStylesheets().add(this.getClass().getClassLoader().getResource("com/fnz/styles/modal-dialog.css").toString());	
         stage.setX(0);
 	    stage.setY(0);
 	    //stage.getIcons().add(new Image(getClass().getResourceAsStream("/com/fnz/styles/Two-storied house.png")));
