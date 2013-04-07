@@ -280,21 +280,22 @@ public class Settings
 			StackPane.setMargin(text5, new Insets(50,0,0,Screen.getPrimary().getVisualBounds().getWidth()/3));
 			StackPane.setAlignment(text5, Pos.TOP_LEFT);
 			
-			StackPane.setAlignment(textAdd, Pos.CENTER_LEFT);
-			StackPane.setMargin(textAdd, new Insets(0,700,300,roundRect1.getWidth()/1.3));
+	//		StackPane.setAlignment(textAdd, Pos.CENTER_LEFT);
+	//		StackPane.setMargin(textAdd, new Insets(0,700,300,roundRect1.getWidth()/1.3));
 			
 			
 			
-			StackPane.setAlignment(textDelete,Pos.CENTER_RIGHT);
-			StackPane.setMargin(textDelete, new Insets(0,roundRect2.getWidth()/0.86,300,0));
+		//	StackPane.setAlignment(textDelete,Pos.CENTER_RIGHT);
+		//	StackPane.setMargin(textDelete, new Insets(0,roundRect2.getWidth()/0.86,300,0));
 			
 			StackPane.setAlignment(grid, Pos.CENTER_LEFT);
-			StackPane.setMargin(grid, new Insets(200,0,200,roundRect1.getWidth()/2.6));
+			StackPane.setMargin(grid, new Insets(170,0,100,roundRect1.getWidth()/2.6));
 			
 			StackPane.setAlignment(grid2, Pos.CENTER_RIGHT);
-			StackPane.setMargin(grid2, new Insets(230,0,100,roundRect2.getWidth()/0.60));
+			StackPane.setMargin(grid2, new Insets(200,0,100,roundRect2.getWidth()/0.615));
 			
-			stack.getChildren().addAll(textAdd,textDelete,text5,roundRect,roundRect1,roundRect2,grid,grid2,man_text);
+			//stack.getChildren().addAll(textAdd,textDelete,text5,roundRect,roundRect1,roundRect2,grid,grid2,man_text);
+			stack.getChildren().addAll(text5,roundRect,roundRect1,roundRect2,grid,grid2,man_text);
 		}
 		catch (Exception e) 
 		{
@@ -389,15 +390,11 @@ public class Settings
 		      lighting.setLight(light);  
 		      lighting.setSurfaceScale(9.0);  
 		      text5.setEffect(lighting);  
-		 	
+		 	/*
 		      final Text textAdd = new Text(25, 175, "Add Category Types");  
 		      textAdd.setFill(Color.DARKGOLDENROD);  
 		      textAdd.setFont(Font.font ("Arial", 16));
-		      final Light.Distant lightAdd = new Light.Distant();  
-		      lightAdd.setAzimuth(-135.0);  
-		      final Lighting lightingAdd = new Lighting();  
-		      lighting.setLight(lightAdd);  
-		      lighting.setSurfaceScale(9.0);  
+		   */
 		     // textAdd.setEffect(lighting);
 		      
 		      final Text textDelete = new Text(25, 1000, "Edit/Delete Category Types");
@@ -422,20 +419,20 @@ public class Settings
 				StackPane.setMargin(text5, new Insets(50,0,0,Screen.getPrimary().getVisualBounds().getWidth()/3.5));
 				StackPane.setAlignment(text5, Pos.TOP_LEFT);
 				
-				StackPane.setAlignment(textAdd, Pos.CENTER_LEFT);
+			/*	StackPane.setAlignment(textAdd, Pos.CENTER_LEFT);
 				StackPane.setMargin(textAdd, new Insets(0,700,300,roundRect1.getWidth()/1.40));
-			
+			*/
 			
 				StackPane.setAlignment(textDelete,Pos.CENTER_RIGHT);
 				StackPane.setMargin(textDelete, new Insets(0,roundRect2.getWidth()/1.1,300,0));
 				
 				StackPane.setAlignment(grid, Pos.CENTER_LEFT);
-				StackPane.setMargin(grid, new Insets(210,0,200,roundRect1.getWidth()/2.3));
+				StackPane.setMargin(grid, new Insets(162,0,200,roundRect1.getWidth()/2.0));
 				
 				StackPane.setAlignment(grid2, Pos.CENTER_RIGHT);
 				StackPane.setMargin(grid2, new Insets(230,0,100,roundRect2.getWidth()/0.60));
 			
-			stack.getChildren().addAll(textAdd,textDelete,text5,roundRect,roundRect1,roundRect2,grid,grid2);
+			stack.getChildren().addAll(textDelete,text5,roundRect,roundRect1,roundRect2,grid,grid2);
 		}
 		catch (Exception e) 
 		{
@@ -483,14 +480,22 @@ public class Settings
 		//settings.setAlignment(Pos.CENTER);
 		settings.setVgap(8);
 		settings.setHgap(10);
-		settings.add(hLAddItem, 1, 2);
-		settings.add(itemName, 2, 2);
-		settings.add(hlCategoryName, 1, 1);
-		settings.add(cbcategory,2,1);
+		
+		final Text textAdd = new Text(25, 175, "Add Items");  
+	      textAdd.setFill(Color.DARKGOLDENROD);  
+	      textAdd.setFont(Font.font ("Arial", 16));
+	  HBox hTextAdd= new HBox();
+	  hTextAdd.setAlignment(Pos.CENTER);
+	  hTextAdd.getChildren().add(textAdd);
+	    settings.add(hTextAdd, 1, 0,2,1);
+		settings.add(hLAddItem, 1, 4);
+		settings.add(itemName, 2, 4);
+		settings.add(hlCategoryName, 1, 3);
+		settings.add(cbcategory,2,3);
 			
 		
-		settings.add(add,2,4);
-		settings.add(hlmsg,1,5,2,5);
+		settings.add(add,2,6);
+		settings.add(hlmsg,1,7,2,7);
 		
 		
 		cbcategory.valueProperty().addListener(new ChangeListener<CategoryVO>() {
@@ -588,7 +593,11 @@ public class Settings
 		final GridPane settings = new GridPane();
 		// list Creation
 		listOfItems.clear();
-		
+		 final Text textDelete = new Text(25, 175, "Delete Items");
+	      textDelete.setFill(Color.DARKGOLDENROD);  
+	      textDelete.setFont(Font.font ("Arial", 16));
+	      HBox hTextDelete = new HBox();
+	      hTextDelete.getChildren().add(textDelete);
 
 		HBox hlAddItem = new HBox();
 		HBox hlAddCategory = new HBox();
@@ -751,11 +760,13 @@ public class Settings
 		// settings.setAlignment(Pos.CENTER);
 		settings.setVgap(8);
 		settings.setHgap(10);
-		settings.add(hlAddCategory, 1, 0);
-		settings.add(cbCategory, 2, 0);
-		settings.add(hlAddItem, 1, 1);
-		settings.add(cbItem, 2, 1);
-		settings.add(box, 2, 3);
+		hTextDelete.setAlignment(Pos.CENTER);
+		settings.add(hTextDelete, 1, 0,2,1);
+		settings.add(hlAddCategory, 1, 3);
+		settings.add(cbCategory, 2, 3);
+		settings.add(hlAddItem, 1, 4);
+		settings.add(cbItem, 2, 4);
+		settings.add(box, 2, 6);
 		return settings;
 	}
 	
@@ -894,9 +905,15 @@ public class Settings
 	
 	public GridPane addTypeToCategory()
 	{
+		 final Text textAdd = new Text(25, 175, "Add Category Types");  
+	      textAdd.setFill(Color.DARKGOLDENROD);  
+	      textAdd.setFont(Font.font ("Arial", 16));
+	      HBox hTextAdd = new HBox();
+	      hTextAdd.getChildren().add(textAdd);
+	      
 		GridPane gridPane = new GridPane();
 		gridPane.setVgap(8);
-		gridPane.setHgap(10);
+		gridPane.setHgap(12);
 		gridPane.setPadding(new Insets(30,0,0,0));
 		//gridPane.setAlignment(Pos.CENTER);
 		
@@ -930,14 +947,17 @@ public class Settings
 		 		});
 		Label cat=new Label("Category");
 		cat.setTextFill(Color.DARKGOLDENROD);
-		gridPane.add(cat, 0, 0);
-		gridPane.add(categories, 1, 0);
+		hTextAdd.setAlignment(Pos.CENTER);
+		gridPane.add(hTextAdd, 1, 1,2,1);
+		gridPane.add(cat, 1, 4);
+		gridPane.add(categories, 2, 4);
 		Label typ=new Label("Type");
 		typ.setTextFill(Color.DARKGOLDENROD);
-		gridPane.add(typ,0,1);
-		gridPane.add(type,1,1);
-		gridPane.add(add, 1, 2);
-		gridPane.add(msg, 1, 3);
+	
+		gridPane.add(typ,1,5);
+		gridPane.add(type,2,5);
+		gridPane.add(add, 2, 6);
+		gridPane.add(msg, 2, 7);
 		
 		return gridPane;
 	}
@@ -1006,7 +1026,7 @@ public class Settings
 		Label typ=new Label("Type");
 		final HBox htemp=new HBox();
 		htemp.getChildren().addAll(edit,delete);
-		htemp.setSpacing(2);
+		htemp.setSpacing(10);
 		
 		
 		HBox hlTypeName = new HBox();
@@ -1292,12 +1312,13 @@ public class Settings
 	public GridPane addDetailsToItems()
 	{
 		final Label msg = new Label();
+		
 		GridPane gridPane = new GridPane();
 		gridPane.setVgap(8);
 		gridPane.setHgap(10);
 		gridPane.setPadding(new Insets(30,0,0,0));
 		//gridPane.setAlignment(Pos.CENTER);
-		
+		   
 		final ObservableList<CategoryTypeVO> listTypes = FXCollections.observableArrayList();
 		final ObservableList<ItemVO> listItems = FXCollections.observableArrayList();
 		
