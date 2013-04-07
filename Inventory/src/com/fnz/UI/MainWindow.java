@@ -150,7 +150,8 @@ public class MainWindow extends Application
     	border.setPadding(new Insets(15, 12, 15, 12));
        // hbox.setSpacing(10);   // Gap between nodes
        // hbox.setStyle("-fx-background-color: #336699;");
-    	border.getStyleClass().add("lowerHBox");
+    	//border.getStyleClass().add("lowerHBox");
+    	border.setStyle("-fx-background-image: url('bgh3.png');");
         
         Text text = new Text("© kryptCode");
         text.setFill(Color.DARKGOLDENROD);
@@ -205,11 +206,11 @@ public class MainWindow extends Application
 
     	BorderPane mainPane = new BorderPane();
     	
-     	
+    	
     	TabPane tabPane = new TabPane();
     	tabPane.setId(("MyTabPane"));
     	
-      
+    	
         
         
         final Tab tabA = new Tab();
