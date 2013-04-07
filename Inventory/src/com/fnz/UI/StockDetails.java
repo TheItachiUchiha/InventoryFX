@@ -320,8 +320,8 @@ public class StockDetails
         grid.setVgap(8);
         grid.setPadding(new Insets(30));
 		final ObservableList<ItemVO> dataTable;
-		final ObservableList<ItemVO> dataTable1;
-		final ObservableList<ItemVO> dataTable2;
+		//final ObservableList<ItemVO> dataTable1;
+		//final ObservableList<ItemVO> dataTable2;
 		ObservableList<CategoryTypeVO> typeList;
 		
 		Rectangle roundRect = RectangleBuilder.create()
@@ -355,7 +355,7 @@ public class StockDetails
 			dataTable = FXCollections.observableArrayList();
 			dataTable.addAll(stockDetailsService.viewStock(categoryId));
 			
-			dataTable1 = FXCollections.observableArrayList();
+			/*dataTable1 = FXCollections.observableArrayList();
 			dataTable2 = FXCollections.observableArrayList();
 			
 			for(int i=0;i<dataTable.size();i++)
@@ -365,7 +365,7 @@ public class StockDetails
 				{
 					dataTable2.add(dataTable.get(i));
 				}
-			}
+			}*/
 			
 			final Label label = new Label(categoryName + " Stock");
 		
@@ -388,8 +388,9 @@ public class StockDetails
 		
 		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(false);
-			table1.setMaxSize(roundRect.getWidth()*0.41, roundRect.getHeight()*0.519);//400,300
-		 	table1.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);//400,300
+			//table1.setMaxSize(roundRect.getWidth()*0.41, roundRect.getHeight()*0.519);//400,300
+		 	table1.setMinSize(roundRect.getWidth()*0.41, roundRect.getHeight()*0.519);//400,300
+		 	table1.setMaxSize(roundRect.getWidth()-50, roundRect.getHeight()-200);
 		 	
 		 	table1.getSelectionModel().setCellSelectionEnabled(false);
 		 	
@@ -398,8 +399,8 @@ public class StockDetails
 		 	
 		 	
 		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
-		 	itemName.setMaxWidth(roundRect.getWidth()*0.3);
-		 	itemName.setMinWidth(roundRect.getWidth()*0.3);//200
+		 	itemName.setMaxWidth(roundRect.getWidth()*0.5);
+		 	itemName.setMinWidth(roundRect.getWidth()*0.5);//200
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
@@ -468,11 +469,18 @@ public class StockDetails
 		 		  quantity.getColumns().add(col);
 		 		}
 
+		 	if(quantity.getColumns().size()>=5 && quantity.getColumns().size()<=7)
+		 	{
+		 		itemName.setMinWidth(itemName.getWidth() - (quantity.getColumns().size()-4)*100);
+		 	}
+		 	if(quantity.getColumns().size()>7)
+		 	{
+		 		itemName.setMinWidth(itemName.getWidth() - ((7-4)*100));
+		 	}
 		 	
 		 	
 		 	
-		 	
-		 	table1.setItems(dataTable1);
+		 	table1.setItems(dataTable);
 		 	final TableColumn[] columns1 = {itemName, quantity};
 		 	table1.getColumns().addAll(columns1);
 		 	table1.getColumns().addListener(new ListChangeListener() {
@@ -489,7 +497,7 @@ public class StockDetails
 		        }
 		    });
 		 	
-		 	final TableView<ItemVO> table2 = new TableView<ItemVO>();
+		 	/*//final TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(false);
 		 	
 		 	table2.setMaxSize(roundRect.getWidth()*0.41, roundRect.getHeight()*0.519);
@@ -504,8 +512,8 @@ public class StockDetails
 		 	
 		 	TableColumn<ItemVO, Integer>  quantity2 = new TableColumn<ItemVO, Integer> ("Quantity#");
 		 	quantity2.setMinWidth(roundRect.getWidth()*0.107);//200
-		 	/*quantity.setCellValueFactory(
-		 			new PropertyValueFactory<ItemVO, Integer>("quantity"));*/
+		 	quantity.setCellValueFactory(
+		 			new PropertyValueFactory<ItemVO, Integer>("quantity"));
 		 	
 		 	
 		 	
@@ -582,7 +590,7 @@ public class StockDetails
 		                this.suspended = false;
 		            }
 		        }
-		    });
+		    });*/
 		 	
 		 	Rectangle qtyRect = RectangleBuilder.create()
 				    .x(50)

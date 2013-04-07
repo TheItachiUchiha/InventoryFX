@@ -329,7 +329,7 @@ public class IncomingStock
         grid.setPadding(new Insets(30));
 		final ObservableList<ItemVO> dataTable;
 		final ObservableList<ItemVO> dataTable1;
-		final ObservableList<ItemVO> dataTable2;
+		//final ObservableList<ItemVO> dataTable2;
 		final ObservableList<CategoryTypeVO> typeList;
 		final Label msg = new Label();
 		
@@ -362,17 +362,17 @@ public class IncomingStock
 			dataTable.addAll(stockDetailsService.viewItemForPurchaseSales(categoryId));
 			
 			dataTable1 = FXCollections.observableArrayList();
-			dataTable2 = FXCollections.observableArrayList();
+			//dataTable2 = FXCollections.observableArrayList();
 			
 			
-			for(int i=0;i<dataTable.size();i++)
+			/*for(int i=0;i<dataTable.size();i++)
 			{
 				dataTable1.add(dataTable.get(i++));
 				if(i<=dataTable.size()-1)
 				{
 					dataTable2.add(dataTable.get(i));
 				}
-			}
+			}*/
 			
 			
 			final Label label = new Label(categoryName + " Stock");
@@ -420,16 +420,18 @@ public class IncomingStock
 			
 		 	final TableView<ItemVO> table1 = new TableView<ItemVO>();
 		 	table1.setEditable(true);
-		 	table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
-		 	table1.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);//400,300
+		 	//table1.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
+		 	//table1.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);//400,300
+		 	table1.setMinSize(roundRect.getWidth()*0.41, roundRect.getHeight()*0.400);
+		 	table1.setMaxSize(roundRect.getWidth()-50, roundRect.getHeight()-200);
 		 	table1.setStyle("-fx-background-color: transparent;");
 		 	
-		 	final TableView<ItemVO> table2 = new TableView<ItemVO>();
+		 	/*final TableView<ItemVO> table2 = new TableView<ItemVO>();
 		 	table2.setEditable(true);
 		 	
 		 	table2.setMaxSize(roundRect.getWidth()*0.8889, roundRect.getHeight()*0.519);//400,300
 			table2.setMinSize(roundRect.getWidth()*0.35, roundRect.getHeight()*0.519);//400,300
-		 	table2.setStyle("-fx-background-color: transparent;");
+		 	table2.setStyle("-fx-background-color: transparent;");*/
 		 	
 			/*final Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>> cellFactory = new Callback<TableColumn<ItemVO, Integer>, TableCell<ItemVO, Integer>>() {
 				public TableCell call(TableColumn p) {
@@ -439,7 +441,8 @@ public class IncomingStock
 		 	
 		 	
 		 	TableColumn<ItemVO,String> itemName = new TableColumn<ItemVO,String> ("Item");
-		 	itemName.setMinWidth(roundRect.getWidth()*0.3);//200
+		 	itemName.setMinWidth(roundRect.getWidth()*0.5);//200
+		 	itemName.setMaxWidth(roundRect.getWidth()*0.5);
 		 	itemName.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
 		 	
@@ -487,9 +490,17 @@ public class IncomingStock
 		 		  quantity.getColumns().add(col);
 		 		}
 		 		
+		 	if(quantity.getColumns().size()>=5 && quantity.getColumns().size()<=7)
+		 	{
+		 		itemName.setMinWidth(itemName.getWidth() - (quantity.getColumns().size()-4)*100);
+		 	}
+		 	if(quantity.getColumns().size()>7)
+		 	{
+		 		itemName.setMinWidth(itemName.getWidth() - ((7-4)*100));
+		 	}
 		 		
 		 	
-		 	table1.setItems(dataTable1);
+		 	table1.setItems(dataTable);
 		 	final TableColumn[] columns1 = {itemName, quantity};
 		 	table1.getColumns().addAll(columns1);
 		 	table1.getColumns().addListener(new ListChangeListener() {
@@ -507,7 +518,7 @@ public class IncomingStock
 		    });
 
 		 	
-		 	TableColumn<ItemVO,String> itemName2 = new TableColumn<ItemVO,String> ("Item");
+		 	/*TableColumn<ItemVO,String> itemName2 = new TableColumn<ItemVO,String> ("Item");
 		 	itemName2.setMinWidth(roundRect.getWidth()*0.3);//200
 		 	itemName2.setCellValueFactory(
 		 			new PropertyValueFactory<ItemVO, String>("itemName"));
@@ -571,7 +582,7 @@ public class IncomingStock
 		                this.suspended = false;
 		            }
 		        }
-		    });
+		    });*/
 		 	
 			Button button = new Button("Update Stock");
 			button.setId("buttonall");
@@ -611,8 +622,8 @@ public class IncomingStock
 	 					date.getTextField().getStyleClass().remove("error");
 	 					msg.setTextFill(Color.GREENYELLOW);
 	 					
-	 					dataTable.clear();
-	 					for(ItemVO itemVO : dataTable1)
+	 					dataTable1.clear();
+	 					for(ItemVO itemVO : dataTable)
 	 					{
 	 						int flagUpdated = 0;
 	 						Collection<ItemTypeVO> coll = itemVO.getListType().values();
@@ -627,11 +638,11 @@ public class IncomingStock
 	 						}
 	 							if(flagUpdated == 1)
 	 							{
-	 								dataTable.add(itemVO);
+	 								dataTable1.add(itemVO);
 	 							}
 	 					}
 	 					
-	 					for(ItemVO itemVO : dataTable2)
+	 					/*for(ItemVO itemVO : dataTable2)
 	 					{
 	 						int flagUpdated = 0;
 	 						Collection<ItemTypeVO> coll = itemVO.getListType().values();
@@ -648,8 +659,8 @@ public class IncomingStock
 	 							{
 	 								dataTable.add(itemVO);
 	 							}
-	 					}
-	 					msg.setText(incomingStockService.addIncomingStock(invoiceField.getText(), date.getTextField().getText(), dataTable, typeList));
+	 					}*/
+	 					msg.setText(incomingStockService.addIncomingStock(invoiceField.getText(), date.getTextField().getText(), dataTable1, typeList));
 	 					/*invoiceField.clear();
 	 					date.getTextField().clear();*/
 	 					}
@@ -666,12 +677,13 @@ public class IncomingStock
 	 		});
 			
 			
-			
-			grid.add(invoiceBox,0,11);
-			grid.add(dateBox, 1, 11);
+			HBox hBox1 = new HBox();
+			hBox1.getChildren().addAll(invoiceBox,dateBox);
+			grid.add(hBox1,0,11);
+			//grid.add(dateBox, 1, 11);
 			
 			grid.add(table1,0,13);
-			grid.add(table2,1,13);
+			//grid.add(table2,1,13);
 			HBox hBut = new HBox();
 			hBut.setMaxHeight(5);
 			hBut.getChildren().addAll(button);
