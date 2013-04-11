@@ -538,18 +538,16 @@ public class Settings
  			{
  				try 
  				{
- 					if (validate.isEmpty(itemName)){
- 						lmsg.setTextFill(Color.RED);
- 						itemName.getStyleClass().add("error");
- 						lmsg.setText(CommonConstants.EMPTY_MSG);
- 					}
- 					else if((cbcategory.getValue()) == null){
+ 					if((cbcategory.getValue()) == null){
  						lmsg.setTextFill(Color.RED);
  						itemName.getStyleClass().remove("error");
  						//cbcategory.getStyleClass().add("error");
- 						lmsg.setText(CommonConstants.COMBO_MSG);
- 						
- 						
+ 						lmsg.setText(CommonConstants.COMBO_MSG);	
+ 					}
+ 					else if (validate.isEmpty(itemName)){
+ 						lmsg.setTextFill(Color.RED);
+ 						itemName.getStyleClass().add("error");
+ 						lmsg.setText(CommonConstants.EMPTY_MSG);
  					}
  					else{
  						
@@ -599,7 +597,7 @@ public class Settings
 	      HBox hTextDelete = new HBox();
 	      hTextDelete.getChildren().add(textDelete);
 
-		HBox hlAddItem = new HBox();
+		final HBox hlAddItem = new HBox();
 		HBox hlAddCategory = new HBox();
 		Label lAddItem = new Label("Select Item");
 		lAddItem.setTextFill(Color.DARKGOLDENROD);
@@ -620,7 +618,7 @@ public class Settings
 		final Label lmsg = new Label();
 		hLmsg.getChildren().addAll(lmsg);
 		hLmsg.setAlignment(Pos.CENTER);
-		settings.add(hLmsg, 1, 5, 2, 5);
+		settings.add(hLmsg, 1, 8, 2, 5);
 
 		final HBox box = new HBox();
 		box.setAlignment(Pos.TOP_LEFT);
@@ -677,9 +675,12 @@ public class Settings
 			public void handle(ActionEvent e) {
 				try {
 					if (cbItem.getValue() != null) {
-						settings.add(heditLabel, 1, 3);
-						settings.add(editText, 2, 3);
-						settings.add(editFinal, 2, 4);
+						hlAddItem.setVisible(false);
+						cbItem.setVisible(false);
+						
+						settings.add(heditLabel, 1, 4);
+						settings.add(editText, 2, 4);
+						settings.add(editFinal, 2, 5);
 						box.setVisible(false);
 
 					} else {
@@ -718,6 +719,8 @@ public class Settings
 						settings.getChildren().removeAll(heditLabel, editText,
 								editFinal);
 						box.setVisible(true);
+						hlAddItem.setVisible(true);
+						cbItem.setVisible(true);
 						validate.removeMessageOnComboBoxClick(cbItem, lmsg);
 					}
 				} catch (Exception e1) {
@@ -922,7 +925,12 @@ public class Settings
 		final TextField type = new TextField();
 		Button add = new Button("Add");
 		add.setId("buttonall");
+
+		final HBox hLmsg = new HBox();
 		final Label msg = new Label();
+		hLmsg.getChildren().addAll(msg);
+		hLmsg.setAlignment(Pos.CENTER);
+		gridPane.add(hLmsg, 1, 8, 2, 5);
 		
 		
 		add.setOnAction(new EventHandler<ActionEvent>() {
@@ -932,10 +940,23 @@ public class Settings
 		 			{
 		 				try
 		 				{
+		 					if((categories.getValue()) == null){
+		 						msg.setTextFill(Color.RED);
+		 						type.getStyleClass().remove("error");
+		 						//cbcategory.getStyleClass().add("error");
+		 						msg.setText(CommonConstants.COMBO_MSG);
+		 					}
+		 					else if (validate.isEmpty(type)){
+		 						msg.setTextFill(Color.RED);
+		 						type.getStyleClass().add("error");
+		 						msg.setText(CommonConstants.EMPTY_MSG);
+		 					}
+		 					else{
 							utiliesService.addTypes(categories.getValue(), type.getText());
 							msg.setText(CommonConstants.TYPE_ADDED_SUCCESSFULLY);
 							msg.setTextFill(Color.GREENYELLOW);
 							validate.removeMessageOnTextFieldClick(type, msg);
+		 					}
 						}
 		 				catch (Exception e1) 
 		 				{
@@ -957,7 +978,7 @@ public class Settings
 		gridPane.add(typ,1,5);
 		gridPane.add(type,2,5);
 		gridPane.add(add, 2, 6);
-		gridPane.add(msg, 2, 7);
+		
 		
 		return gridPane;
 	}
@@ -1011,7 +1032,7 @@ public class Settings
 	      
 		final GridPane gridPane = new GridPane();
 		gridPane.setVgap(8);
-		gridPane.setPadding(new Insets(0,0,0,0));
+		gridPane.setPadding(new Insets(10,0,0,0));
 		gridPane.setHgap(8);
 		//gridPane.setAlignment(Pos.CENTER);
 		
@@ -1027,12 +1048,17 @@ public class Settings
 		editFinal.setId("buttonall");
 		final Button delete = new Button("Delete");
 		delete.setId("buttonall");
-		final Label msg = new Label();
+		
 		Label cat=new Label("Category");
-		Label typ=new Label("Type");
+		final Label typ=new Label("Type");
 		final HBox htemp=new HBox();
 		htemp.getChildren().addAll(edit,delete);
-		htemp.setSpacing(10);
+		htemp.setSpacing(4);
+		
+		final HBox hLmsg = new HBox();
+		final Label msg = new Label();
+		hLmsg.getChildren().addAll(msg);
+		hLmsg.setAlignment(Pos.CENTER);
 		
 		
 		HBox hlTypeName = new HBox();
@@ -1083,11 +1109,12 @@ public class Settings
 		 			{
 		 				try
 		 				{
-		 					gridPane.getChildren().remove(msg);
 							utiliesService.deleteCategoryTypes(type.getValue());
+							listTypes.clear();
+	 						listTypes.addAll(utiliesService.fetchTypes(category.getValue().getCategotyId()));
 							msg.setText("\""+type.getValue().getTypeName()+"\" "+ CommonConstants.DEL_MSG);
-							msg.setTextFill(Color.RED);
-							gridPane.add(msg,1,7);
+							msg.setTextFill(Color.GREENYELLOW);
+							
 						}
 		 				catch (Exception e1) 
 		 				{
@@ -1100,13 +1127,14 @@ public class Settings
 		
 		
 		hEditDelCat.setAlignment(Pos.CENTER);
-		gridPane.add(hEditDelCat, 1, 1,2,1);
-		gridPane.add(cat, 1, 4);
-		gridPane.add(category, 2, 4);
-		gridPane.add(typ,1,5);
-		gridPane.add(type,2,5);
+		gridPane.add(hEditDelCat, 1,0,2,1);
+		gridPane.add(cat, 1, 2);
+		gridPane.add(category, 2, 2);
+		gridPane.add(typ,1,3);
+		gridPane.add(type,2,3);
 		htemp.setAlignment(Pos.CENTER);
-		gridPane.add(htemp,1,6,2,6);
+		gridPane.add(hLmsg, 1, 8, 2, 5);
+		gridPane.add(htemp,1,5,2,5);
 
 
 		//gridPane.add(edit, 0, 3);
@@ -1124,22 +1152,24 @@ public class Settings
  					gridPane.getChildren().remove(msg);
  					if(category.getValue() == null)
  					{
- 						gridPane.add(msg,1,5);
+ 						
  						msg.setText(CommonConstants.SELECT_CATEGORY);
  						msg.setTextFill(Color.RED);
  					}
  					else if(type.getValue() == null)
  					{
- 						gridPane.add(msg,1,5);
+ 						
  						msg.setText(CommonConstants.SELECT_TYPE);
  						msg.setTextFill(Color.RED);
  					}
  					else
  					{
+ 						typ.setVisible(false);
+ 						type.setVisible(false);
  	 					lTypeName.setTextFill(Color.DARKGOLDENROD);
- 	 					gridPane.add(lTypeName, 0, 2);
- 	 					gridPane.add(typeName, 1, 2);
- 	 					gridPane.add(editFinal, 0, 3);
+ 	 					gridPane.add(lTypeName, 1, 3);
+ 	 					gridPane.add(typeName, 2, 3);
+ 	 					gridPane.add(editFinal, 1, 4);
  	 					htemp.setVisible(false);
  					}
  					
@@ -1160,11 +1190,11 @@ public class Settings
 		 			{
 		 				try
 		 				{
-		 					gridPane.getChildren().remove(msg);
+		 					
 		 					utiliesService.editCategoryTypes(type.getValue(),typeName.getText());
 		 					msg.setText(CommonConstants.EDIT_TYPE_MSG);
 		 					msg.setTextFill(Color.GREENYELLOW);
-		 					gridPane.add(msg,1,3);
+		 					
 						}
 		 				catch (Exception e1) 
 		 				{
