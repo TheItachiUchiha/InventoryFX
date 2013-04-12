@@ -663,10 +663,14 @@ public class Settings
 			public void changed(ObservableValue<? extends ItemVO> observable,
 					ItemVO oldValue, ItemVO newValue) {
 				lmsg.setText("");
-				if (flag == false) {
+				
 					box.setVisible(true);
-					flag = false;
-				}
+					editFinal.setVisible(false);
+					heditLabel.setVisible(false);
+					editText.setVisible(false);
+		
+		
+				
 			}
 		});
 		edit.setOnAction(new EventHandler<ActionEvent>() {
@@ -674,13 +678,12 @@ public class Settings
 			@Override
 			public void handle(ActionEvent e) {
 				try {
+					flag = true;
 					if (cbItem.getValue() != null) {
-						hlAddItem.setVisible(false);
-						cbItem.setVisible(false);
 						
-						settings.add(heditLabel, 1, 4);
-						settings.add(editText, 2, 4);
-						settings.add(editFinal, 2, 5);
+						editFinal.setVisible(true);
+						heditLabel.setVisible(true);
+						editText.setVisible(true);
 						box.setVisible(false);
 
 					} else {
@@ -719,8 +722,7 @@ public class Settings
 						settings.getChildren().removeAll(heditLabel, editText,
 								editFinal);
 						box.setVisible(true);
-						hlAddItem.setVisible(true);
-						cbItem.setVisible(true);
+						
 						validate.removeMessageOnComboBoxClick(cbItem, lmsg);
 					}
 				} catch (Exception e1) {
@@ -769,7 +771,18 @@ public class Settings
 		settings.add(cbCategory, 2, 3);
 		settings.add(hlAddItem, 1, 4);
 		settings.add(cbItem, 2, 4);
-		settings.add(box, 2, 6);
+		settings.add(box, 2, 5);
+		
+		
+		settings.add(heditLabel, 1, 5);
+		settings.add(editText, 2, 5);
+		settings.add(editFinal, 2, 6);
+		
+		heditLabel.setVisible(false);
+		editText.setVisible(false);
+		editFinal.setVisible(false);
+		
+		
 		return settings;
 	}
 	
@@ -1061,7 +1074,7 @@ public class Settings
 		hLmsg.setAlignment(Pos.CENTER);
 		
 		
-		HBox hlTypeName = new HBox();
+		final HBox hlTypeName = new HBox();
 		final Label lTypeName = new Label("New Type Name");
 		hlTypeName.getChildren().addAll(lTypeName);
 		hlTypeName.setAlignment(Pos.CENTER);
@@ -1164,12 +1177,11 @@ public class Settings
  					}
  					else
  					{
- 						typ.setVisible(false);
- 						type.setVisible(false);
+ 						htemp.setVisible(false);
  	 					lTypeName.setTextFill(Color.DARKGOLDENROD);
- 	 					gridPane.add(lTypeName, 1, 3);
- 	 					gridPane.add(typeName, 2, 3);
- 	 					gridPane.add(editFinal, 1, 4);
+ 	 					gridPane.add(hlTypeName, 1, 4);
+ 	 					gridPane.add(typeName, 2,4);
+ 	 					gridPane.add(editFinal, 2, 5);
  	 					htemp.setVisible(false);
  					}
  					
@@ -1189,13 +1201,26 @@ public class Settings
 		 			public void handle(ActionEvent e) 
 		 			{
 		 				try
-		 				{
-		 					
+		 					{
+		 				
+		 					if(validate.isEmpty(typeName))
+		 					{
+		 						msg.setText(CommonConstants.EMPTY_MSG);
+		 						msg.setTextFill(Color.RED);
+		 					}
+		 					else{
 		 					utiliesService.editCategoryTypes(type.getValue(),typeName.getText());
-		 					msg.setText(CommonConstants.EDIT_TYPE_MSG);
-		 					msg.setTextFill(Color.GREENYELLOW);
-		 					
+	 						msg.setText(CommonConstants.EDIT_TYPE_MSG);
+	 						msg.setTextFill(Color.GREENYELLOW);
+	 						listTypes.clear();
+	 						listTypes.addAll(utiliesService.fetchTypes(category.getValue().getCategotyId()));
+	 						gridPane.getChildren().removeAll(hlTypeName,typeName,editFinal);
+	 						typ.setVisible(true);
+	 						type.setVisible(true);
+	 						htemp.setVisible(true);
+		 					}	 					
 						}
+		 				
 		 				catch (Exception e1) 
 		 				{
 		 					msg.setText(CommonConstants.ERROR_ADMIN);
