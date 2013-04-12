@@ -233,7 +233,8 @@ public class Settings
 		 	//grid.add(label,1,0);
 			final Text text5 = new Text(25, 175, "Settings Items");  
 		      text5.setFill(Color.DARKORANGE);  
-		      text5.setFont(Font.font ("Edwardian Script ITC", 50));
+		      //text5.setFont(Font.font ("Edwardian Script ITC", 50));
+		      text5.setFont(Font.loadFont("file:resources/fonts/ITCEDSCR.TTF", 50));
 		      final Light.Distant light = new Light.Distant();  
 		      light.setAzimuth(-135.0);  
 		      final Lighting lighting = new Lighting();  
@@ -383,7 +384,8 @@ public class Settings
 		 	//grid.add(label,1,0);
 			final Text text5 = new Text(25, 175, "Settings Categories");  
 		      text5.setFill(Color.DARKORANGE);  
-		      text5.setFont(Font.font ("Edwardian Script ITC", 50));
+		      //text5.setFont(Font.font ("Edwardian Script ITC", 50));
+		      text5.setFont(Font.loadFont("file:resources/fonts/ITCEDSCR.TTF", 50));
 		      final Light.Distant light = new Light.Distant();  
 		      light.setAzimuth(-135.0);  
 		      final Lighting lighting = new Lighting();  
@@ -1338,7 +1340,8 @@ public class Settings
 		 	//grid.add(label,1,0);
 			final Text text5 = new Text(25, 175, "Settings Items Price");  
 		      text5.setFill(Color.DARKORANGE);  
-		      text5.setFont(Font.font ("Edwardian Script ITC", 50));
+		      //text5.setFont(Font.font ("Edwardian Script ITC", 50));
+		      text5.setFont(Font.loadFont("file:resources/fonts/ITCEDSCR.TTF", 50));
 		      final Light.Distant light = new Light.Distant();  
 		      light.setAzimuth(-135.0);  
 		      final Lighting lighting = new Lighting();  

@@ -138,7 +138,8 @@ public class TransactionHistory
 					
 					final Text text5 = new Text(25, 175, "Search in History");  
 				      text5.setFill(Color.DARKORANGE);  
-				      text5.setFont(Font.font ("Edwardian Script ITC", 50));
+				      //text5.setFont(Font.font ("Edwardian Script ITC", 50));
+				      text5.setFont(Font.loadFont("file:resources/fonts/ITCEDSCR.TTF", 50));
 				      final Light.Distant light = new Light.Distant();  
 				      light.setAzimuth(-135.0);  
 				      final Lighting lighting = new Lighting();  

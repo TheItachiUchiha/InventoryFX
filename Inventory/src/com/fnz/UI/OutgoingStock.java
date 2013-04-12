@@ -385,7 +385,8 @@ public class OutgoingStock
 			
 			 final Text text5 = new Text(25, 175, categoryName + " Stock");  
 		      text5.setFill(Color.DARKORANGE);  
-		      text5.setFont(Font.font ("Edwardian Script ITC", 50));
+		      //text5.setFont(Font.font ("Edwardian Script ITC", 50));
+		      text5.setFont(Font.loadFont("file:resources/fonts/ITCEDSCR.TTF", 50));
 		      final Light.Distant light = new Light.Distant();  
 		      light.setAzimuth(-135.0);  
 		      final Lighting lighting = new Lighting();  
@@ -409,7 +410,7 @@ public class OutgoingStock
 			invoiceBox.getChildren().add(invoiceField);*/
 			
 			HBox dateBox = new HBox();
-			dateBox.setPadding(new Insets(0.5, 50, 0.5, 0));
+			dateBox.setPadding(new Insets(1, 145, 1,145));
 			dateBox.setAlignment(Pos.CENTER_RIGHT);
 			Text star1=new Text("*  ");
 			star1.setFill(Color.RED);  
