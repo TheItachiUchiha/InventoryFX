@@ -113,7 +113,7 @@ public class MainWindow extends Application
     	
         border = new BorderPane();
         border.setTop(upperPart(stage));
-        Text text = new Text("© kryptCode");
+        Text text = new Text("© KRYPTCODE");
         text.setFill(Color.DARKGOLDENROD);
         
         border.setBottom(addBBox());
@@ -135,7 +135,7 @@ public class MainWindow extends Application
 			
         stage.show();
         
-     SecurityTest.ModalSecurity(stage,"kryptCode","lame");
+     SecurityTest.ModalSecurity(stage,"KRYPTCODE","lame");
      
     	}
     	catch(Exception e)
@@ -153,7 +153,7 @@ public class MainWindow extends Application
     	//border.getStyleClass().add("lowerHBox");
     	border.setStyle("-fx-background-image: url('bgh3.png');");
         
-        Text text = new Text("© kryptCode");
+        Text text = new Text("© KRYPTCODE");
         text.setFill(Color.DARKGOLDENROD);
         HBox hbase=new HBox();
         hbase.setAlignment(Pos.CENTER);

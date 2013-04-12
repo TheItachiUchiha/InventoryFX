@@ -542,7 +542,7 @@ public class Settings
  						lmsg.setTextFill(Color.RED);
  						itemName.getStyleClass().remove("error");
  						//cbcategory.getStyleClass().add("error");
- 						lmsg.setText(CommonConstants.COMBO_MSG);	
+ 						lmsg.setText(CommonConstants.SELECT_CATEGORY);	
  					}
  					else if (validate.isEmpty(itemName)){
  						lmsg.setTextFill(Color.RED);
@@ -618,7 +618,7 @@ public class Settings
 		final Label lmsg = new Label();
 		hLmsg.getChildren().addAll(lmsg);
 		hLmsg.setAlignment(Pos.CENTER);
-		settings.add(hLmsg, 1, 8, 2, 5);
+		settings.add(hLmsg, 1, 6, 2, 7);
 
 		final HBox box = new HBox();
 		box.setAlignment(Pos.TOP_LEFT);
@@ -649,10 +649,10 @@ public class Settings
 					lmsg.setTextFill(Color.RED);
 					e.printStackTrace();
 				}
-				/*if (flag == false) {
-					box.setVisible(true);
-					flag = false;
-				}*/
+				box.setVisible(true);
+				editFinal.setVisible(false);
+				heditLabel.setVisible(false);
+				editText.setVisible(false);
 			}
 		});
 		
@@ -678,17 +678,24 @@ public class Settings
 			@Override
 			public void handle(ActionEvent e) {
 				try {
-					flag = true;
-					if (cbItem.getValue() != null) {
+					if(cbCategory.getValue() == null)
+ 					{
+						lmsg.setText(CommonConstants.SELECT_CATEGORY);
+						lmsg.setTextFill(Color.RED);
+ 					}
+ 					else if(cbItem.getValue() == null)
+ 					{
+ 						lmsg.setText(CommonConstants.SELECT_ITEM_MSG);
+ 						lmsg.setTextFill(Color.RED);
+ 					}
+					
+ 					else {
 						
 						editFinal.setVisible(true);
 						heditLabel.setVisible(true);
 						editText.setVisible(true);
+						editText.clear();
 						box.setVisible(false);
-
-					} else {
-						lmsg.setText(CommonConstants.SELECT_ITEM_MSG);
-						lmsg.setTextFill(Color.RED);
 					}
 				} catch (Exception e1) {
 					lmsg.setText(CommonConstants.ERROR_ADMIN);
@@ -719,9 +726,12 @@ public class Settings
 						lmsg.setText(CommonConstants.EDIT_MSG);
 						listOfItems.addAll(utiliesService.fetchItem(cbCategory.getValue().getCategotyId()));
 						flag = true;
-						settings.getChildren().removeAll(heditLabel, editText,
-								editFinal);
+						
 						box.setVisible(true);
+						editFinal.setVisible(false);
+						heditLabel.setVisible(false);
+						editText.setVisible(false);
+						
 						
 						validate.removeMessageOnComboBoxClick(cbItem, lmsg);
 					}
@@ -737,7 +747,18 @@ public class Settings
 
 			@Override
 			public void handle(ActionEvent e) {
-				if (cbItem.getValue() != null) {
+				
+				if(cbCategory.getValue() == null)
+					{
+					lmsg.setText(CommonConstants.SELECT_CATEGORY);
+					lmsg.setTextFill(Color.RED);
+					}
+					else if(cbItem.getValue() == null)
+					{
+						lmsg.setText(CommonConstants.SELECT_ITEM_MSG);
+						lmsg.setTextFill(Color.RED);
+					}
+					else{
 					try {
 						// settings.getChildren().remove(lmsg);
 
@@ -755,10 +776,7 @@ public class Settings
 						lmsg.setTextFill(Color.RED);
 						e1.printStackTrace();
 					}
-				} else {
-					lmsg.setTextFill(Color.RED);
-					lmsg.setText(CommonConstants.COMBO_MSG);
-				}
+				} 
 			}
 		});
 
@@ -957,7 +975,7 @@ public class Settings
 		 						msg.setTextFill(Color.RED);
 		 						type.getStyleClass().remove("error");
 		 						//cbcategory.getStyleClass().add("error");
-		 						msg.setText(CommonConstants.COMBO_MSG);
+		 						msg.setText(CommonConstants.SELECT_CATEGORY);
 		 					}
 		 					else if (validate.isEmpty(type)){
 		 						msg.setTextFill(Color.RED);
@@ -1122,11 +1140,25 @@ public class Settings
 		 			{
 		 				try
 		 				{
-							utiliesService.deleteCategoryTypes(type.getValue());
-							listTypes.clear();
-	 						listTypes.addAll(utiliesService.fetchTypes(category.getValue().getCategotyId()));
-							msg.setText("\""+type.getValue().getTypeName()+"\" "+ CommonConstants.DEL_MSG);
-							msg.setTextFill(Color.GREENYELLOW);
+		 					if(category.getValue() == null)
+		 					{
+		 						msg.setText(CommonConstants.SELECT_CATEGORY);
+		 						msg.setTextFill(Color.RED);
+		 					}
+		 					else if(type.getValue() == null)
+		 					{
+		 						
+		 						msg.setText(CommonConstants.SELECT_TYPE);
+		 						msg.setTextFill(Color.RED);
+		 					}
+		 					else
+		 					{
+								utiliesService.deleteCategoryTypes(type.getValue());
+								listTypes.clear();
+		 						listTypes.addAll(utiliesService.fetchTypes(category.getValue().getCategotyId()));
+								msg.setText("\""+type.getValue().getTypeName()+"\" "+ CommonConstants.DEL_MSG);
+								msg.setTextFill(Color.GREENYELLOW);
+		 					}
 							
 						}
 		 				catch (Exception e1) 
@@ -1141,12 +1173,12 @@ public class Settings
 		
 		hEditDelCat.setAlignment(Pos.CENTER);
 		gridPane.add(hEditDelCat, 1,0,2,1);
-		gridPane.add(cat, 1, 2);
-		gridPane.add(category, 2, 2);
-		gridPane.add(typ,1,3);
-		gridPane.add(type,2,3);
+		gridPane.add(cat, 1, 3);
+		gridPane.add(category, 2, 3);
+		gridPane.add(typ,1,4);
+		gridPane.add(type,2,4);
 		htemp.setAlignment(Pos.CENTER);
-		gridPane.add(hLmsg, 1, 8, 2, 5);
+		gridPane.add(hLmsg, 1, 10, 2, 5);
 		gridPane.add(htemp,1,5,2,5);
 
 
@@ -1179,9 +1211,10 @@ public class Settings
  					{
  						htemp.setVisible(false);
  	 					lTypeName.setTextFill(Color.DARKGOLDENROD);
- 	 					gridPane.add(hlTypeName, 1, 4);
- 	 					gridPane.add(typeName, 2,4);
- 	 					gridPane.add(editFinal, 2, 5);
+ 	 					gridPane.add(hlTypeName, 1, 5);
+ 	 					gridPane.add(typeName, 2,5);
+ 	 					typeName.clear();
+ 	 					gridPane.add(editFinal, 2, 6);
  	 					htemp.setVisible(false);
  					}
  					
