@@ -145,6 +145,7 @@ public class UtiliesDAO
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+			throw e;
 		}
 		finally
 		{
@@ -708,6 +709,7 @@ public class UtiliesDAO
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			throw e;
 		}
 		finally
 		{
@@ -1026,6 +1028,7 @@ public class UtiliesDAO
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+			throw e;
 		}
 		finally
 		{
@@ -1070,6 +1073,7 @@ public class UtiliesDAO
 			catch (Exception e) 
 			{
 				e.printStackTrace();
+				throw e;
 			}
 			finally
 			{
