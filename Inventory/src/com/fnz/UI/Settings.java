@@ -825,7 +825,7 @@ public class Settings
     	bAddItem.setToggleGroup(settingsGroup);
     	bAddItem.setId("drinkName");
     	bAddItem.setMaxSize(250,250);
-    	gsettings.add(bAddItem,0,1);
+    	gsettings.add(bAddItem,0,2);
     	
     	
     	bAddItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -851,7 +851,7 @@ public class Settings
     	bCategory.setToggleGroup(settingsGroup);
     	bCategory.setId("drinkName");
     	bCategory.setMaxSize(250,250);
-    	gsettings.add(bCategory,0,2);
+    	gsettings.add(bCategory,0,1);
     	
     	
     	bCategory.setOnAction(new EventHandler<ActionEvent>() {
@@ -886,54 +886,21 @@ public class Settings
  			@Override
  			public void handle(ActionEvent e) 
  			{
- 				//borderPane.setStyle("-fx-background-image: url('settings.jpg');");
  				try
  				{
  					animation.animateRightSettings(bItemTypeDetails, 0, 1);
-					//borderPane.setCenter(addTypeToCategory());
  					borderPane.setCenter(stackaddDetailsToItems());
 				}
  				catch (Exception e1)
  				{
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
  			}
  		});
-    	
-    	
-    	final ToggleButton bItemTypeDetailsEdit = new ToggleButton("Item Type\nDetails Edit");
-    	bItemTypeDetailsEdit.setToggleGroup(settingsGroup);
-    	bItemTypeDetailsEdit.setId("drinkName");
-    	bItemTypeDetailsEdit.setMaxSize(250,250);
-    //	gsettings.add(bItemTypeDetailsEdit,0,4);
-    	
-    	
-    	bItemTypeDetailsEdit.setOnAction(new EventHandler<ActionEvent>() {
- 			
- 			@Override
- 			public void handle(ActionEvent e) 
- 			{
- 				//borderPane.setStyle("-fx-background-image: url('settings.jpg');");
- 				try
- 				{
- 					animation.animateRightSettings(bItemTypeDetailsEdit, 0, 1);
-					//borderPane.setCenter(addTypeToCategory());
- 					borderPane.setCenter(updateDetailsToItems());
-				}
- 				catch (Exception e1)
- 				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
- 			}
- 		});
-    	
-    	
     	
     	
     	borderPane.setLeft(gsettings);
-		bAddItem.fire();
+    	bCategory.fire();
 		
     	return borderPane;
 	}
