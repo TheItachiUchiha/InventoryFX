@@ -410,8 +410,14 @@ public class OutgoingStock
 			invoiceBox.getChildren().add(invoiceField);*/
 			
 			HBox dateBox = new HBox();
-			dateBox.setPadding(new Insets(1, 145, 1,145));
-			dateBox.setAlignment(Pos.CENTER_RIGHT);
+			//dateBox.setPadding(new Insets(1, 145, 1,145));
+			dateBox.setAlignment(Pos.CENTER);
+
+			HBox newDateBox = new HBox();
+			newDateBox.getChildren().addAll(new Label(),dateBox); // new label is used to create spacing
+			newDateBox.setAlignment(Pos.CENTER);
+			newDateBox.setSpacing(410);
+
 			Text star1=new Text("*  ");
 			star1.setFill(Color.RED);  
 		     star1.setFont(Font.font ("calibri", 15));
@@ -699,7 +705,7 @@ public class OutgoingStock
 			//grid.add(invoiceBox,0,11);
 			//HBox hDateBox2 = new HBox();
 			//hDateBox2.setPadding(new Insets(0, 50, 0, 0));
-			grid.add(dateBox, 0, 2);
+			grid.add(newDateBox, 0, 2);
 			//hDateBox2.getChildren().add(dateBox);
 			//hDateBox2.setAlignment(Pos.CENTER_RIGHT);
 			//grid.add(hDateBox2,0,2);

@@ -682,8 +682,8 @@ public class IncomingStock
 			
 			
 			HBox hBox1 = new HBox();
-			hBox1.setAlignment(Pos.CENTER_LEFT);
-			hBox1.setSpacing(270);
+			hBox1.setAlignment(Pos.CENTER);
+			hBox1.setSpacing(110);
 			hBox1.getChildren().addAll(invoiceBox,dateBox);
 			grid.add(hBox1,0,0);
 			//grid.add(dateBox, 1, 11);
