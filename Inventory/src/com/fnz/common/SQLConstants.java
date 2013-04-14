@@ -170,7 +170,7 @@ public class SQLConstants
 	public static final String ADD_TRANSACTION_UPDATE_ITEM_TYPE_3 = "' AND TYPE_ID ='";
 	public static final String ADD_TRANSACTION_UPDATE_ITEM_TYPE_4 = "';";
 			
-	public static final String FETCH_LATEST_CATEGORY_TYPE_NAME_EXISTANCE = "SELECT TYPE_ID from CATEGORY_TYPES WHERE TYPE = ?";
+	public static final String FETCH_LATEST_CATEGORY_TYPE_NAME_EXISTANCE = "SELECT TYPE_ID from CATEGORY_TYPES WHERE TYPE = ? AND CATEGORY_ID= ?";
 	
 	public static final String FETCH_LATEST_ITEM_TABLE_NAME_EXISTANCE = "SELECT ITEM_ID from ITEMS_TABLE WHERE ITEM_NAME = ?";
 	
