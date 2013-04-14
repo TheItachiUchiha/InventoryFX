@@ -933,6 +933,7 @@ public class UtiliesDAO
 			resultSet = null;
 			pstmt1 = conn.prepareStatement(SQLConstants.FETCH_LATEST_CATEGORY_TYPE_NAME_EXISTANCE);
 			pstmt1.setString(1, typeName);
+			pstmt1.setString(2, categoryVO.getCategotyId());
 			resultSet = pstmt1.executeQuery();
 			pstmt1 = null;
 			

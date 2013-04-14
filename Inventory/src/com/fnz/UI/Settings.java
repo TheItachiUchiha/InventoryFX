@@ -933,6 +933,17 @@ public class Settings
 		gridPane.add(hLmsg, 1, 8, 2, 5);
 		
 		
+		categories.valueProperty().addListener(new ChangeListener<CategoryVO>() {
+
+			@Override
+			public void changed(
+					ObservableValue<? extends CategoryVO> observable,
+					CategoryVO oldValue, CategoryVO newValue) {
+				
+				type.clear();
+			}
+		});
+		
 		add.setOnAction(new EventHandler<ActionEvent>() {
 		 			
 		 			@Override

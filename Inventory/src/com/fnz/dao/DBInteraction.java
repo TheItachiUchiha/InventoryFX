@@ -69,7 +69,7 @@ public class DBInteraction
 			stmt.execute(SQLConstants.INDEX_ITEM_TABLE);
 			stmt.execute(SQLConstants.INDEX_OUTGOING_STOCK_DETAILS);
 			stmt.execute(SQLConstants.INDEX_ITEM_TABLE_UNIQUE_CASEINSENSITIVE);
-			stmt.execute(SQLConstants.INDEX_CATEGORY_TYPES_UNIQUE_CASEINSENSITIVE);
+			//stmt.execute(SQLConstants.INDEX_CATEGORY_TYPES_UNIQUE_CASEINSENSITIVE);
 			
 			ObservableList<String> newCategoryList =FXCollections.observableArrayList();
 	    	newCategoryList.addAll(CommonConstants.CATEGORY_PREMIUM_WHISKY,CommonConstants.CATEGORY_REGULAR_WHISKY,CommonConstants.CATEGORY_PREMIUM_VODKA,CommonConstants.CATEGORY_REGULAR_VODKA,
