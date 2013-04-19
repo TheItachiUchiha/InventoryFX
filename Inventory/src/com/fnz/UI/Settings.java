@@ -495,7 +495,7 @@ public class Settings {
 		final ComboBox<CategoryVO> cbCategory = new ComboBox<CategoryVO>(
 				listOfCategories);
 		final ComboBox<ItemVO> cbItem = new ComboBox<ItemVO>(listOfItems);
-		cbItem.setMinWidth(160);
+		cbItem.setPrefWidth(160);
 		cbItem.setMaxWidth(160);
 		Button edit = new Button("Edit");
 		edit.setId("buttonall");
@@ -903,7 +903,7 @@ public class Settings {
 				listOfCategories);
 		final ComboBox<CategoryTypeVO> cbtype = new ComboBox<CategoryTypeVO>(
 				listTypes);
-		cbtype.setMinWidth(160);
+		cbtype.setPrefWidth(160);
 		cbtype.setMaxWidth(160);
 		final TextField typeName = new TextField();
 		final Button edit = new Button("Edit");
