@@ -807,6 +807,7 @@ public class Settings {
 							ObservableValue<? extends CategoryVO> observable,
 							CategoryVO oldValue, CategoryVO newValue) {
 
+						msg.setText("");
 						type.clear();
 					}
 				});
@@ -957,6 +958,7 @@ public class Settings {
 				gridPane.getChildren()
 						.removeAll(lTypeName, typeName, editFinal);
 				htemp.setVisible(true);
+				msg.setText("");
 				try {
 					listTypes.addAll(utiliesService.fetchTypes(newValue
 							.getCategotyId()));
@@ -977,7 +979,7 @@ public class Settings {
 					ObservableValue<? extends CategoryTypeVO> observable,
 					CategoryTypeVO oldValue, CategoryTypeVO newValue) {
 				// TODO Auto-generated method stub
-
+				msg.setText("");
 				gridPane.getChildren()
 						.removeAll(lTypeName, typeName, editFinal);
 				htemp.setVisible(true);
