@@ -45,7 +45,7 @@ public class Settings {
 	Validation validate = new Validation();
 	final ObservableList<ItemVO> listOfItems = FXCollections
 			.observableArrayList();
-	Text star1, star2, star3, star4, star5, star6, star7, star8, star9;
+	Text star1, star2, star3, star4, star5, star6, star7, star8, star9, star10;
 	Boolean flag;
 
 	public Settings() {
@@ -901,6 +901,9 @@ public class Settings {
 		star9 = new Text("*  ");
 		star9.setFill(Color.RED);
 		star9.setFont(Font.font("calibri", 15));
+		star10 = new Text("*  ");
+		star10.setFill(Color.RED);
+		star10.setFont(Font.font("calibri", 15));
 
 		final ObservableList<CategoryTypeVO> listTypes = FXCollections
 				.observableArrayList();
@@ -940,7 +943,7 @@ public class Settings {
 
 		final HBox hlTypeName = new HBox();
 		final Label lTypeName = new Label("New Type Name");
-		hlTypeName.getChildren().addAll(lTypeName);
+		hlTypeName.getChildren().addAll(lTypeName,star10);
 		hlTypeName.setAlignment(Pos.CENTER);
 
 		category.valueProperty().addListener(new ChangeListener<CategoryVO>() {
