@@ -740,7 +740,13 @@ public class Settings {
 		bItemTypeDetails.setToggleGroup(settingsGroup);
 		bItemTypeDetails.setId("drinkName");
 		bItemTypeDetails.setMaxSize(250, 250);
-		gsettings.add(bItemTypeDetails, 0, 3);
+		
+		
+		/*  
+		 * Hiding for thiss release
+		 * 
+		 * */
+		//gsettings.add(bItemTypeDetails, 0, 3);
 
 		bItemTypeDetails.setOnAction(new EventHandler<ActionEvent>() {
 
