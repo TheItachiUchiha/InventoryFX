@@ -897,8 +897,7 @@ public class TransactionHistory
 								}).build()).build(), Color.TRANSPARENT));
 		dialog.getScene()
 				.getStylesheets()
-				.add(getClass().getResource("../styles/modal-dialog.css")
-						.toExternalForm());
+				.add(this.getClass().getClassLoader().getResource("com/fnz/styles/modal-dialog.css").toString());
 		
 		// allow the dialog to be dragged around.
 		final Node root = dialog.getScene().getRoot();
